@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Slate-900 background, rounded like an app icon -->
+  <rect width="32" height="32" rx="8" fill="#0f172a"/>
+  <!-- Padlock shackle (arch) — cyan stroke, no fill -->
+  <!-- From (10,17) up to (10,12), arc counter-clockwise through top (16,6) to (22,12), down to (22,17) -->
+  <path d="M10 17 L10 12 A6 6 0 0 0 22 12 L22 17"
+        fill="none" stroke="#22d3ee" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Padlock body — solid cyan rectangle -->
+  <rect x="6" y="16" width="20" height="13" rx="3.5" fill="#22d3ee"/>
+  <!-- Keyhole: circle + slot -->
+  <circle cx="16" cy="21" r="2.5" fill="#0f172a"/>
+  <rect x="15" y="23" width="2" height="3" rx="0.75" fill="#0f172a"/>
+</svg>

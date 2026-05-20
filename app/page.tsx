@@ -44,12 +44,13 @@ export default function HomePage() {
   return (
     <div className="pt-16">
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Dark cyber background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#080d18] via-[#0a0f1e] to-[#080d18] pointer-events-none" />
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
-        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-800/10 rounded-full blur-2xl opacity-40 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-950/15 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-900">
+        {/* Subtle grid overlay */}
+        <div className="absolute inset-0 bg-grid pointer-events-none" />
+        {/* Ambient glow — cyan, upper-right */}
+        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] bg-cyan-400 rounded-full blur-3xl opacity-[0.15] pointer-events-none" />
+        {/* Ambient glow — deep blue, lower-left */}
+        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-blue-600 rounded-full blur-3xl opacity-[0.15] pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           {/* Profile image */}
@@ -183,7 +184,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Terminal Section ── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#080d18] border-t border-slate-800/50">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-900 border-t border-slate-800/50">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -200,7 +201,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Quote Section ── */}
-      <section className="py-20 bg-[#050810] px-4 sm:px-6 lg:px-8 border-y border-slate-800">
+      <section className="py-20 bg-slate-950 px-4 sm:px-6 lg:px-8 border-y border-slate-800/50">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -224,7 +225,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Highlight Cards ── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#080d18]">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -249,9 +250,9 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="group p-6 bg-slate-900 border border-slate-800 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300"
+                  className="group p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-cyan-500/10 hover:border-cyan-400/30 hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-900/40 transition-colors duration-200">
+                  <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4 group-hover:bg-cyan-900/30 transition-colors duration-200">
                     <Icon className="w-6 h-6 text-slate-400 group-hover:text-blue-400 transition-colors duration-200" />
                   </div>
                   <h3 className="font-semibold text-white mb-2">{item.title}</h3>
@@ -264,30 +265,35 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA Banner ── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-700 to-blue-600">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-slate-950 overflow-hidden">
+        {/* Ambient glow centred behind the panel */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[700px] h-[280px] bg-cyan-500 rounded-full blur-3xl opacity-[0.08]" />
+        </div>
+        <div className="relative max-w-2xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="p-10 sm:p-14 bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl shadow-lg shadow-black/30"
           >
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
               Let&apos;s build something secure together
             </h2>
-            <p className="text-blue-100 mb-8 max-w-xl mx-auto">
+            <p className="text-slate-400 mb-8 max-w-md mx-auto leading-relaxed">
               Open to internships, part-time roles, and collaborative projects in cybersecurity and software engineering.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 href="/contact"
-                className="glitch-btn px-6 py-3 bg-white text-blue-700 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors duration-200 shadow-md"
+                className="glitch-btn px-6 py-3 bg-cyan-500/15 text-cyan-300 text-sm font-semibold rounded-xl border border-cyan-500/30 hover:bg-cyan-500/25 hover:border-cyan-400/50 transition-all duration-200"
               >
                 Get In Touch
               </Link>
               <Link
                 href="/resume"
-                className="glitch-btn px-6 py-3 bg-blue-900 text-white text-sm font-semibold rounded-xl hover:bg-blue-950 transition-colors duration-200"
+                className="glitch-btn px-6 py-3 bg-white/5 text-slate-300 text-sm font-semibold rounded-xl border border-white/10 hover:bg-white/10 hover:text-white transition-all duration-200"
               >
                 View Resume
               </Link>

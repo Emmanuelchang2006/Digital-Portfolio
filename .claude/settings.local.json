@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\ASUS\\\\Desktop\\\\emmanuel-portfolio\\\\app\" -Force | ForEach-Object { $_.Name })",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(node *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\ASUS\\\\Desktop\\\\emmanuel-portfolio\\\\node_modules\\\\next\\\\dist\\\\docs\\\\01-app\\\\\" -Recurse | Where-Object {$_.Extension -eq \".md\"} | Select-Object -First 30 Name)"
     ]
   }
 }

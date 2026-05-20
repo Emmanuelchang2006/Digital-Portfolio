@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Emmanuel Chang | Cybersecurity & Software Engineering Student",
@@ -29,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-[#080d18] text-slate-100 antialiased">
+    <html lang="en" className={spaceGrotesk.variable}>
+      <body className="bg-slate-900 text-slate-100 antialiased">
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />

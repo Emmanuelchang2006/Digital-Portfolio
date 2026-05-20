@@ -1,19 +1,19 @@
 import Link from "next/link";
-import { Mail, Phone, Shield } from "lucide-react";
+import { Mail, Phone, Eye } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#050810] text-slate-400 border-t border-slate-800">
+    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800/60">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Shield className="w-4 h-4 text-white" />
+              <div className="w-7 h-7 bg-cyan-900/60 rounded-lg flex items-center justify-center border border-cyan-700/40">
+                <Eye className="w-3.5 h-3.5 text-cyan-400" />
               </div>
               <span className="font-semibold text-white">Emmanuel Chang</span>
             </div>

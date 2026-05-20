@@ -502,7 +502,7 @@ function CardWrapper({
       transition={{ duration: 0.45, delay }}
       onViewportEnter={() => setScanned(true)}
       onClick={onClick}
-      className={`relative overflow-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
+      className={`relative overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-cyan-500/10 hover:border-cyan-400/30 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
     >
       {children}
       <div className={`card-scan-line${scanned ? " scanning" : ""}`} />
@@ -513,7 +513,7 @@ function CardWrapper({
 /* ── Tag pill ── */
 function TagPill({ label }: { label: string }) {
   return (
-    <span className="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-full border border-slate-700/50">
+    <span className="px-2.5 py-0.5 bg-cyan-950/50 text-cyan-300/80 text-xs font-mono rounded-full border border-cyan-800/30">
       {label}
     </span>
   );
@@ -548,8 +548,12 @@ export default function ExperiencePage() {
       : null;
 
   return (
-    <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-[#080d18] min-h-screen">
-      <div className="max-w-5xl mx-auto">
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-900 min-h-screen overflow-hidden">
+      {/* Ambient glows — needed for glassmorphism cards to catch light */}
+      <div className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-cyan-500 rounded-full blur-3xl opacity-[0.08] pointer-events-none" />
+      <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-blue-600 rounded-full blur-3xl opacity-[0.10] pointer-events-none" />
+      <div className="absolute -bottom-40 right-1/4 w-[400px] h-[400px] bg-cyan-600 rounded-full blur-3xl opacity-[0.07] pointer-events-none" />
+      <div className="relative max-w-5xl mx-auto">
 
         {/* Page Header */}
         <motion.div

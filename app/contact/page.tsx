@@ -42,14 +42,36 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setFormState("success");
+    setFormState("submitting");
+    try {
+      const res = await fetch("https://formspree.io/f/xdajeayd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setFormState("success");
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setFormState("error");
+      }
+    } catch {
+      setFormState("error");
+    }
   }
 
   return (
-    <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-[#080d18] min-h-screen">
-      <div className="max-w-5xl mx-auto">
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-900 min-h-screen overflow-hidden">
+      {/* Ambient glows */}
+      <div className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-cyan-500 rounded-full blur-3xl opacity-[0.08] pointer-events-none" />
+      <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-blue-600 rounded-full blur-3xl opacity-[0.10] pointer-events-none" />
+      <div className="absolute -bottom-40 right-1/4 w-[400px] h-[400px] bg-cyan-600 rounded-full blur-3xl opacity-[0.07] pointer-events-none" />
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none" />
+
+      <div className="relative max-w-5xl mx-auto">
 
         {/* Page Header */}
         <motion.div
@@ -73,7 +95,7 @@ export default function ContactPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-2 space-y-4"
           >
-            <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-sm p-6 hover:border-slate-700 transition-all duration-300">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-6 hover:border-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/5 transition-all duration-300">
               <h2 className="text-lg font-bold text-white mb-5">Contact Details</h2>
               <div className="space-y-4">
                 {contactDetails.map((item) => {
@@ -86,12 +108,12 @@ export default function ContactPage() {
                       rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       className="flex items-center gap-3 group"
                     >
-                      <div className="w-10 h-10 bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-900/40 transition-colors duration-200">
-                        <Icon className="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors duration-200" />
+                      <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:bg-cyan-900/30 group-hover:border-cyan-700/40 transition-all duration-200">
+                        <Icon className="w-5 h-5 text-slate-400 group-hover:text-cyan-400 transition-colors duration-200" />
                       </div>
                       <div>
                         <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.label}</p>
-                        <p className="text-sm font-medium text-slate-300 group-hover:text-blue-400 transition-colors duration-200 break-all">
+                        <p className="text-sm font-medium text-slate-300 group-hover:text-cyan-400 transition-colors duration-200 break-all">
                           {item.value}
                         </p>
                       </div>
@@ -102,16 +124,19 @@ export default function ContactPage() {
             </div>
 
             {/* Availability card */}
-            <div className="bg-blue-600 rounded-2xl p-6 text-white">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm font-semibold">Currently Available</span>
+            <div className="relative bg-white/5 backdrop-blur-md rounded-2xl border border-cyan-500/30 p-6 overflow-hidden">
+              <div className="absolute inset-0 bg-cyan-500/[0.04] pointer-events-none" />
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-sm font-semibold text-white">Currently Available</span>
+                </div>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  I&apos;m open to internship opportunities, part-time roles, and collaborative
+                  cybersecurity, cloud security, or AI &amp; ML engineering projects.
+                </p>
+                <p className="text-slate-500 text-xs mt-3">Response time: within 24 hours</p>
               </div>
-              <p className="text-blue-100 text-sm leading-relaxed">
-                I&apos;m open to internship opportunities, part-time roles, and collaborative
-                cybersecurity, cloud security, or AI &amp; ML engineering projects.
-              </p>
-              <p className="text-blue-200 text-xs mt-3">Response time: within 24 hours</p>
             </div>
           </motion.div>
 
@@ -122,7 +147,7 @@ export default function ContactPage() {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="lg:col-span-3"
           >
-            <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-sm p-8 hover:border-slate-700 transition-all duration-300">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8 hover:border-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/5 transition-all duration-300">
               <h2 className="text-lg font-bold text-white mb-6">Send a Message</h2>
 
               {formState === "success" ? (
@@ -131,14 +156,14 @@ export default function ContactPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-12 text-center"
                 >
-                  <CheckCircle2 className="w-14 h-14 text-green-400 mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
+                  <CheckCircle2 className="w-14 h-14 text-cyan-400 mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">Message Sent Successfully!</h3>
                   <p className="text-slate-400 text-sm max-w-xs">
-                    Thanks for reaching out, Emmanuel will get back to you within 24 hours.
+                    Thanks for reaching out. Emmanuel will get back to you within 24 hours.
                   </p>
                   <button
-                    onClick={() => { setFormState("idle"); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                    className="mt-6 px-5 py-2.5 bg-slate-800 text-white text-sm font-medium rounded-xl hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition-colors"
+                    onClick={() => setFormState("idle")}
+                    className="mt-6 px-5 py-2.5 bg-white/5 text-white text-sm font-medium rounded-xl hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200"
                   >
                     Send Another
                   </button>
@@ -159,7 +184,7 @@ export default function ContactPage() {
                         value={form.name}
                         onChange={handleChange}
                         placeholder="Jane Smith"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/40 transition-all duration-200"
                       />
                     </div>
                     <div>
@@ -174,7 +199,7 @@ export default function ContactPage() {
                         value={form.email}
                         onChange={handleChange}
                         placeholder="jane@company.com"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/40 transition-all duration-200"
                       />
                     </div>
                   </div>
@@ -190,7 +215,7 @@ export default function ContactPage() {
                       required
                       value={form.subject}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-slate-800/80 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/40 transition-all duration-200"
                     >
                       <option value="" disabled className="bg-slate-800 text-slate-500">Select a subject</option>
                       <option value="internship" className="bg-slate-800">Internship Opportunity</option>
@@ -213,7 +238,7 @@ export default function ContactPage() {
                       value={form.message}
                       onChange={handleChange}
                       placeholder="Tell me about the opportunity, project, or your question..."
-                      className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/40 transition-all duration-200 resize-none"
                     />
                   </div>
 
@@ -228,7 +253,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={formState === "submitting"}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-blue-500/25"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-cyan-700/70 border border-cyan-600/40 text-white text-sm font-semibold rounded-xl hover:bg-cyan-600/80 hover:border-cyan-500/60 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-cyan-500/20"
                   >
                     {formState === "submitting" ? (
                       <>

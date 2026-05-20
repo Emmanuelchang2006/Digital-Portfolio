@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Shield } from "lucide-react";
+import { Menu, X, Eye } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -32,16 +32,16 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#080d18]/95 backdrop-blur-md shadow-lg shadow-black/30 border-b border-slate-800"
-          : "bg-[#080d18]/80 backdrop-blur-sm"
+          ? "bg-slate-900/95 backdrop-blur-md shadow-lg shadow-black/30 border-b border-slate-800/60"
+          : "bg-slate-900/80 backdrop-blur-sm"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-200">
-              <Shield className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-cyan-900/60 rounded-lg flex items-center justify-center border border-cyan-700/40 group-hover:bg-cyan-800/60 group-hover:border-cyan-600/50 transition-all duration-200">
+              <Eye className="w-4 h-4 text-cyan-400" />
             </div>
             <span className="font-semibold text-white tracking-tight">
               Emmanuel Chang
