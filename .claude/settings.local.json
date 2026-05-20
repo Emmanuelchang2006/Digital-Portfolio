@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\ASUS\\\\Desktop\\\\emmanuel-portfolio\\\\app\" -Force | ForEach-Object { $_.Name })"
+    ]
+  }
+}
