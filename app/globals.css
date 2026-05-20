@@ -35,3 +35,69 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+
+/* ─────────────────────────────────────────
+   TYPEWRITER CURSOR
+───────────────────────────────────────── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink {
+  animation: cursor-blink 0.7s step-end infinite;
+}
+
+/* ─────────────────────────────────────────
+   GLITCH BUTTON — RGB channel-split on hover
+   Uses filter:drop-shadow so no overflow:hidden
+   needed; shadows render correctly.
+───────────────────────────────────────── */
+@keyframes glitch-rgb {
+  0%   { filter: none;                                                                                       transform: translateX(0); }
+  15%  { filter: drop-shadow( 2px 0 0 rgba(6,182,212,0.85)) drop-shadow(-2px 0 0 rgba(244,63,94,0.55));    transform: translateX(-1px); }
+  30%  { filter: drop-shadow(-2px 0 0 rgba(6,182,212,0.85)) drop-shadow( 2px 0 0 rgba(244,63,94,0.55));    transform: translateX( 1px); }
+  50%  { filter: drop-shadow( 1px 0 0 rgba(6,182,212,0.50));                                               transform: translateX(-0.5px); }
+  70%  { filter: none;                                                                                       transform: translateX(0.5px); }
+  100% { filter: none;                                                                                       transform: translateX(0); }
+}
+
+.glitch-btn {
+  position: relative;
+}
+.glitch-btn:hover {
+  animation: glitch-rgb 0.45s steps(2) 1;
+}
+
+/* ─────────────────────────────────────────
+   CARD SCAN SWEEP — cyan line top → bottom
+   Parent must be position:relative + overflow:hidden
+───────────────────────────────────────── */
+@keyframes scan-sweep {
+  0%   { top: -2px; opacity: 0; }
+  4%   { opacity: 1; }
+  88%  { opacity: 0.75; }
+  100% { top: calc(100% + 2px); opacity: 0; }
+}
+
+.card-scan-line {
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent          0%,
+    rgba(6,182,212,0.30) 15%,
+    rgba(6,182,212,0.90) 40%,
+    rgba(34,211,238,1.0) 50%,
+    rgba(6,182,212,0.90) 60%,
+    rgba(6,182,212,0.30) 85%,
+    transparent          100%
+  );
+  top: -2px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+.card-scan-line.scanning {
+  animation: scan-sweep 0.95s ease-in forwards;
+}

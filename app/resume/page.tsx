@@ -249,7 +249,7 @@ export default function ResumePage() {
           <a
             href="/EMMANUEL_CHANG_CV.pdf"
             download="EMMANUEL_CHANG_CV.pdf"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-500 transition-colors duration-200 shadow-md hover:shadow-blue-500/25"
+            className="glitch-btn inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-500 transition-colors duration-200 shadow-md hover:shadow-blue-500/25"
           >
             <Download className="w-4 h-4" />
             Download Resume (PDF)

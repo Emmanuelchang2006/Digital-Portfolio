@@ -13,6 +13,8 @@ import {
   Trophy,
   ChevronDown,
 } from "lucide-react";
+import Terminal from "@/components/Terminal";
+import TypewriterText from "@/components/TypewriterText";
 
 /* Highlight cards shown beneath the hero */
 const highlights = [
@@ -100,9 +102,13 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-lg sm:text-xl font-medium text-blue-400 mb-6"
+            className="text-lg sm:text-xl font-medium text-blue-400 mb-6 min-h-[1.75rem]"
           >
-            Cybersecurity & Digital Forensics Student · Aspiring Security Engineer
+            <TypewriterText
+              text="Cybersecurity & Digital Forensics Student · Aspiring Security Engineer"
+              speed={38}
+              startDelay={900}
+            />
           </motion.p>
 
           {/* Introduction paragraphs */}
@@ -137,21 +143,21 @@ export default function HomePage() {
           >
             <Link
               href="/resume"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-sm font-medium rounded-xl border border-slate-700 hover:bg-slate-700 hover:border-slate-600 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="glitch-btn inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-sm font-medium rounded-xl border border-slate-700 hover:bg-slate-700 hover:border-slate-600 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <Download className="w-4 h-4" />
               View Resume
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-500 transition-all duration-200 shadow-md hover:shadow-blue-500/25"
+              className="glitch-btn inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-500 transition-all duration-200 shadow-md hover:shadow-blue-500/25"
             >
               <Mail className="w-4 h-4" />
               Contact Me
             </Link>
             <Link
               href="/experience"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-slate-300 text-sm font-medium rounded-xl border border-slate-700 hover:border-slate-500 hover:bg-slate-800/50 hover:text-white transition-all duration-200"
+              className="glitch-btn inline-flex items-center gap-2 px-6 py-3 bg-transparent text-slate-300 text-sm font-medium rounded-xl border border-slate-700 hover:border-slate-500 hover:bg-slate-800/50 hover:text-white transition-all duration-200"
             >
               View Projects
               <ArrowRight className="w-4 h-4" />
@@ -174,6 +180,23 @@ export default function HomePage() {
             <ChevronDown className="w-4 h-4" />
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* ── Terminal Section ── */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#080d18] border-t border-slate-800/50">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-center text-xs font-mono text-slate-600 mb-5 uppercase tracking-widest select-none">
+              // interactive terminal
+            </p>
+            <Terminal />
+          </motion.div>
+        </div>
       </section>
 
       {/* ── Quote Section ── */}
@@ -258,13 +281,13 @@ export default function HomePage() {
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 href="/contact"
-                className="px-6 py-3 bg-white text-blue-700 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors duration-200 shadow-md"
+                className="glitch-btn px-6 py-3 bg-white text-blue-700 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors duration-200 shadow-md"
               >
                 Get In Touch
               </Link>
               <Link
                 href="/resume"
-                className="px-6 py-3 bg-blue-900 text-white text-sm font-semibold rounded-xl hover:bg-blue-950 transition-colors duration-200"
+                className="glitch-btn px-6 py-3 bg-blue-900 text-white text-sm font-semibold rounded-xl hover:bg-blue-950 transition-colors duration-200"
               >
                 View Resume
               </Link>
