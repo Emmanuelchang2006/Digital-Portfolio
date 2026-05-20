@@ -13,8 +13,10 @@ import {
   MapPin,
   Tag,
   FileText,
+  ZoomIn,
 } from "lucide-react";
 import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectModal";
+import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
 const internships = [
@@ -536,6 +538,7 @@ function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementTyp
 
 export default function ExperiencePage() {
   const [activeProject, setActiveProject] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   const modalProject: ModalProject | null =
     activeProject !== null
@@ -612,14 +615,22 @@ export default function ExperiencePage() {
                 {/* Certificate image — only for entries that have one */}
                 {item.img && (
                   <div className="max-w-lg mx-auto mt-4">
-                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-900">
+                    <div
+                      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-900 cursor-pointer group"
+                      onClick={() => setLightbox({ src: item.img!, alt: `${item.company} certificate` })}
+                    >
                       <Image
                         src={item.img}
                         alt={`${item.company} certificate`}
                         fill
                         sizes="(max-width: 768px) 100vw, 512px"
-                        className="object-contain"
+                        className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                       />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                          <ZoomIn className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -675,14 +686,22 @@ export default function ExperiencePage() {
                 </div>
                 {/* Project screenshot — only for entries that have one */}
                 {proj.img && (
-                  <div className="relative h-56 rounded-xl overflow-hidden bg-slate-900 mb-4">
+                  <div
+                    className="relative h-56 rounded-xl overflow-hidden bg-slate-900 mb-4 cursor-pointer group"
+                    onClick={(e) => { e.stopPropagation(); setLightbox({ src: proj.img!, alt: `${proj.title} screenshot` }); }}
+                  >
                     <Image
                       src={proj.img}
                       alt={`${proj.title} screenshot`}
                       fill
                       sizes="(max-width: 768px) 100vw, 400px"
-                      className="object-contain"
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
                   </div>
                 )}
                 {/* View report footer */}
@@ -736,14 +755,22 @@ export default function ExperiencePage() {
                 </div>
                 {/* CTF image — shown below category pills */}
                 {ctf.img && (
-                  <div className="relative h-52 rounded-xl overflow-hidden bg-slate-900 mt-4">
+                  <div
+                    className="relative h-52 rounded-xl overflow-hidden bg-slate-900 mt-4 cursor-pointer group"
+                    onClick={() => setLightbox({ src: ctf.img!, alt: `${ctf.name} certificate` })}
+                  >
                     <Image
                       src={ctf.img}
                       alt={`${ctf.name} certificate`}
                       fill
                       sizes="(max-width: 768px) 100vw, 600px"
-                      className="object-contain"
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
                   </div>
                 )}
               </CardWrapper>
@@ -785,27 +812,44 @@ export default function ExperiencePage() {
                 <p className="text-sm text-slate-300 leading-relaxed">{item.desc}</p>
                 {/* CCA images — single image or 2-column gallery for multiple */}
                 {item.imgs.length === 1 && (
-                  <div className="relative h-56 rounded-xl overflow-hidden bg-slate-900 mt-4">
+                  <div
+                    className="relative h-56 rounded-xl overflow-hidden bg-slate-900 mt-4 cursor-pointer group"
+                    onClick={() => setLightbox({ src: item.imgs[0], alt: item.title })}
+                  >
                     <Image
                       src={item.imgs[0]}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 600px"
-                      className="object-contain"
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
                   </div>
                 )}
                 {item.imgs.length > 1 && (
                   <div className="grid grid-cols-2 gap-2 mt-4">
                     {item.imgs.map((src) => (
-                      <div key={src} className="relative h-44 rounded-xl overflow-hidden bg-slate-900">
+                      <div
+                        key={src}
+                        className="relative h-44 rounded-xl overflow-hidden bg-slate-900 cursor-pointer group"
+                        onClick={() => setLightbox({ src, alt: item.title })}
+                      >
                         <Image
                           src={src}
                           alt={item.title}
                           fill
                           sizes="(max-width: 640px) 50vw, 280px"
-                          className="object-contain"
+                          className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                            <ZoomIn className="w-5 h-5 text-white" />
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -824,6 +868,18 @@ export default function ExperiencePage() {
             key="project-modal"
             project={modalProject}
             onClose={() => setActiveProject(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Image Lightbox ── */}
+      <AnimatePresence>
+        {lightbox && (
+          <ImageLightbox
+            key="experience-lightbox"
+            src={lightbox.src}
+            alt={lightbox.alt}
+            onClose={() => setLightbox(null)}
           />
         )}
       </AnimatePresence>

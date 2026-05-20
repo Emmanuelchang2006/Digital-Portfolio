@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Download, GraduationCap, Award, Monitor, Users } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Download, GraduationCap, Award, Monitor, Users, ZoomIn } from "lucide-react";
+import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
 
@@ -227,6 +229,8 @@ function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementTyp
 }
 
 export default function ResumePage() {
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+
   return (
     <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-900 min-h-screen overflow-hidden">
       {/* Ambient glows */}
@@ -312,15 +316,21 @@ export default function ResumePage() {
                         {edu.certificates.map((cert) => (
                           <div
                             key={cert.label}
-                            className="relative h-56 rounded-lg overflow-hidden bg-slate-900/60"
+                            className="relative h-56 rounded-lg overflow-hidden bg-slate-900/60 cursor-pointer group"
+                            onClick={() => setLightbox({ src: cert.img, alt: cert.label })}
                           >
                             <Image
                               src={cert.img}
                               alt={cert.label}
                               fill
                               sizes="(max-width: 640px) 50vw, 280px"
-                              className="object-contain"
+                              className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                             />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                              <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                                <ZoomIn className="w-5 h-5 text-white" />
+                              </div>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -352,14 +362,22 @@ export default function ResumePage() {
                 transition={{ duration: 0.35, delay: i * 0.04 }}
                 className="bg-white/5 rounded-xl border border-white/10 hover:border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:-translate-y-0.5 transition-all duration-200 overflow-hidden"
               >
-                <div className="relative w-full aspect-[4/3] bg-slate-900/60">
+                <div
+                  className="relative w-full aspect-[4/3] bg-slate-900/60 cursor-pointer group"
+                  onClick={() => setLightbox({ src: award.img, alt: award.title })}
+                >
                   <Image
                     src={award.img}
                     alt={award.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain"
+                    className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                   />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                      <ZoomIn className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4">
                   <p className="font-semibold text-white text-sm leading-snug">{award.title}</p>
@@ -436,6 +454,17 @@ export default function ResumePage() {
         </motion.section>
 
       </div>
+
+      <AnimatePresence>
+        {lightbox && (
+          <ImageLightbox
+            key="resume-lightbox"
+            src={lightbox.src}
+            alt={lightbox.alt}
+            onClose={() => setLightbox(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
