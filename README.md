@@ -46,7 +46,7 @@ More projects and case studies are available in the live portfolio.
 ## 🌐 Live Portfolio
 
 Once deployed, access it here:
-> https://your-vercel-link.vercel.app
+> https://digital-portfolio-kappa-indol.vercel.app/
 
 ---
 
