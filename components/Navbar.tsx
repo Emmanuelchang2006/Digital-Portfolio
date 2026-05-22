@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Eye } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -32,18 +32,18 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-slate-900/95 backdrop-blur-md shadow-lg shadow-black/30 border-b border-slate-800/60"
-          : "bg-slate-900/80 backdrop-blur-sm"
+          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200"
+          : "bg-white/80 backdrop-blur-sm"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-cyan-900/60 rounded-lg flex items-center justify-center border border-cyan-700/40 group-hover:bg-cyan-800/60 group-hover:border-cyan-600/50 transition-all duration-200">
-              <Eye className="w-4 h-4 text-cyan-400" />
+            <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-200 group-hover:bg-blue-100 group-hover:border-blue-300 transition-all duration-200">
+              <Shield className="w-4 h-4 text-blue-600" />
             </div>
-            <span className="font-semibold text-white tracking-tight">
+            <span className="font-semibold text-slate-900 tracking-tight">
               Emmanuel Chang
             </span>
           </Link>
@@ -58,8 +58,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800"
+                      ? "bg-blue-50 text-blue-700 border border-blue-200"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                   }`}
                 >
                   {link.label}
@@ -70,7 +70,7 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+            className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -86,7 +86,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden overflow-hidden border-t border-slate-800"
+              className="md:hidden overflow-hidden border-t border-slate-200"
             >
               <div className="py-3 space-y-1">
                 {navLinks.map((link) => {
@@ -97,8 +97,8 @@ export default function Navbar() {
                       href={link.href}
                       className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                         isActive
-                          ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
-                          : "text-slate-400 hover:text-white hover:bg-slate-800"
+                          ? "bg-blue-50 text-blue-700 border border-blue-200"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
                       {link.label}

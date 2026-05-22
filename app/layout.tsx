@@ -37,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spaceGrotesk.variable}>
-      <body className="bg-slate-900 text-slate-100 antialiased">
+      <body className="bg-slate-50 text-slate-900 antialiased">
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />

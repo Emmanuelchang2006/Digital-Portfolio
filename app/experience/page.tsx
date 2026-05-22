@@ -20,7 +20,6 @@ import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
 const internships = [
-  /* Apollo first (most recent), then ST Engineering, then Freelance */
   {
     role: "Sales Intern",
     company: "Apollo Healthcare Resources",
@@ -53,7 +52,7 @@ const internships = [
   },
 ];
 
-/* ── Projects with full DFIR report data ── */
+/* ── Projects with condensed DFIR report data ── */
 interface ProjectEntry {
   title: string;
   period: string;
@@ -70,7 +69,7 @@ const projects: ProjectEntry[] = [
     title: "IOC Enrichment CLI Tool",
     period: "2025",
     type: "Open Source Project",
-    desc: "Auto-classifies indicators (IPv4, domain, URL, MD5/SHA1/SHA256) and queries VirusTotal, AbuseIPDB, and Shodan simultaneously. Aggregates results into CLEAN / SUSPICIOUS / MALICIOUS verdicts, generates structured JSON reports per IOC, and supports batch mode with summary output.",
+    desc: "Auto-classifies indicators (IPv4, domain, URL, MD5/SHA1/SHA256) and queries VirusTotal, AbuseIPDB, and Shodan simultaneously. Aggregates results into CLEAN / SUSPICIOUS / MALICIOUS verdicts with structured JSON reports and batch mode.",
     tags: ["Python", "VirusTotal API", "AbuseIPDB", "Shodan", "Regex", "JSON"],
     link: "https://github.com/Emmanuelchang2006/ioc-checker",
     img: "/images/IOC%20Checker.jpg",
@@ -82,42 +81,38 @@ const projects: ProjectEntry[] = [
       status: "PUBLISHED",
       iocTitle: "Key Features & Technical Findings",
       executiveSummary:
-        "Developed an open-source CLI utility that auto-classifies cyber indicators and concurrently queries three threat intelligence platforms. The tool reduces manual enrichment time by aggregating multi-source verdicts into structured, machine-readable reports suitable for SIEM ingestion.",
+        "Open-source CLI that auto-classifies cyber indicators (IP, domain, URL, hash) and queries VirusTotal, AbuseIPDB, and Shodan concurrently. Aggregates multi-source verdicts into structured JSON reports — cutting manual triage time for analysts.",
       iocs: [
         {
           tag: "FEATURE",
           label: "Multi-API Concurrent Enrichment",
-          detail:
-            "Simultaneously queries VirusTotal, AbuseIPDB, and Shodan for each indicator, reducing round-trip latency compared to sequential lookups.",
+          detail: "Queries 3 threat intel APIs per indicator in parallel — no sequential round-trips.",
         },
         {
           tag: "FEATURE",
           label: "Auto-Classification Engine",
-          detail:
-            "Regex-based type detection distinguishes IPv4, domain, URL, and hash indicators (MD5/SHA1/SHA256) before API dispatch.",
+          detail: "Regex detects indicator type (IP, domain, URL, hash) before API dispatch — no manual tagging needed.",
         },
         {
           tag: "FEATURE",
           label: "Verdict Aggregation",
-          detail:
-            "Normalises API responses into CLEAN / SUSPICIOUS / MALICIOUS verdicts with confidence scoring across all queried sources.",
+          detail: "All API responses normalised to CLEAN / SUSPICIOUS / MALICIOUS with confidence scores.",
         },
         {
           tag: "FEATURE",
           label: "Structured JSON Reporting",
-          detail:
-            "Generates per-IOC JSON reports and batch summary output for downstream automation and analyst review.",
+          detail: "Generates per-IOC reports and batch summaries for analyst review or SIEM ingestion.",
         },
       ],
       methodology: [
-        { tool: "Python", detail: "Core language; concurrent API calls via asyncio / ThreadPoolExecutor" },
-        { tool: "VirusTotal API", detail: "File hash and URL/domain reputation lookups" },
-        { tool: "AbuseIPDB", detail: "IP abuse confidence scoring and geolocation data" },
-        { tool: "Shodan", detail: "Host exposure and open service enumeration" },
-        { tool: "Regex", detail: "Indicator type classification before API dispatch" },
+        { tool: "Python", detail: "asyncio concurrent API calls" },
+        { tool: "VirusTotal API", detail: "Hash and URL/domain reputation" },
+        { tool: "AbuseIPDB", detail: "IP abuse scoring" },
+        { tool: "Shodan", detail: "Host exposure and open ports" },
+        { tool: "Regex", detail: "Indicator type detection" },
       ],
       outcome:
-        "Published as an open-source project on GitHub. The tool demonstrated measurable time savings during the ST Engineering internship by automating IOC triage workflows previously performed manually by analysts.",
+        "Published on GitHub. Reduced analyst IOC triage time at ST Engineering by automating workflows that were previously done manually.",
     },
   },
   {
@@ -136,33 +131,30 @@ const projects: ProjectEntry[] = [
       status: "COMPLETE",
       iocTitle: "Security Requirements & Compliance",
       executiveSummary:
-        "Built a secure password generator that enforces strong password composition policies. The tool guarantees cryptographic diversity by mandating minimum character-class coverage across all generated outputs, aligned with NIST SP 800-63B baseline guidance.",
+        "CLI tool generating cryptographically strong passwords aligned with NIST SP 800-63B — minimum 12 characters, mandatory character-class diversity, and CSPRNG randomness throughout.",
       iocs: [
         {
           tag: "REQUIREMENT",
           label: "Minimum Length Enforcement",
-          detail:
-            "All generated passwords are at least 12 characters to meet NIST SP 800-63B baseline requirements for memorised secrets.",
+          detail: "All outputs are 12+ characters — meets NIST baseline for memorised secrets.",
         },
         {
           tag: "REQUIREMENT",
           label: "Character Class Diversity",
-          detail:
-            "Mandatory inclusion of uppercase, lowercase, numeric, and special symbol characters prevents single-class brute-force efficiency.",
+          detail: "Enforces uppercase, lowercase, numbers, and symbols per output — prevents single-class brute-force.",
         },
         {
           tag: "REQUIREMENT",
           label: "Cryptographically Secure Randomness",
-          detail:
-            "Python secrets module used instead of random; ensures CSPRNG output unsuitable for statistical prediction.",
+          detail: "Uses Python secrets module (not random) — output is statistically unpredictable.",
         },
       ],
       methodology: [
-        { tool: "Python", detail: "Primary language; secrets module for CSPRNG output" },
-        { tool: "string module", detail: "Character class pools for controlled selection and composition" },
+        { tool: "Python", detail: "Core language; secrets module for CSPRNG" },
+        { tool: "string module", detail: "Character class pools for controlled composition" },
       ],
       outcome:
-        "Delivered a functional CLI tool meeting password composition requirements. Demonstrated understanding of password policy standards aligned with NIST guidelines and cryptographic randomness best practices.",
+        "Functional CLI tool demonstrating NIST password policy standards and secure randomness principles.",
     },
   },
   {
@@ -181,34 +173,31 @@ const projects: ProjectEntry[] = [
       status: "LAB ONLY",
       iocTitle: "Identified Techniques & Mechanisms",
       executiveSummary:
-        "Developed a basic keylogger in a controlled lab environment to understand input capture mechanics at the OS level. The project was strictly educational with no deployment outside the sandboxed environment. Analysis of the techniques informed understanding of host-based detection methods used by defenders.",
+        "Built a basic keylogger in an isolated lab VM to understand input-capture mechanics at the OS level. Strictly educational — no deployment outside the sandboxed environment. Analysis directly informed understanding of EDR and AV detection strategies.",
       iocs: [
         {
           tag: "TECHNIQUE",
           label: "Keyboard Hook Installation",
-          detail:
-            "Registered a low-level keyboard hook using Python pynput library to intercept keystroke events system-wide before application-layer filtering.",
+          detail: "Low-level pynput hook intercepts keystrokes before application-layer filtering.",
         },
         {
           tag: "TECHNIQUE",
           label: "Keystroke Buffering",
-          detail:
-            "Captured keystrokes are buffered in memory before being flushed to a log file at timed intervals, reducing I/O frequency.",
+          detail: "Captured keys buffered in memory and flushed to file at intervals — reduces I/O noise.",
         },
         {
           tag: "TECHNIQUE",
           label: "Log Persistence",
-          detail:
-            "Keylog output written to a local flat file; demonstrated how adversaries exfiltrate credential data post-capture.",
+          detail: "Output written to a local flat file — mirrors how attackers store captured credentials.",
         },
       ],
       methodology: [
-        { tool: "Python", detail: "Core implementation language" },
-        { tool: "pynput", detail: "Cross-platform keyboard listener for hook installation" },
-        { tool: "Isolated VM", detail: "All testing conducted in a sandboxed VM with no network access" },
+        { tool: "Python", detail: "Core implementation" },
+        { tool: "pynput", detail: "Cross-platform keyboard listener" },
+        { tool: "Isolated VM", detail: "No network access; fully sandboxed" },
       ],
       outcome:
-        "Successfully demonstrated keystroke capture mechanics in a controlled environment. Analysis informed understanding of host-based detection methods — including AV behavioural hooks and EDR process monitoring — that defenders deploy to detect keylogger activity.",
+        "Demonstrated keystroke capture in a controlled lab. Gained direct insight into how EDRs and AV tools detect keylogger activity — applicable to defensive security work.",
     },
   },
   {
@@ -227,37 +216,34 @@ const projects: ProjectEntry[] = [
       status: "CLOSED",
       iocTitle: "Vulnerabilities Identified",
       executiveSummary:
-        "Performed a structured web application penetration test against the Trip.com domain. Identified three high-severity vulnerabilities using a combination of automated scanning and manual exploitation techniques. All findings were classified using the CVSS v3.1 scoring framework and documented in a formal findings report with remediation guidance.",
+        "Penetration test on Trip.com domain. Identified 3 High-severity vulnerabilities using manual exploitation and automated scanning. All findings scored via CVSS v3.1 with remediation guidance.",
       iocs: [
         {
           tag: "HIGH",
           label: "SQL Injection — CVSSv3 8.1",
-          detail:
-            "Parameter-based SQLi detected in booking search endpoint. Allows unauthenticated database enumeration and potential data exfiltration without authentication.",
+          detail: "Parameter-based SQLi in booking search. Allows unauthenticated DB access and potential data exfiltration.",
         },
         {
           tag: "HIGH",
           label: "Cross-Site Scripting (XSS) — CVSSv3 7.5",
-          detail:
-            "Reflected XSS in user-input fields with insufficient output encoding. Enables session token theft and phishing redirection against authenticated users.",
+          detail: "Reflected XSS in user input fields. Enables session token theft against authenticated users.",
         },
         {
           tag: "HIGH",
           label: "Insecure Direct Object Reference (IDOR) — CVSSv3 7.2",
-          detail:
-            "Horizontal privilege escalation via predictable booking reference IDs. Allows access to other users' booking records without authorisation checks.",
+          detail: "Predictable booking IDs expose other users' records — no server-side authorisation checks.",
         },
       ],
       methodology: [
-        { tool: "Burp Suite", detail: "Intercepting proxy for manual HTTP request manipulation and payload injection" },
-        { tool: "OWASP ZAP", detail: "Automated active scanner for initial vulnerability discovery" },
-        { tool: "Nikto", detail: "Web server configuration and known-vulnerability scanner" },
-        { tool: "Nmap", detail: "Port and service enumeration on target infrastructure" },
-        { tool: "Kali Linux", detail: "Testing environment with full offensive toolset" },
-        { tool: "CVSS v3.1", detail: "Scoring framework used to classify and prioritise all findings" },
+        { tool: "Burp Suite", detail: "Manual HTTP request manipulation and payload injection" },
+        { tool: "OWASP ZAP", detail: "Automated active vulnerability scanning" },
+        { tool: "Nikto", detail: "Web server and configuration scanning" },
+        { tool: "Nmap", detail: "Port and service enumeration" },
+        { tool: "Kali Linux", detail: "Testing environment" },
+        { tool: "CVSS v3.1", detail: "Vulnerability severity scoring" },
       ],
       outcome:
-        "Delivered a structured penetration test report documenting three high-severity CVEs. Remediation recommendations included parameterised queries to prevent SQLi, context-aware output encoding for XSS, and server-side authorisation checks on all resource endpoints to address IDOR.",
+        "Delivered a structured pentest report with 3 High-severity CVEs. Remediations: parameterised queries (SQLi), output encoding (XSS), server-side authorisation checks (IDOR).",
     },
   },
   {
@@ -276,41 +262,37 @@ const projects: ProjectEntry[] = [
       status: "COMPLETE",
       iocTitle: "Security Controls Implemented",
       executiveSummary:
-        "Configured a Palo Alto next-generation firewall to establish a site-to-site IPsec VPN tunnel between simulated Kuala Lumpur and Singapore office environments. Implemented zone-based security policies and access control rules aligned with the principle of least privilege.",
+        "Configured a Palo Alto NGFW to connect KL and Singapore offices via site-to-site IPsec VPN. Implemented zone-based security policies following least-privilege principles.",
       iocs: [
         {
           tag: "CONTROL",
           label: "Site-to-Site IPsec VPN",
-          detail:
-            "Configured IKEv2 tunnel between KL and SG sites; verified encrypted traffic traversal and tunnel failover behaviour under simulated link loss.",
+          detail: "IKEv2 tunnel between KL–SG sites; verified encrypted traffic and failover under simulated link loss.",
         },
         {
           tag: "CONTROL",
           label: "Zone-Based Security Policy",
-          detail:
-            "Defined Trust, Untrust, and DMZ zones with explicit inter-zone rules to segment and control traffic flows between office segments.",
+          detail: "Trust / Untrust / DMZ zones with explicit inter-zone rules for traffic segmentation.",
         },
         {
           tag: "CONTROL",
           label: "Access Control Rules",
-          detail:
-            "Implemented least-privilege inbound and outbound policies; blocked unsanctioned protocols at the perimeter firewall layer.",
+          detail: "Least-privilege inbound/outbound rules; unsanctioned protocols blocked at perimeter.",
         },
         {
           tag: "CONTROL",
-          label: "Internal Security Restrictions",
-          detail:
-            "Applied URL filtering and application-layer inspection to internal traffic egressing to the internet.",
+          label: "URL Filtering",
+          detail: "Application-layer inspection on internal internet-bound traffic.",
         },
       ],
       methodology: [
-        { tool: "Palo Alto NGFW", detail: "Primary firewall platform for all configuration and policy management" },
-        { tool: "PAN-OS GUI", detail: "Web interface used for zone, policy, and VPN configuration" },
-        { tool: "IKEv2 / IPsec", detail: "VPN protocol stack for encrypted inter-site tunnel establishment" },
-        { tool: "Wireshark", detail: "Packet capture used to verify encrypted traffic and VPN handshake completion" },
+        { tool: "Palo Alto NGFW", detail: "Primary firewall platform" },
+        { tool: "PAN-OS GUI", detail: "Zone, policy, and VPN configuration" },
+        { tool: "IKEv2 / IPsec", detail: "VPN tunnel protocol stack" },
+        { tool: "Wireshark", detail: "Verified encrypted traffic and VPN handshake" },
       ],
       outcome:
-        "Successfully demonstrated a functional site-to-site VPN with enforced security zones and access control policies. Gained practical experience with enterprise-grade perimeter firewall configuration and network segmentation principles.",
+        "Functional site-to-site VPN with enforced security zones. Practical experience with enterprise perimeter firewall configuration and network segmentation.",
     },
   },
   {
@@ -329,43 +311,39 @@ const projects: ProjectEntry[] = [
       status: "ANALYSED",
       iocTitle: "Indicators of Compromise (IOCs)",
       executiveSummary:
-        "Conducted static and dynamic analysis on a VirusShare malware sample within an isolated lab environment. Produced a full behavioural analysis report documenting persistence mechanisms, process injection chains, network communication patterns, and file system artefacts. Findings were mapped to relevant MITRE ATT&CK techniques.",
+        "Static and dynamic analysis of a VirusShare sample in an isolated lab. Produced a full IOC report covering C2 communications, process injection, persistence, and file artefacts — mapped to MITRE ATT&CK.",
       iocs: [
         {
           tag: "NETWORK",
           label: "C2 Beacon — 185.220.101.x:4444",
-          detail:
-            "Observed periodic outbound TCP connection attempts to a hardcoded IP over a non-standard port; consistent with a beacon interval of approximately 60 seconds.",
+          detail: "Periodic ~60s TCP connections to hardcoded IP — consistent beacon pattern.",
         },
         {
           tag: "PROCESS",
-          label: "Process Injection — cmd.exe → powershell.exe",
-          detail:
-            "Malware spawned cmd.exe as a parent process to launch an encoded PowerShell payload; indicative of a living-off-the-land (LOL) technique to evade signature detection.",
+          label: "Process Injection — cmd.exe → PowerShell",
+          detail: "Encoded PowerShell spawned via cmd.exe — living-off-the-land technique to evade signatures.",
         },
         {
           tag: "REGISTRY",
           label: "Run Key Persistence — HKCU\\...\\CurrentVersion\\Run",
-          detail:
-            "Wrote a registry Run key value pointing to the dropper binary to survive system reboot without requiring elevated privileges.",
+          detail: "Run key written to survive reboot — no elevated privileges needed.",
         },
         {
           tag: "FILE",
           label: "Masquerading Binary — svchost32.exe",
-          detail:
-            "Dropper copied itself to %APPDATA% under the filename svchost32.exe to impersonate a legitimate Windows system process and evade casual inspection.",
+          detail: "Dropper copied to %APPDATA% as svchost32.exe to mimic a legitimate Windows system process.",
         },
       ],
       methodology: [
-        { tool: "Process Explorer", detail: "Live process tree inspection and parent-child relationship analysis" },
-        { tool: "Process Monitor", detail: "File system, registry, and network activity monitoring during dynamic execution" },
-        { tool: "x64 Debugger", detail: "Static and runtime disassembly for string and API call extraction" },
-        { tool: "Dependency Walker", detail: "DLL import analysis to identify suspicious API calls at load time" },
-        { tool: "Isolated VM (FlareVM)", detail: "Sandboxed Windows environment with network isolation for safe dynamic analysis" },
-        { tool: "VirusTotal", detail: "Static hash lookup and multi-engine scan for known detection signatures" },
+        { tool: "Process Explorer", detail: "Process tree inspection and parent-child analysis" },
+        { tool: "Process Monitor", detail: "File, registry, and network activity during execution" },
+        { tool: "x64 Debugger", detail: "Static/runtime disassembly and API extraction" },
+        { tool: "Dependency Walker", detail: "DLL import analysis at load time" },
+        { tool: "FlareVM (Isolated VM)", detail: "Sandboxed Windows analysis environment" },
+        { tool: "VirusTotal", detail: "Static hash lookup and multi-engine scan" },
       ],
       outcome:
-        "Produced a comprehensive IOC report that could be operationalised for SIEM detection rule creation. Analysis confirmed ransomware-like persistence mechanisms. Findings demonstrated proficiency in host-based artefact analysis and threat actor TTP mapping to MITRE ATT&CK.",
+        "Full IOC report operationalisable for SIEM detection rules. Confirmed ransomware-like persistence and C2 patterns. Demonstrated MITRE ATT&CK TTP mapping.",
     },
   },
   {
@@ -384,40 +362,36 @@ const projects: ProjectEntry[] = [
       status: "COMPLETE",
       iocTitle: "Key Features Implemented",
       executiveSummary:
-        "Designed and built an ice cream ordering application in C# using the .NET framework. The application features a customisable ordering system, topping selections, and a reward points mechanism, demonstrating fundamental software engineering principles through an end-to-end functional product.",
+        "Ice cream ordering app in C# (.NET) with customisable orders, toppings, and a reward points system. Full end-to-end ordering lifecycle from item selection to receipt generation.",
       iocs: [
         {
           tag: "FEATURE",
           label: "Customisable Order Builder",
-          detail:
-            "Users can select ice cream flavours, sizes, and optional toppings through a multi-step order flow with live order summary.",
+          detail: "Multi-step flow for flavours, sizes, and toppings with live order summary.",
         },
         {
           tag: "FEATURE",
           label: "Reward Points System",
-          detail:
-            "Implemented a point accrual and redemption system; points tracked per session and persist to a local data store across orders.",
+          detail: "Point accrual and redemption persisted to local storage across sessions.",
         },
         {
           tag: "FEATURE",
           label: "Input Validation & Error Handling",
-          detail:
-            "All user inputs validated with descriptive error messages surfaced in the UI; prevents invalid state propagation through the order flow.",
+          detail: "All inputs validated with descriptive error messages — prevents invalid order states.",
         },
         {
           tag: "FEATURE",
           label: "End-to-End Order Flow",
-          detail:
-            "Complete ordering lifecycle from item selection through payment summary and order confirmation with receipt generation.",
+          detail: "Selection → payment summary → confirmation → receipt generation.",
         },
       ],
       methodology: [
-        { tool: "C#", detail: "Primary language; object-oriented design with class-based entity models" },
-        { tool: ".NET Framework", detail: "Application runtime and Windows Forms UI framework" },
-        { tool: "Visual Studio", detail: "IDE used for development, debugging, and project management" },
+        { tool: "C#", detail: "OOP design with class-based entity models" },
+        { tool: ".NET Framework", detail: "App runtime and Windows Forms UI" },
+        { tool: "Visual Studio", detail: "IDE for development and debugging" },
       ],
       outcome:
-        "Delivered a fully functional ordering application meeting all project requirements. Demonstrated fundamental software engineering principles including encapsulation, input validation, and end-to-end user experience design.",
+        "Fully functional ordering app delivered to spec. Demonstrated OOP principles, input validation, and end-to-end UX design in C#.",
     },
   },
 ];
@@ -495,19 +469,16 @@ function CardWrapper({
   delay?: number;
   onClick?: () => void;
 }) {
-  const [scanned, setScanned] = useState(false);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay }}
-      onViewportEnter={() => setScanned(true)}
       onClick={onClick}
-      className={`relative overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-cyan-500/10 hover:border-cyan-400/30 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
+      className={`bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
     >
       {children}
-      <div className={`card-scan-line${scanned ? " scanning" : ""}`} />
     </motion.div>
   );
 }
@@ -515,7 +486,7 @@ function CardWrapper({
 /* ── Tag pill ── */
 function TagPill({ label }: { label: string }) {
   return (
-    <span className="px-2.5 py-0.5 bg-cyan-950/50 text-cyan-300/80 text-xs font-mono rounded-full border border-cyan-800/30">
+    <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-mono rounded-full border border-slate-200">
       {label}
     </span>
   );
@@ -525,12 +496,12 @@ function TagPill({ label }: { label: string }) {
 function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementType; title: string; subtitle?: string }) {
   return (
     <div className="flex items-start gap-3 mb-8">
-      <div className="w-10 h-10 bg-blue-950/50 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-        <Icon className="w-5 h-5 text-blue-400" />
+      <div className="w-10 h-10 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+        <Icon className="w-5 h-5 text-blue-600" />
       </div>
       <div>
-        <h2 className="text-2xl font-bold text-white">{title}</h2>
-        {subtitle && <p className="text-slate-400 text-sm mt-0.5">{subtitle}</p>}
+        <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
+        {subtitle && <p className="text-slate-500 text-sm mt-0.5">{subtitle}</p>}
       </div>
     </div>
   );
@@ -551,11 +522,10 @@ export default function ExperiencePage() {
       : null;
 
   return (
-    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-900 min-h-screen overflow-hidden">
-      {/* Ambient glows — needed for glassmorphism cards to catch light */}
-      <div className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-cyan-500 rounded-full blur-3xl opacity-[0.08] pointer-events-none" />
-      <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-blue-600 rounded-full blur-3xl opacity-[0.10] pointer-events-none" />
-      <div className="absolute -bottom-40 right-1/4 w-[400px] h-[400px] bg-cyan-600 rounded-full blur-3xl opacity-[0.07] pointer-events-none" />
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50 min-h-screen overflow-hidden">
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none" />
+
       <div className="relative max-w-5xl mx-auto">
 
         {/* Page Header */}
@@ -565,8 +535,8 @@ export default function ExperiencePage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3">Experience</h1>
-          <p className="text-slate-400 max-w-xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-3">Experience</h1>
+          <p className="text-slate-500 max-w-xl mx-auto">
             Internships, projects, competitions, and community involvement.
           </p>
         </motion.div>
@@ -591,14 +561,14 @@ export default function ExperiencePage() {
               <CardWrapper key={i} delay={i * 0.08}>
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                   <div>
-                    <h3 className="text-lg font-bold text-white">{item.role}</h3>
-                    <p className="text-blue-400 font-semibold text-sm">{item.company}</p>
+                    <h3 className="text-lg font-bold text-slate-900">{item.role}</h3>
+                    <p className="text-blue-600 font-semibold text-sm">{item.company}</p>
                   </div>
-                  <span className="self-start px-2.5 py-1 bg-blue-950/50 text-blue-400 text-xs font-medium rounded-full flex-shrink-0 border border-blue-900/50">
+                  <span className="self-start px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full flex-shrink-0 border border-blue-200">
                     {item.type}
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-4 text-xs text-slate-400 mb-3">
+                <div className="flex flex-wrap gap-4 text-xs text-slate-500 mb-3">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5" />
                     {item.period}
@@ -608,15 +578,14 @@ export default function ExperiencePage() {
                     {item.location}
                   </span>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed mb-4">{item.desc}</p>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">{item.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {item.tags.map((t) => <TagPill key={t} label={t} />)}
                 </div>
-                {/* Certificate image — only for entries that have one */}
                 {item.img && (
                   <div className="max-w-lg mx-auto mt-4">
                     <div
-                      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-900 cursor-pointer group"
+                      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 cursor-pointer group"
                       onClick={() => setLightbox({ src: item.img!, alt: `${item.company} certificate` })}
                     >
                       <Image
@@ -658,13 +627,13 @@ export default function ExperiencePage() {
             {projects.map((proj, i) => (
               <CardWrapper key={i} delay={i * 0.07} onClick={() => setActiveProject(i)}>
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="text-base font-bold text-white leading-snug">{proj.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 leading-snug">{proj.title}</h3>
                   <a
                     href={proj.link}
                     target={proj.link !== "#" ? "_blank" : undefined}
                     rel={proj.link !== "#" ? "noopener noreferrer" : undefined}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-slate-500 hover:text-blue-400 transition-colors flex-shrink-0 mt-0.5"
+                    className="text-slate-400 hover:text-blue-600 transition-colors flex-shrink-0 mt-0.5"
                     aria-label="Project link"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -675,19 +644,18 @@ export default function ExperiencePage() {
                     <Calendar className="w-3 h-3" />
                     {proj.period}
                   </span>
-                  <span className="flex items-center gap-1 text-xs text-blue-400 font-medium">
+                  <span className="flex items-center gap-1 text-xs text-blue-600 font-medium">
                     <Tag className="w-3 h-3" />
                     {proj.type}
                   </span>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed mb-4">{proj.desc}</p>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">{proj.desc}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {proj.tags.map((t) => <TagPill key={t} label={t} />)}
                 </div>
-                {/* Project screenshot — only for entries that have one */}
                 {proj.img && (
                   <div
-                    className="relative h-56 rounded-xl overflow-hidden bg-slate-900 mb-4 cursor-pointer group"
+                    className="relative h-56 rounded-xl overflow-hidden bg-slate-100 mb-4 cursor-pointer group"
                     onClick={(e) => { e.stopPropagation(); setLightbox({ src: proj.img!, alt: `${proj.title} screenshot` }); }}
                   >
                     <Image
@@ -704,11 +672,10 @@ export default function ExperiencePage() {
                     </div>
                   </div>
                 )}
-                {/* View report footer */}
-                <div className="flex items-center gap-1.5 text-cyan-500 text-xs font-mono mt-auto pt-1 border-t border-slate-800/60">
+                <div className="flex items-center gap-1.5 text-blue-600 text-xs font-mono mt-auto pt-1 border-t border-slate-200">
                   <FileText className="w-3 h-3" />
                   <span className="uppercase tracking-widest">View Incident Report</span>
-                  <span className="ml-auto font-mono text-slate-600 text-[10px]">{proj.report.refId}</span>
+                  <span className="ml-auto font-mono text-slate-400 text-[10px]">{proj.report.refId}</span>
                 </div>
               </CardWrapper>
             ))}
@@ -735,28 +702,27 @@ export default function ExperiencePage() {
               <CardWrapper key={i} delay={i * 0.08}>
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                   <div>
-                    <h3 className="text-lg font-bold text-white">{ctf.name}</h3>
-                    <p className="text-blue-400 font-semibold text-sm">{ctf.organiser}</p>
+                    <h3 className="text-lg font-bold text-slate-900">{ctf.name}</h3>
+                    <p className="text-blue-600 font-semibold text-sm">{ctf.organiser}</p>
                   </div>
                   <div className="flex flex-col items-start sm:items-end gap-1">
-                    <span className="px-2.5 py-1 bg-amber-950/50 text-amber-400 text-xs font-semibold rounded-full border border-amber-900/50">
+                    <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
                       {ctf.placement}
                     </span>
                     <span className="text-xs text-slate-400">{ctf.year}</span>
                   </div>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed mb-4">{ctf.desc}</p>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">{ctf.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {ctf.categories.map((cat) => (
-                    <span key={cat} className="px-2.5 py-0.5 bg-purple-950/50 text-purple-400 text-xs font-medium rounded-full border border-purple-900/50">
+                    <span key={cat} className="px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-mono rounded-full border border-purple-200">
                       {cat}
                     </span>
                   ))}
                 </div>
-                {/* CTF image — shown below category pills */}
                 {ctf.img && (
                   <div
-                    className="relative h-52 rounded-xl overflow-hidden bg-slate-900 mt-4 cursor-pointer group"
+                    className="relative h-52 rounded-xl overflow-hidden bg-slate-100 mt-4 cursor-pointer group"
                     onClick={() => setLightbox({ src: ctf.img!, alt: `${ctf.name} certificate` })}
                   >
                     <Image
@@ -798,10 +764,10 @@ export default function ExperiencePage() {
               <CardWrapper key={i} delay={i * 0.08}>
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2">
                   <div>
-                    <h3 className="text-lg font-bold text-white">{item.title}</h3>
-                    <p className="text-blue-400 font-semibold text-sm">{item.org}</p>
+                    <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
+                    <p className="text-blue-600 font-semibold text-sm">{item.org}</p>
                   </div>
-                  <span className="self-start px-2.5 py-1 bg-green-950/50 text-green-400 text-xs font-medium rounded-full flex-shrink-0 border border-green-900/50">
+                  <span className="self-start px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full flex-shrink-0 border border-emerald-200">
                     {item.role}
                   </span>
                 </div>
@@ -809,11 +775,10 @@ export default function ExperiencePage() {
                   <Calendar className="w-3.5 h-3.5" />
                   {item.period}
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed">{item.desc}</p>
-                {/* CCA images — single image or 2-column gallery for multiple */}
+                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
                 {item.imgs.length === 1 && (
                   <div
-                    className="relative h-56 rounded-xl overflow-hidden bg-slate-900 mt-4 cursor-pointer group"
+                    className="relative h-56 rounded-xl overflow-hidden bg-slate-100 mt-4 cursor-pointer group"
                     onClick={() => setLightbox({ src: item.imgs[0], alt: item.title })}
                   >
                     <Image
@@ -835,7 +800,7 @@ export default function ExperiencePage() {
                     {item.imgs.map((src) => (
                       <div
                         key={src}
-                        className="relative h-44 rounded-xl overflow-hidden bg-slate-900 cursor-pointer group"
+                        className="relative h-44 rounded-xl overflow-hidden bg-slate-100 cursor-pointer group"
                         onClick={() => setLightbox({ src, alt: item.title })}
                       >
                         <Image
