@@ -120,11 +120,6 @@ export default function HomePage() {
               cybersecurity&apos;s emerging threats and mitigating risks, I enjoy playing
               basketball and challenging myself with new opportunities to grow.
             </p>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              As Heraclitus wisely said, &ldquo;Change is the only constant.&rdquo; Embracing
-              this philosophy, I continuously upskill myself to stay ahead of trends,
-              leveraging my knowledge and skills to combat cyberattacks effectively.
-            </p>
             <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
               Feel free to explore my website and learn more about my journey!
             </p>
