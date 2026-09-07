@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectModal";
 import ImageLightbox from "@/components/ImageLightbox";
+import ZoomableImage from "@/components/ZoomableImage";
 
 /* ─────────────────────────────
    WORK EXPERIENCE
 ────────────────────────────── */
+
+type Emphasis = "primary" | "secondary" | "quiet";
 
 interface WorkItem {
   role: string;
@@ -21,7 +23,7 @@ interface WorkItem {
   bullets?: string[];
   stack?: string[];
   img?: string;
-  featured?: boolean;
+  emphasis: Emphasis;
 }
 
 const work: WorkItem[] = [
@@ -29,18 +31,26 @@ const work: WorkItem[] = [
     role: "AI Security Engineer",
     company: "Tangent9",
     field: "Information Technology",
-    type: "Ongoing",
-    dates: "2026",
+    type: "Contract",
+    dates: "6 Jul 2026 to 27 Sep 2026",
     summary:
-      "Contributing to an AI-powered incident management platform. Work centres on security assessment, integration, and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system.",
+      "Contributed to an AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system.",
     bullets: [
-      "Security-assessed authentication, authorization, and capability-based access control across the Next.js BFF and NestJS backend.",
+      "Security-assessed authentication, authorization and capability-based access control across the Next.js BFF and NestJS backend.",
       "Validated frontend and backend integration, API contracts, and audit paths against product and security requirements.",
       "Reviewed architecture and implementation against expected security behaviour and identified authorization and capability mismatches.",
-      "Evaluated AI-agent behaviour and evidence-grounded workflows for cybersecurity assurance, including evidence ingestion, control assessment, and audit analysis.",
+      "Evaluated AI-agent behaviour and evidence-grounded workflows for cybersecurity assurance, including evidence ingestion, control assessment and audit analysis.",
     ],
-    stack: ["Next.js", "TypeScript", "NestJS", "PostgreSQL", "LLM agents", "Capability-based authz"],
-    featured: true,
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "NestJS",
+      "PostgreSQL",
+      "BFF architecture",
+      "LLM agents",
+      "Capability-based authz",
+    ],
+    emphasis: "primary",
   },
   {
     role: "Cybersecurity Analyst",
@@ -56,7 +66,7 @@ const work: WorkItem[] = [
       "Aligned technical configurations with documented security requirements.",
       "Translated security requirements into practical, defensible configuration decisions.",
     ],
-    featured: true,
+    emphasis: "primary",
   },
   {
     role: "Sales Intern",
@@ -65,8 +75,8 @@ const work: WorkItem[] = [
     type: "Internship",
     dates: "Feb 2026 to Apr 2026",
     summary:
-      "End-to-end sales cycle including product sourcing, pricing negotiation, and client fulfilment. Prepared COAs, PIs, and Sales Contracts. Reinforced client communication and documentation precision.",
-    stack: ["Client communications", "Documentation", "Excel"],
+      "End-to-end sales cycle including product sourcing, pricing negotiation and client fulfilment. Prepared COAs, PIs and Sales Contracts. Strengthened client communication and documentation precision.",
+    emphasis: "quiet",
   },
   {
     role: "Junior DFIR Specialist Intern",
@@ -83,7 +93,7 @@ const work: WorkItem[] = [
     ],
     stack: ["Velociraptor", "MCP", "LLMs", "KAPE", "Windows / Linux", "VMware"],
     img: "/images/STENG%20Certificate%20of%20completion.jpg",
-    featured: true,
+    emphasis: "primary",
   },
   {
     role: "Freelance Legal Assistant",
@@ -92,7 +102,8 @@ const work: WorkItem[] = [
     type: "Freelance",
     dates: "Jan 2023 to Dec 2025",
     summary:
-      "Supported drafting, formatting, and preparation of legal documents. Reinforced attention-to-detail and structured-writing habits that carry over into forensic reporting.",
+      "Supported drafting, formatting and preparation of legal documents. Reinforced attention-to-detail and structured-writing habits that carry over into forensic reporting.",
+    emphasis: "quiet",
   },
 ];
 
@@ -102,28 +113,32 @@ const work: WorkItem[] = [
 
 const progression = [
   {
-    phase: "Cybersecurity Foundations",
+    phase: "Foundation",
     where: "Ngee Ann Polytechnic",
-    focus: "Academic foundation. DFIR, malware analysis, network security and applied cybersecurity coursework.",
+    focus: "Academic foundation in cybersecurity and digital forensics. Coursework across DFIR, malware analysis and network security.",
     period: "2023 to 2026",
+    current: false,
   },
   {
-    phase: "Industry Exposure",
+    phase: "Industry DFIR",
     where: "ST Engineering Info-Security",
-    focus: "DFIR and incident response. Endpoint investigation, agentic-DFIR prototyping, and cyber range design.",
+    focus: "Digital forensics and incident response. Endpoint investigation, agentic-DFIR prototyping and cyber range design.",
     period: "Sep 2025 to Jan 2026",
+    current: false,
   },
   {
-    phase: "Security Engineering",
+    phase: "Cybersecurity Analysis",
     where: "Telsecure",
     focus: "Security configuration and cybersecurity analysis. Applying secure-configuration principles to real infrastructure.",
     period: "Aug 2026 to Sep 2026",
+    current: false,
   },
   {
     phase: "AI Security Engineering",
     where: "Tangent9",
-    focus: "AI-powered cybersecurity systems. Security assessment, integration and AI assurance workflows.",
-    period: "2026",
+    focus: "AI security, incident-management systems, and cybersecurity assurance workflows.",
+    period: "Jul 2026 to Sep 2026",
+    current: true,
   },
 ];
 
@@ -147,7 +162,7 @@ const projects: ProjectEntry[] = [
     title: "IOC Enrichment CLI Tool",
     period: "2025",
     type: "Open source",
-    desc: "Auto-classifies indicators (IPv4, domain, URL, MD5/SHA1/SHA256) and queries VirusTotal, AbuseIPDB, and Shodan concurrently. Aggregates results into CLEAN, SUSPICIOUS, or MALICIOUS verdicts with structured JSON reports.",
+    desc: "Auto-classifies indicators (IPv4, domain, URL, MD5/SHA1/SHA256) and queries VirusTotal, AbuseIPDB and Shodan concurrently. Aggregates results into CLEAN, SUSPICIOUS or MALICIOUS verdicts with structured JSON reports.",
     tags: ["Python", "VirusTotal", "AbuseIPDB", "Shodan", "JSON"],
     link: "https://github.com/Emmanuelchang2006/ioc-checker",
     img: "/images/IOC%20Checker.jpg",
@@ -159,7 +174,7 @@ const projects: ProjectEntry[] = [
       status: "PUBLISHED",
       iocTitle: "Findings",
       executiveSummary:
-        "Open-source CLI that auto-classifies cyber indicators (IP, domain, URL, hash) and queries VirusTotal, AbuseIPDB, and Shodan concurrently. Aggregates multi-source verdicts into structured JSON reports, cutting manual triage time for analysts.",
+        "Open-source CLI that auto-classifies cyber indicators (IP, domain, URL, hash) and queries VirusTotal, AbuseIPDB and Shodan concurrently. Aggregates multi-source verdicts into structured JSON reports, cutting manual triage time for analysts.",
       iocs: [
         { tag: "FEATURE", label: "Multi-API concurrent enrichment", detail: "Queries 3 threat intel APIs per indicator in parallel." },
         { tag: "FEATURE", label: "Auto-classification engine",     detail: "Regex detects indicator type (IP, domain, URL, hash) before API dispatch." },
@@ -181,7 +196,7 @@ const projects: ProjectEntry[] = [
     title: "Malware Analysis, VirusShare Sample",
     period: "2024",
     type: "Academic",
-    desc: "Static and dynamic analysis of a VirusShare sample in an isolated FlareVM lab. Produced a full IOC report mapped to MITRE ATT&CK covering C2 communications, process injection, persistence, and file artefacts.",
+    desc: "Static and dynamic analysis of a VirusShare sample in an isolated FlareVM lab. Produced a full IOC report mapped to MITRE ATT&CK covering C2 communications, process injection, persistence and file artefacts.",
     tags: ["Process Explorer", "Process Monitor", "x64 Debugger", "MITRE ATT&CK"],
     report: {
       classification: "CONFIDENTIAL",
@@ -191,7 +206,7 @@ const projects: ProjectEntry[] = [
       status: "ANALYSED",
       iocTitle: "Findings",
       executiveSummary:
-        "Static and dynamic analysis of a VirusShare sample in an isolated lab. Produced a full IOC report covering C2 communications, process injection, persistence, and file artefacts, mapped to MITRE ATT&CK.",
+        "Static and dynamic analysis of a VirusShare sample in an isolated lab. Produced a full IOC report covering C2 communications, process injection, persistence and file artefacts, mapped to MITRE ATT&CK.",
       iocs: [
         { tag: "NETWORK",  label: "C2 beacon, 185.220.101.x:4444",              detail: "Periodic ~60s TCP connections to hardcoded IP, consistent beacon pattern." },
         { tag: "PROCESS",  label: "Process injection, cmd.exe to PowerShell",   detail: "Encoded PowerShell spawned via cmd.exe, a living-off-the-land pattern used to evade signatures." },
@@ -200,7 +215,7 @@ const projects: ProjectEntry[] = [
       ],
       methodology: [
         { tool: "Process Explorer", detail: "Process tree inspection and parent-child analysis" },
-        { tool: "Process Monitor", detail: "File, registry, and network activity during execution" },
+        { tool: "Process Monitor", detail: "File, registry and network activity during execution" },
         { tool: "x64 Debugger", detail: "Static and runtime disassembly, API extraction" },
         { tool: "Dependency Walker", detail: "DLL import analysis at load time" },
         { tool: "FlareVM", detail: "Sandboxed Windows analysis environment" },
@@ -239,7 +254,7 @@ const projects: ProjectEntry[] = [
         { tool: "CVSS v3.1", detail: "Vulnerability severity scoring" },
       ],
       outcome:
-        "Delivered a structured pentest report with 3 High-severity CVEs. Remediation guidance covered parameterised queries (SQLi), output encoding (XSS), and server-side authorisation checks (IDOR).",
+        "Delivered a structured pentest report with 3 High-severity CVEs. Remediation guidance covered parameterised queries (SQLi), output encoding (XSS) and server-side authorisation checks (IDOR).",
     },
   },
   {
@@ -258,14 +273,14 @@ const projects: ProjectEntry[] = [
       executiveSummary:
         "Configured a Palo Alto NGFW to connect KL and Singapore offices via site-to-site IPsec VPN. Implemented zone-based security policies following least-privilege principles.",
       iocs: [
-        { tag: "CONTROL", label: "Site-to-site IPsec VPN",     detail: "IKEv2 tunnel between KL and SG sites, verified encrypted traffic and failover under simulated link loss." },
+        { tag: "CONTROL", label: "Site-to-site IPsec VPN",     detail: "IKEv2 tunnel between KL and SG sites. Verified encrypted traffic and failover under simulated link loss." },
         { tag: "CONTROL", label: "Zone-based security policy", detail: "Trust, Untrust and DMZ zones with explicit inter-zone rules for traffic segmentation." },
-        { tag: "CONTROL", label: "Access control rules",       detail: "Least-privilege inbound and outbound rules, unsanctioned protocols blocked at perimeter." },
+        { tag: "CONTROL", label: "Access control rules",       detail: "Least-privilege inbound and outbound rules. Unsanctioned protocols blocked at perimeter." },
         { tag: "CONTROL", label: "URL filtering",              detail: "Application-layer inspection on internal internet-bound traffic." },
       ],
       methodology: [
         { tool: "Palo Alto NGFW", detail: "Primary firewall platform" },
-        { tool: "PAN-OS GUI", detail: "Zone, policy, and VPN configuration" },
+        { tool: "PAN-OS GUI", detail: "Zone, policy and VPN configuration" },
         { tool: "IKEv2 / IPsec", detail: "VPN tunnel protocol stack" },
         { tool: "Wireshark", detail: "Verified encrypted traffic and VPN handshake" },
       ],
@@ -291,7 +306,7 @@ const projects: ProjectEntry[] = [
         "CLI tool generating cryptographically strong passwords aligned with NIST SP 800-63B. Minimum 12 characters, mandatory character-class diversity, and CSPRNG randomness throughout.",
       iocs: [
         { tag: "REQUIREMENT", label: "Minimum length enforcement",           detail: "All outputs are 12+ characters, meeting the NIST baseline for memorised secrets." },
-        { tag: "REQUIREMENT", label: "Character class diversity",            detail: "Enforces uppercase, lowercase, numbers, and symbols per output to prevent single-class brute-force." },
+        { tag: "REQUIREMENT", label: "Character class diversity",            detail: "Enforces uppercase, lowercase, numbers and symbols per output to prevent single-class brute-force." },
         { tag: "REQUIREMENT", label: "Cryptographically secure randomness",  detail: "Uses Python's secrets module (not random) so output is statistically unpredictable." },
       ],
       methodology: [
@@ -336,7 +351,7 @@ const projects: ProjectEntry[] = [
     title: "Ice Cream Ordering App (C#)",
     period: "2023",
     type: "Academic",
-    desc: "Ice cream ordering app in C# (.NET) with customisable orders, toppings, and a reward points system. Focus on OOP, validation, and end-to-end UX.",
+    desc: "Ice cream ordering app in C# (.NET) with customisable orders, toppings and a reward points system. Focus on OOP, validation and end-to-end UX.",
     tags: ["C#", ".NET", "OOP"],
     img: "/images/Ice%20Cream%20Project.jpg",
     report: {
@@ -347,12 +362,12 @@ const projects: ProjectEntry[] = [
       status: "COMPLETE",
       iocTitle: "Findings",
       executiveSummary:
-        "Ice cream ordering app in C# (.NET) with customisable orders, toppings, and a reward points system. Full end-to-end ordering lifecycle from item selection to receipt generation.",
+        "Ice cream ordering app in C# (.NET) with customisable orders, toppings and a reward points system. Full end-to-end ordering lifecycle from item selection to receipt generation.",
       iocs: [
-        { tag: "FEATURE", label: "Customisable order builder",       detail: "Multi-step flow for flavours, sizes, and toppings with a live order summary." },
+        { tag: "FEATURE", label: "Customisable order builder",       detail: "Multi-step flow for flavours, sizes and toppings with a live order summary." },
         { tag: "FEATURE", label: "Reward points system",             detail: "Point accrual and redemption persisted to local storage across sessions." },
         { tag: "FEATURE", label: "Input validation and error handling", detail: "All inputs validated with descriptive error messages, preventing invalid order states." },
-        { tag: "FEATURE", label: "End-to-end order flow",            detail: "Selection, payment summary, confirmation, and receipt generation." },
+        { tag: "FEATURE", label: "End-to-end order flow",            detail: "Selection, payment summary, confirmation and receipt generation." },
       ],
       methodology: [
         { tool: "C#", detail: "OOP design with class-based entity models" },
@@ -360,7 +375,7 @@ const projects: ProjectEntry[] = [
         { tool: "Visual Studio", detail: "IDE for development and debugging" },
       ],
       outcome:
-        "Fully functional ordering app delivered to spec. Demonstrated OOP principles, input validation, and end-to-end UX design in C#.",
+        "Fully functional ordering app delivered to spec. Demonstrated OOP principles, input validation and end-to-end UX design in C#.",
     },
   },
 ];
@@ -392,7 +407,7 @@ const ctfCompetitions: CtfEntry[] = [
       { k: "Team",   v: "littledogs" },
     ],
     categories: ["Web", "Crypto", "Reverse", "Forensics", "OSINT"],
-    desc: "International CTF spanning web exploitation, cryptography, reversing, and forensics.",
+    desc: "International CTF spanning web exploitation, cryptography, reversing and forensics.",
     img: "/images/HTB_CTF.jpeg",
   },
   {
@@ -410,7 +425,7 @@ const ctfCompetitions: CtfEntry[] = [
     year: "2024",
     placement: "Participant",
     categories: ["OSINT", "Web", "Cryptography"],
-    desc: "OSINT, web exploitation, and cryptography challenges.",
+    desc: "OSINT, web exploitation and cryptography challenges.",
     img: "/images/YBN%20CTF.jpg",
   },
 ];
@@ -480,23 +495,6 @@ const ccaAndService: CcaEntry[] = [
 ];
 
 /* ─────────────────────────────
-   Metadata row helper
-────────────────────────────── */
-
-function MetadataRow({ items }: { items: { k: string; v: string }[] }) {
-  return (
-    <dl className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-1 text-sm mt-3">
-      {items.map((it) => (
-        <div key={it.k} className="flex flex-col">
-          <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">{it.k}</dt>
-          <dd className="text-slate-700">{it.v}</dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
-/* ─────────────────────────────
    PAGE
 ────────────────────────────── */
 
@@ -515,133 +513,193 @@ export default function ExperiencePage() {
       : null;
 
   return (
-    <div className="pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
-      <div className="max-w-3xl mx-auto">
-
-        {/* Header */}
-        <header className="mb-14">
-          <h1 className="text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight mb-3">
+    <>
+      {/* Page Header */}
+      <section className="pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
             Experience
-          </h1>
-          <p className="text-slate-600 max-w-xl leading-relaxed">
-            Roles, projects, competitions and service, presented as a progression
-            through DFIR foundations toward security engineering and AI security.
           </p>
-        </header>
+          <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
+            Roles, projects, competitions and service.
+          </h1>
+          <p className="text-slate-600 max-w-2xl leading-relaxed">
+            Presented as a progression through DFIR foundations toward
+            security engineering and AI security.
+          </p>
+        </div>
+      </section>
 
-        {/* CAREER PROGRESSION */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
-            Career Progression
-          </h2>
+      {/* CAREER PROGRESSION (tinted panel) */}
+      <section className="section-tinted border-y border-slate-200 py-14 sm:py-16 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-end justify-between mb-8 sm:mb-10 gap-4">
+            <div>
+              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+                Career progression
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+                From DFIR foundation to AI security.
+              </h2>
+            </div>
+          </div>
 
-          <ol className="relative border-l border-slate-200 ml-2 space-y-6">
+          <ol className="relative border-l-2 border-slate-300 ml-3 space-y-7 sm:space-y-8">
             {progression.map((p, i) => (
-              <li key={p.phase} className="pl-6 relative">
+              <li key={p.phase} className="pl-6 sm:pl-7 relative">
                 <span
                   aria-hidden
-                  className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-white border border-slate-400"
+                  className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${
+                    p.current
+                      ? "bg-blue-600 border-white shadow-[0_0_0_2px_rgb(37,99,235)]"
+                      : "bg-white border-slate-400"
+                  }`}
                 />
-                <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
-                  {`0${i + 1}`}
+                <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-slate-500">
+                    {`Phase 0${i + 1}`}
+                  </span>
+                  {p.current && (
+                    <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-blue-700 bg-blue-50 border border-blue-200 rounded px-1.5 py-0.5">
+                      Current
+                    </span>
+                  )}
+                </div>
+                <p className="text-[16px] sm:text-[17px] font-semibold text-slate-900 leading-snug">
+                  {p.phase}
                 </p>
-                <p className="text-[15px] font-semibold text-slate-900 mt-0.5">{p.phase}</p>
-                <p className="text-sm text-slate-600 mt-1 leading-relaxed">
-                  <span className="text-slate-800 font-medium">{p.where}.</span> {p.focus}
+                <p className="text-sm text-slate-700 mt-0.5">{p.where}</p>
+                <p className="text-sm text-slate-600 mt-1.5 leading-relaxed max-w-2xl">
+                  {p.focus}
                 </p>
-                <p className="text-xs text-slate-400 mt-1 font-mono">{p.period}</p>
+                <p className="text-xs font-mono text-slate-500 mt-1.5 tracking-wider">
+                  {p.period}
+                </p>
               </li>
             ))}
           </ol>
-        </section>
+        </div>
+      </section>
 
-        {/* WORK EXPERIENCE */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
+      {/* WORK EXPERIENCE (light) */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8 sm:mb-10">
             Work Experience
           </h2>
 
-          <div className="divide-y divide-slate-200 border-t border-b border-slate-200">
-            {work.map((w, i) => (
-              <article key={`${w.company}-${i}`} className="py-8">
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-                  <div>
-                    <h3 className="text-[17px] font-semibold text-slate-900 leading-tight">
-                      {w.company}
-                    </h3>
-                    <p className="text-slate-700 mt-0.5">{w.role}</p>
-                  </div>
-                  <p className="text-xs font-mono text-slate-500 tracking-wider">{w.dates}</p>
-                </div>
+          <div className="space-y-5 sm:space-y-6">
+            {work.map((w, i) => {
+              const isPrimary = w.emphasis === "primary";
+              return (
+                <article
+                  key={`${w.company}-${i}`}
+                  className={`rounded-xl bg-white border overflow-hidden ${
+                    isPrimary
+                      ? "border-slate-300 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+                      : "border-slate-200"
+                  }`}
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_11rem]">
+                    <div className={`p-5 sm:p-7 ${isPrimary ? "border-l-4 border-l-blue-600" : ""}`}>
+                      <div className="flex items-baseline flex-wrap gap-2">
+                        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 leading-tight">
+                          {w.company}
+                        </h3>
+                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                          {w.type}
+                        </span>
+                      </div>
+                      <p className="text-slate-700 text-[15px] mt-1">{w.role}</p>
 
-                <MetadataRow
-                  items={[
-                    { k: "Field", v: w.field },
-                    { k: "Type", v: w.type },
-                    { k: "Dates", v: w.dates },
-                  ]}
-                />
+                      <p className="mt-4 text-[15px] text-slate-600 leading-relaxed">
+                        {w.summary}
+                      </p>
 
-                <p className="mt-4 text-[15px] text-slate-600 leading-relaxed">
-                  {w.summary}
-                </p>
+                      {w.bullets && w.bullets.length > 0 && (
+                        <ul className="mt-4 space-y-1.5 text-[14.5px] text-slate-600">
+                          {w.bullets.map((b) => (
+                            <li key={b} className="flex gap-2">
+                              <span className="text-blue-500 select-none flex-shrink-0">·</span>
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
 
-                {w.bullets && w.bullets.length > 0 && (
-                  <ul className="mt-3 space-y-1.5 text-[15px] text-slate-600">
-                    {w.bullets.map((b) => (
-                      <li key={b} className="flex gap-2">
-                        <span className="text-slate-400 select-none flex-shrink-0">·</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                      {w.stack && w.stack.length > 0 && (
+                        <p className="mt-4 text-sm text-slate-500">
+                          <span className="text-slate-400">Tech: </span>
+                          {w.stack.join(", ")}
+                        </p>
+                      )}
 
-                {w.stack && w.stack.length > 0 && (
-                  <p className="mt-4 text-sm text-slate-500">
-                    <span className="text-slate-400">Tech: </span>
-                    {w.stack.join(", ")}
-                  </p>
-                )}
-
-                {w.img && (
-                  <button
-                    type="button"
-                    onClick={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
-                    className="group mt-5 block max-w-md w-full"
-                  >
-                    <div className="relative aspect-[4/3] w-full bg-white border border-slate-200 rounded overflow-hidden group-hover:border-slate-400 transition-colors">
-                      <Image
-                        src={w.img}
-                        alt={`${w.company} certificate`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 400px"
-                        className="object-contain p-3"
-                      />
+                      {w.img && (
+                        <div className="mt-5 max-w-md">
+                          <ZoomableImage
+                            src={w.img}
+                            alt={`${w.company} certificate`}
+                            onOpen={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
+                            aspect="aspect-[4/3]"
+                            fit="contain"
+                            padded
+                            sizes="(max-width: 768px) 100vw, 400px"
+                          />
+                        </div>
+                      )}
                     </div>
-                  </button>
-                )}
-              </article>
-            ))}
+
+                    {/* Right metadata rail */}
+                    <div className="bg-slate-50 border-t md:border-t-0 md:border-l border-slate-200 p-5 sm:p-6 flex flex-col gap-4 md:min-w-0">
+                      <div>
+                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Field</p>
+                        <p className="text-sm text-slate-800 mt-0.5">{w.field}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Type</p>
+                        <p className="text-sm text-slate-800 mt-0.5">{w.type}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Dates</p>
+                        <p className="text-sm text-slate-800 mt-0.5 font-mono">{w.dates}</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* PROJECTS */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
-            Projects
-          </h2>
+      {/* PROJECTS (subtle blue-tint) */}
+      <section className="section-tinted border-y border-slate-200 py-16 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
+            <div>
+              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+                Case files
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+                Projects.
+              </h2>
+            </div>
+            <p className="hidden sm:block text-sm text-slate-500 max-w-xs text-right">
+              Each project opens as a technical case study.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             {projects.map((proj, i) => (
               <button
                 type="button"
                 key={i}
                 onClick={() => setActiveProject(i)}
-                className="group text-left bg-white border border-slate-200 rounded p-5 hover:border-slate-400 transition-colors flex flex-col"
+                aria-label={`Open case file: ${proj.title}`}
+                className="group text-left bg-white border border-slate-300 rounded-lg p-5 sm:p-6 hover:border-blue-500 hover:shadow-[0_4px_14px_rgba(15,23,42,0.06)] transition-all flex flex-col"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-[15px] font-semibold text-slate-900 leading-snug">
+                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug">
                     {proj.title}
                   </h3>
                   {proj.link && (
@@ -650,84 +708,95 @@ export default function ExperiencePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-slate-400 hover:text-slate-700 flex-shrink-0 mt-0.5"
+                      className="text-slate-400 hover:text-blue-600 flex-shrink-0 mt-0.5"
                       aria-label="Open project link"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
                 </div>
-                <p className="text-xs font-mono text-slate-500 mt-1">
-                  {proj.type}, {proj.period}
+                <p className="text-xs font-mono text-slate-500 mt-1 tracking-wider">
+                  {proj.type} · {proj.period}
                 </p>
                 <p className="text-sm text-slate-600 mt-3 leading-relaxed">
                   {proj.desc}
                 </p>
+
                 {proj.img && (
-                  <div className="relative aspect-video w-full bg-slate-50 border border-slate-200 rounded mt-4 overflow-hidden">
-                    <Image
-                      src={proj.img}
-                      alt={`${proj.title} screenshot`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 320px"
-                      className="object-contain p-2"
-                    />
+                  <div className="mt-4">
+                    <div className="relative aspect-video w-full rounded-md overflow-hidden bg-slate-50 border border-slate-200">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={proj.img}
+                        alt={`${proj.title} screenshot`}
+                        className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                    </div>
                   </div>
                 )}
-                <p className="text-xs font-mono text-slate-400 mt-4 tracking-wider group-hover:text-slate-600 transition-colors">
-                  {proj.report.refId}
-                </p>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-slate-400 tracking-wider">
+                    {proj.report.refId}
+                  </span>
+                  <span className="text-[11px] text-blue-700 font-medium group-hover:underline">
+                    Open case file →
+                  </span>
+                </div>
               </button>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTF */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
+      {/* CTF (light) */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
             Capture The Flag
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8 sm:mb-10">
+            Competitions.
           </h2>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {ctfCompetitions.map((ctf, i) => (
-              <article key={i} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-4 sm:gap-5">
-                <button
-                  type="button"
-                  onClick={() => setLightbox({ src: ctf.img, alt: ctf.name })}
-                  className="group text-left"
-                >
-                  <div className="relative aspect-[4/3] w-full bg-white border border-slate-200 rounded overflow-hidden group-hover:border-slate-400 transition-colors">
-                    <Image
-                      src={ctf.img}
-                      alt={ctf.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 160px"
-                      className="object-cover"
-                    />
-                  </div>
-                </button>
+              <article
+                key={i}
+                className="grid grid-cols-1 sm:grid-cols-[14rem_1fr] gap-5 sm:gap-6 items-start"
+              >
+                <ZoomableImage
+                  src={ctf.img}
+                  alt={ctf.name}
+                  onOpen={() => setLightbox({ src: ctf.img, alt: ctf.name })}
+                  aspect="aspect-[4/3]"
+                  fit="cover"
+                  sizes="(max-width: 640px) 100vw, 220px"
+                />
 
                 <div>
-                  <h3 className="text-[15px] font-semibold text-slate-900 leading-snug">{ctf.name}</h3>
-                  <p className="text-xs font-mono text-slate-500 mt-1">
+                  <h3 className="text-[17px] font-semibold text-slate-900 leading-snug">
+                    {ctf.name}
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-1">
                     {ctf.organiser}, {ctf.year}
                   </p>
-                  <p className="text-sm text-slate-600 mt-2 leading-relaxed">{ctf.desc}</p>
+                  <p className="text-sm text-slate-600 mt-3 leading-relaxed">{ctf.desc}</p>
 
-                  <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1 mt-3 text-sm">
+                  <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 mt-4">
                     <div>
-                      <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Placement</dt>
-                      <dd className="text-slate-700">{ctf.placement}</dd>
+                      <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Placement</dt>
+                      <dd className="text-sm text-slate-800 mt-0.5 font-medium">{ctf.placement}</dd>
                     </div>
                     {ctf.metrics?.map((m) => (
                       <div key={m.k}>
-                        <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">{m.k}</dt>
-                        <dd className="text-slate-700">{m.v}</dd>
+                        <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-400">{m.k}</dt>
+                        <dd className="text-sm text-slate-800 mt-0.5 font-mono">{m.v}</dd>
                       </div>
                     ))}
                   </dl>
 
-                  <p className="mt-3 text-xs text-slate-500">
+                  <p className="mt-4 text-xs text-slate-500">
                     <span className="text-slate-400">Categories: </span>
                     {ctf.categories.join(", ")}
                   </p>
@@ -735,60 +804,63 @@ export default function ExperiencePage() {
               </article>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CCA & COMMUNITY */}
-        <section>
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
-            Co-Curricular &amp; Community Service
+      {/* CCA & COMMUNITY (light) */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 border-t border-slate-200">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+            Community
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8 sm:mb-10">
+            Co-Curricular &amp; Community Service.
           </h2>
 
           <div className="space-y-8">
             {ccaAndService.map((item, i) => (
               <article
                 key={i}
-                className={`grid grid-cols-1 gap-4 sm:gap-5 ${
-                  item.imgs.length > 0 ? "sm:grid-cols-[10rem_1fr]" : ""
+                className={`grid grid-cols-1 gap-5 items-start ${
+                  item.imgs.length > 0 ? "sm:grid-cols-[14rem_1fr]" : ""
                 }`}
               >
                 {item.imgs.length > 0 && (
-                  <div className={item.imgs.length > 1 ? "grid grid-cols-2 gap-2" : ""}>
+                  <div
+                    className={
+                      item.imgs.length > 1 ? "grid grid-cols-2 gap-2" : ""
+                    }
+                  >
                     {item.imgs.map((src) => (
-                      <button
-                        type="button"
+                      <ZoomableImage
                         key={src}
-                        onClick={() => setLightbox({ src, alt: item.title })}
-                        className="group"
-                      >
-                        <div className="relative aspect-[4/3] w-full bg-white border border-slate-200 rounded overflow-hidden group-hover:border-slate-400 transition-colors">
-                          <Image
-                            src={src}
-                            alt={item.title}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 160px"
-                            className="object-cover"
-                          />
-                        </div>
-                      </button>
+                        src={src}
+                        alt={item.title}
+                        onOpen={() => setLightbox({ src, alt: item.title })}
+                        aspect="aspect-[4/3]"
+                        fit="cover"
+                        sizes="(max-width: 640px) 100vw, 160px"
+                      />
                     ))}
                   </div>
                 )}
                 <div>
-                  <h3 className="text-[15px] font-semibold text-slate-900 leading-snug">
+                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="text-slate-700 text-sm mt-0.5">{item.role}</p>
-                  <p className="text-xs font-mono text-slate-500 mt-1">
+                  <p className="text-sm text-slate-700 mt-0.5">{item.role}</p>
+                  <p className="text-xs font-mono text-slate-500 mt-1 tracking-wider">
                     {item.org}, {item.period}
                   </p>
-                  <p className="text-sm text-slate-600 mt-2 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </article>
             ))}
           </div>
-        </section>
-
-      </div>
+        </div>
+      </section>
 
       <AnimatePresence>
         {modalProject && (
@@ -810,6 +882,6 @@ export default function ExperiencePage() {
           />
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

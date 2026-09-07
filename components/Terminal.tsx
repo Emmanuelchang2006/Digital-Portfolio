@@ -29,16 +29,16 @@ const OUTPUT_MAP: Record<string, RawLine[]> = {
   ],
   whoami: [
     { type: "output", content: "Emmanuel Chang. Cybersecurity & Digital Forensics student at Ngee Ann Polytechnic." },
-    { type: "output", content: "DFIR foundation, cybersecurity analysis, and AI security engineering experience." },
+    { type: "output", content: "DFIR foundation with cybersecurity analysis and AI security engineering experience." },
   ],
   skills: [
-    { type: "info",    content: "Security Operations" },
+    { type: "info",    content: "Security & DFIR" },
     { type: "output",  content: "  DFIR, Incident Response, IOC Investigation, Malware Analysis, Threat Intelligence" },
     { type: "divider", content: "" },
     { type: "info",    content: "Security Engineering" },
-    { type: "output",  content: "  Network Security, Secure Configuration, Authentication, Access Control" },
+    { type: "output",  content: "  Secure Configuration, Authentication, Access Control, Network Security" },
     { type: "divider", content: "" },
-    { type: "info",    content: "AI & Security" },
+    { type: "info",    content: "AI Security" },
     { type: "output",  content: "  LLM Security, AI Agents, MCP, AI-Assisted DFIR, Evidence-Grounded Workflows" },
     { type: "divider", content: "" },
     { type: "info",    content: "Engineering" },
@@ -142,19 +142,24 @@ export default function Terminal() {
 
   return (
     <div
-      className="rounded-md overflow-hidden border border-slate-200 bg-[#0f172a] font-mono text-[13px] cursor-text"
+      className="rounded-lg overflow-hidden border border-slate-800 bg-[color:var(--bg-dark-2)] font-mono text-[13px] cursor-text"
       onClick={() => inputRef.current?.focus()}
     >
-      <div
-        ref={outputRef}
-        className="px-4 sm:px-5 py-4 h-64 sm:h-72 overflow-y-auto"
-      >
+      {/* Header strip */}
+      <div className="flex items-center gap-2 px-4 py-2 bg-black/25 border-b border-slate-800 select-none">
+        <span className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+        <span className="w-2.5 h-2.5 rounded-full bg-slate-700" />
+        <span className="w-2.5 h-2.5 rounded-full bg-slate-700" />
+        <span className="ml-2 text-[10px] text-slate-500 tracking-wider">bash</span>
+      </div>
+
+      <div ref={outputRef} className="px-4 sm:px-5 py-4 h-64 sm:h-72 overflow-y-auto">
         {lines.map((line) => {
           switch (line.type) {
             case "prompt":
               return (
                 <div key={line.id} className="flex gap-2 leading-relaxed break-words">
-                  <span className="text-slate-500 whitespace-nowrap select-none">{PROMPT}</span>
+                  <span className="text-blue-400 whitespace-nowrap select-none">{PROMPT}</span>
                   <span className="text-slate-100 break-all">{line.content}</span>
                 </div>
               );
@@ -164,7 +169,7 @@ export default function Terminal() {
               );
             case "info":
               return (
-                <div key={line.id} className="text-slate-300 font-medium leading-relaxed">
+                <div key={line.id} className="text-blue-300 font-medium leading-relaxed">
                   {line.content}
                 </div>
               );
@@ -194,13 +199,13 @@ export default function Terminal() {
       </div>
 
       <div className="border-t border-slate-800 px-4 sm:px-5 py-2.5 flex items-center gap-2">
-        <span className="text-slate-500 whitespace-nowrap flex-shrink-0 select-none">{PROMPT}</span>
+        <span className="text-blue-400 whitespace-nowrap flex-shrink-0 select-none">{PROMPT}</span>
         <input
           ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
-          className="flex-1 min-w-0 bg-transparent outline-none text-slate-100 caret-slate-300 placeholder-slate-600"
+          className="flex-1 min-w-0 bg-transparent outline-none text-slate-100 caret-blue-400 placeholder-slate-600"
           placeholder="type a command"
           autoComplete="off"
           spellCheck={false}

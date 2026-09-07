@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 import { Download } from "lucide-react";
 import ImageLightbox from "@/components/ImageLightbox";
+import ZoomableImage from "@/components/ZoomableImage";
 
 /* Data */
 
@@ -38,27 +38,33 @@ const education = [
 
 const certifications = [
   {
-    title: "Certified LLM Security Expert (CLLMSE)",
+    title: "Certified LLM Security Expert",
+    subtitle: "CLLMSE",
     issuer: "Red Team Leaders",
     year: "2026",
+    focus: "LLM red-team fundamentals, prompt-injection and adversarial testing.",
     img: "/images/CLLMSE%20Certification.png",
   },
   {
     title: "DFIR Foundations and Security Techniques",
+    subtitle: "DFIR Foundations",
     issuer: "BlueCape Security",
     year: "2025",
+    focus: "Digital forensics fundamentals and incident response methodology.",
     img: "/images/Bluecape%20Security.jpg",
   },
   {
     title: "AWS Certified Cloud Practitioner",
+    subtitle: "AWS CCP",
     issuer: "Amazon Web Services",
     year: "2025",
+    focus: "Cloud fundamentals, shared responsibility, and core AWS services.",
     img: "/images/AWS%20CCP.jpg",
   },
 ];
 
 const awards = [
-  { title: 'Group-IB Outstanding Performance (6-Month Internship)', org: "Group-IB",                     year: "2025", img: "/images/Group%20IB%20Prize.jpg" },
+  { title: "Group-IB Outstanding Performance (6-Month Internship)", org: "Group-IB",                     year: "2025", img: "/images/Group%20IB%20Prize.jpg" },
   { title: "Director's List, AY2024/25 (Oct)",                       org: "Ngee Ann Polytechnic",         year: "2025", img: "/images/Director%20List%2020242025%20October.jpg" },
   { title: "EDUSAVE Certificate of Academic Achievement",            org: "Ministry of Education",        year: "2025", img: "/images/EDUSAVE%20Certificate%20of%20Achievement%202025.jpg" },
   { title: "EDUSAVE Merit Bursary",                                  org: "Ministry of Education",        year: "2025", img: "/images/EDUSAVE%20Merit%20bursary%202025.jpg" },
@@ -72,30 +78,54 @@ const awards = [
   { title: "EDUSAVE Merit Bursary",                                  org: "Ministry of Education",        year: "2019", img: "/images/EDUSAVE%20Merit%20bursary%202019.jpg" },
 ];
 
-const skillGroups: { label: string; items: string }[] = [
+const skillGroups = [
   {
-    label: "Security Operations",
-    items: "DFIR, Incident Response, IOC Investigation, Malware Analysis, Threat Intelligence",
+    label: "Security & DFIR",
+    items: [
+      "DFIR",
+      "Incident Response",
+      "IOC Investigation",
+      "Malware Analysis",
+      "Threat Intelligence",
+    ],
   },
   {
     label: "Security Engineering",
-    items: "Network Security, Secure Configuration, Authentication, Access Control, Vulnerability Assessment",
+    items: [
+      "Secure Configuration",
+      "Authentication",
+      "Access Control",
+      "Network Security",
+      "Vulnerability Assessment",
+    ],
   },
   {
-    label: "AI & Security",
-    items: "LLM Security, AI Agents, MCP, AI-Assisted DFIR, Evidence-Grounded Workflows",
+    label: "AI Security",
+    items: [
+      "LLM Security",
+      "AI Agents",
+      "MCP",
+      "AI-Assisted DFIR",
+      "Evidence-Grounded Workflows",
+    ],
   },
   {
-    label: "Cloud & Infrastructure",
-    items: "AWS, Linux, Windows, Networking",
+    label: "Infrastructure",
+    items: ["Linux", "Windows", "AWS", "Networking"],
   },
   {
     label: "Engineering",
-    items: "Python, TypeScript, JavaScript, Next.js, NestJS, PostgreSQL",
+    items: ["Python", "TypeScript", "JavaScript", "Next.js", "NestJS", "PostgreSQL"],
   },
   {
     label: "Professional",
-    items: "Technical Analysis, Documentation, Communication, Problem Solving, Team Collaboration",
+    items: [
+      "Technical Analysis",
+      "Documentation",
+      "Communication",
+      "Problem Solving",
+      "Team Collaboration",
+    ],
   },
 ];
 
@@ -103,159 +133,229 @@ export default function ResumePage() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   return (
-    <div className="pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
-      <div className="max-w-3xl mx-auto">
-
-        {/* Header */}
-        <header className="mb-14">
-          <h1 className="text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight mb-3">
+    <>
+      {/* Page header */}
+      <section className="pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
             Resume
-          </h1>
-          <p className="text-slate-600 max-w-xl leading-relaxed">
-            Education, certifications, awards and the technical toolkit
-            I actually use.
           </p>
-          <a
-            href="/EMMANUEL_CHANG_CV.pdf"
-            download="EMMANUEL_CHANG_CV.pdf"
-            className="inline-flex items-center gap-1.5 mt-6 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-md hover:bg-slate-800 transition-colors"
-          >
-            <Download className="w-3.5 h-3.5" />
-            Download PDF
-          </a>
-        </header>
+          <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
+            Education, certifications and skills.
+          </h1>
+          <div className="flex flex-wrap items-center gap-3 mt-6">
+            <a
+              href="/EMMANUEL_CHANG_CV.pdf"
+              download="EMMANUEL_CHANG_CV.pdf"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors shadow-sm"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Download PDF
+            </a>
+            <span className="text-xs font-mono text-slate-500 tracking-wider">
+              EMMANUEL_CHANG_CV.pdf
+            </span>
+          </div>
+        </div>
+      </section>
 
-        {/* EDUCATION */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
+      {/* Education (light) */}
+      <section className="py-12 sm:py-16 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8">
             Education
           </h2>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {education.map((edu, i) => (
-              <div key={i}>
-                <p className="text-xs font-mono text-slate-500 mb-1 tracking-wider">{edu.year}</p>
-                <h3 className="text-[17px] font-semibold text-slate-900 leading-snug">{edu.school}</h3>
-                <p className="text-slate-700 mt-0.5">{edu.diploma}</p>
+              <div
+                key={i}
+                className="rounded-xl bg-white border border-slate-200 p-6 sm:p-8"
+              >
+                <div className="flex items-baseline flex-wrap gap-3 mb-1">
+                  <h3 className="text-lg sm:text-xl font-semibold text-slate-900">
+                    {edu.school}
+                  </h3>
+                  <span className="text-xs font-mono text-slate-500 tracking-wider">
+                    {edu.year}
+                  </span>
+                </div>
+                <p className="text-slate-700 text-[15px]">{edu.diploma}</p>
 
                 {(edu.gpa || edu.details.length > 0) && (
                   <ul className="mt-3 text-sm text-slate-600 space-y-1">
-                    {edu.gpa && <li>{edu.gpa}</li>}
-                    {edu.details.map((d) => <li key={d}>{d}</li>)}
+                    {edu.gpa && (
+                      <li className="flex items-baseline gap-2">
+                        <span className="text-blue-500 select-none">·</span>
+                        <span>{edu.gpa}</span>
+                      </li>
+                    )}
+                    {edu.details.map((d) => (
+                      <li key={d} className="flex items-baseline gap-2">
+                        <span className="text-blue-500 select-none">·</span>
+                        <span>{d}</span>
+                      </li>
+                    ))}
                   </ul>
                 )}
 
                 {edu.certificates.length > 0 && (
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
-                    {edu.certificates.map((cert) => (
-                      <button
-                        type="button"
-                        key={cert.label}
-                        onClick={() => setLightbox({ src: cert.img, alt: cert.label })}
-                        className="group text-left"
-                      >
-                        <div className="relative aspect-[4/3] bg-white border border-slate-200 rounded overflow-hidden group-hover:border-slate-400 transition-colors">
-                          <Image
+                  <div className="mt-6">
+                    <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-3">
+                      Certificates
+                    </p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {edu.certificates.map((cert) => (
+                        <div key={cert.label}>
+                          <ZoomableImage
                             src={cert.img}
                             alt={cert.label}
-                            fill
+                            onOpen={() => setLightbox({ src: cert.img, alt: cert.label })}
+                            aspect="aspect-[4/3]"
+                            fit="contain"
+                            padded
                             sizes="(max-width: 640px) 45vw, 200px"
-                            className="object-contain p-2"
                           />
+                          <p className="mt-1.5 text-[11px] text-slate-500 leading-tight">
+                            {cert.label}
+                          </p>
                         </div>
-                        <p className="mt-1.5 text-[11px] text-slate-500 leading-tight">{cert.label}</p>
-                      </button>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CERTIFICATIONS */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
-            Certifications
+      {/* Certifications (tinted) */}
+      <section className="section-tinted border-y border-slate-200 py-16 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+            Credentials
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8">
+            Certifications.
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             {certifications.map((cert) => (
-              <button
-                type="button"
+              <article
                 key={cert.title}
-                onClick={() => setLightbox({ src: cert.img, alt: cert.title })}
-                className="group text-left"
+                className="rounded-lg bg-white border border-slate-300 overflow-hidden flex flex-col"
               >
-                <div className="relative aspect-[4/3] bg-white border border-slate-200 rounded overflow-hidden group-hover:border-slate-400 transition-colors">
-                  <Image
-                    src={cert.img}
-                    alt={cert.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 240px"
-                    className="object-contain p-3"
-                  />
-                </div>
-                <div className="mt-2">
-                  <p className="text-sm font-medium text-slate-900 leading-snug">{cert.title}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    {cert.issuer}, {cert.year}
+                <ZoomableImage
+                  src={cert.img}
+                  alt={cert.title}
+                  onOpen={() => setLightbox({ src: cert.img, alt: cert.title })}
+                  aspect="aspect-[4/3]"
+                  fit="contain"
+                  padded
+                  sizes="(max-width: 640px) 100vw, 260px"
+                  radius="rounded-none"
+                  className="border-0 border-b border-slate-200"
+                />
+                <div className="p-4 sm:p-5">
+                  <p className="text-[11px] font-mono uppercase tracking-wider text-blue-700 mb-1">
+                    {cert.subtitle}
+                  </p>
+                  <p className="text-sm font-semibold text-slate-900 leading-snug">
+                    {cert.title}
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {cert.issuer}, <span className="text-slate-700 font-medium">{cert.year}</span>
+                  </p>
+                  <p className="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                    {cert.focus}
                   </p>
                 </div>
-              </button>
+              </article>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* SKILLS & CAPABILITIES */}
-        <section className="mb-16">
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
-            Skills &amp; Capabilities
+      {/* Skills & Capabilities (dark navy) */}
+      <section className="section-dark py-16 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
+            <div>
+              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-400 mb-2">
+                What I bring
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
+                Skills &amp; Capabilities.
+              </h2>
+            </div>
+            <p className="hidden sm:block text-sm text-slate-400 max-w-xs text-right">
+              Grouped by domain. Only areas I actually work in.
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-[color:var(--bg-dark-2)] border border-slate-800 overflow-hidden">
+            <ul className="divide-y divide-slate-800">
+              {skillGroups.map((g) => (
+                <li
+                  key={g.label}
+                  className="grid grid-cols-1 sm:grid-cols-[12rem_1fr] gap-2 sm:gap-6 px-5 sm:px-7 py-4 sm:py-5"
+                >
+                  <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-400 self-start">
+                    {g.label}
+                  </p>
+                  <p className="text-slate-200 text-[15px] leading-relaxed">
+                    {g.items.map((it, i) => (
+                      <span key={it}>
+                        {it}
+                        {i < g.items.length - 1 && (
+                          <span className="text-slate-600 mx-1.5">·</span>
+                        )}
+                      </span>
+                    ))}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Awards (light) */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+            Recognition
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8">
+            Awards &amp; Achievements.
           </h2>
 
-          <dl className="divide-y divide-slate-100">
-            {skillGroups.map((g) => (
-              <div key={g.label} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-6 py-3">
-                <dt className="text-sm font-medium text-slate-900">{g.label}</dt>
-                <dd className="text-sm text-slate-600 leading-relaxed">{g.items}</dd>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+            {awards.map((award, i) => (
+              <div key={i} className="flex flex-col">
+                <ZoomableImage
+                  src={award.img}
+                  alt={award.title}
+                  onOpen={() => setLightbox({ src: award.img, alt: award.title })}
+                  aspect="aspect-[4/3]"
+                  fit="contain"
+                  padded
+                  sizes="(max-width: 640px) 45vw, 220px"
+                />
+                <div className="mt-2">
+                  <p className="text-[13px] font-medium text-slate-900 leading-snug">
+                    {award.title}
+                  </p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    {award.org}, <span className="text-slate-700 font-medium">{award.year}</span>
+                  </p>
+                </div>
               </div>
             ))}
-          </dl>
-        </section>
-
-        {/* AWARDS */}
-        <section>
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight mb-6 pb-2 border-b border-slate-200">
-            Awards &amp; Achievements
-          </h2>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {awards.map((award, i) => (
-              <button
-                type="button"
-                key={i}
-                onClick={() => setLightbox({ src: award.img, alt: award.title })}
-                className="group text-left"
-              >
-                <div className="relative aspect-[4/3] bg-white border border-slate-200 rounded overflow-hidden group-hover:border-slate-400 transition-colors">
-                  <Image
-                    src={award.img}
-                    alt={award.title}
-                    fill
-                    sizes="(max-width: 640px) 45vw, 200px"
-                    className="object-contain p-2"
-                  />
-                </div>
-                <div className="mt-1.5">
-                  <p className="text-[13px] font-medium text-slate-900 leading-snug">{award.title}</p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{award.org}, {award.year}</p>
-                </div>
-              </button>
-            ))}
           </div>
-        </section>
-
-      </div>
+        </div>
+      </section>
 
       <AnimatePresence>
         {lightbox && (
@@ -267,6 +367,6 @@ export default function ResumePage() {
           />
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

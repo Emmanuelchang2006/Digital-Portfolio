@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShieldCheck } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -25,20 +25,21 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-colors ${
         scrolled
-          ? "bg-[#fafafa]/95 border-b border-slate-200"
-          : "bg-[#fafafa] border-b border-transparent"
+          ? "bg-white/95 border-b border-slate-200"
+          : "bg-white/70 border-b border-transparent"
       }`}
     >
-      <nav className="max-w-5xl mx-auto px-4 sm:px-6">
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
-          <Link
-            href="/"
-            className="font-semibold text-slate-900 text-[15px] tracking-tight"
-            aria-label="Home"
-          >
-            Emmanuel Chang
+          <Link href="/" className="flex items-center gap-2 group" aria-label="Home">
+            <span className="w-7 h-7 rounded-md bg-slate-900 flex items-center justify-center">
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+            </span>
+            <span className="font-semibold text-slate-900 text-[15px] tracking-tight">
+              Emmanuel Chang
+            </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
@@ -48,13 +49,19 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1.5 text-sm transition-colors ${
+                  className={`relative px-3 py-1.5 text-sm transition-colors ${
                     isActive
                       ? "text-slate-900 font-medium"
                       : "text-slate-500 hover:text-slate-900"
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <span
+                      aria-hidden
+                      className="absolute left-3 right-3 -bottom-0.5 h-0.5 bg-blue-600 rounded-full"
+                    />
+                  )}
                 </Link>
               );
             })}
@@ -81,8 +88,8 @@ export default function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={`block px-3 py-3 text-[15px] rounded-md ${
                     isActive
-                      ? "text-slate-900 font-medium bg-slate-100"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                      ? "text-slate-900 font-medium bg-blue-50 border border-blue-200"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent"
                   }`}
                 >
                   {link.label}

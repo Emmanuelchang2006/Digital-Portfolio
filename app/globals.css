@@ -1,56 +1,62 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --accent: #2563eb;
+  /* Surfaces */
+  --bg:          #fafbfd;   /* base off-white */
+  --bg-tinted:   #eef2f8;   /* pale blue-slate for tinted sections */
+  --bg-dark:     #0b1220;   /* deep navy */
+  --bg-dark-2:   #10192c;   /* elevated dark surface */
+  --surface:     #ffffff;
+
+  /* Text */
+  --text:        #0f172a;
+  --muted:       #64748b;
+  --muted-2:     #94a3b8;
+
+  /* Borders */
+  --border:      #dbe1eb;
+  --border-2:    #c6cfdc;
+  --border-dark: #1e293b;
+
+  /* Accents */
+  --accent:      #2563eb;   /* electric blue */
+  --accent-2:    #4f46e5;   /* indigo */
+  --cyan:        #22d3ee;   /* used very sparingly */
+
+  --foreground:  var(--text);
+  --background:  var(--bg);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-space-grotesk), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Custom scrollbar (kept, minimal) */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Focus rings kept minimal, deliberate */
+/* Focus */
 :focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* Print for resume */
+/* A single tokenised class for the pale blue-slate tinted section */
+.section-tinted { background: var(--bg-tinted); }
+.section-dark   { background: var(--bg-dark); color: #e2e8f0; }
+
+/* Print */
 @media print {
   header, footer, .no-print { display: none !important; }
   body { background: white !important; }

@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Emmanuel Chang | Cybersecurity & Security Engineering",
   description:
-    "Portfolio of Emmanuel Chang, Cybersecurity and Digital Forensics student with experience in DFIR, cybersecurity analysis, and AI security engineering.",
+    "Portfolio of Emmanuel Chang. DFIR foundation with experience across cybersecurity analysis, AI security engineering, incident management systems and security assurance.",
   keywords: [
     "cybersecurity",
     "digital forensics",
@@ -38,7 +38,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spaceGrotesk.variable}>
-      <body className="bg-[#fafafa] text-slate-900 antialiased selection:bg-blue-100">
+      <body className="bg-[color:var(--bg)] text-slate-900 antialiased selection:bg-blue-100">
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
