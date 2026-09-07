@@ -25,50 +25,48 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-colors ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
         scrolled
-          ? "bg-white/95 border-b border-slate-200"
-          : "bg-white/70 border-b border-transparent"
+          ? "bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-[0_2px_10px_-6px_rgba(15,23,42,0.08)]"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
-          <Link href="/" className="flex items-center gap-2 group" aria-label="Home">
-            <span className="w-7 h-7 rounded-md bg-slate-900 flex items-center justify-center">
-              <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 group"
+            aria-label="Home"
+          >
+            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-sm shadow-blue-500/30">
+              <ShieldCheck className="w-4 h-4 text-white" />
             </span>
             <span className="font-semibold text-slate-900 text-[15px] tracking-tight">
               Emmanuel Chang
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-slate-100/60 border border-slate-200/70">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3 py-1.5 text-sm transition-colors ${
+                  className={`relative px-3.5 py-1.5 text-sm rounded-full transition-colors ${
                     isActive
-                      ? "text-slate-900 font-medium"
-                      : "text-slate-500 hover:text-slate-900"
+                      ? "text-white bg-gradient-to-br from-blue-600 to-indigo-700 shadow-sm shadow-blue-500/25 font-medium"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
                   {link.label}
-                  {isActive && (
-                    <span
-                      aria-hidden
-                      className="absolute left-3 right-3 -bottom-0.5 h-0.5 bg-blue-600 rounded-full"
-                    />
-                  )}
                 </Link>
               );
             })}
           </div>
 
           <button
-            className="md:hidden w-10 h-10 rounded-md flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+            className="md:hidden w-10 h-10 rounded-lg flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
@@ -78,7 +76,7 @@ export default function Navbar() {
         </div>
 
         {isOpen && (
-          <div className="md:hidden border-t border-slate-200 py-2">
+          <div className="md:hidden border-t border-slate-200 py-2 bg-white/95 backdrop-blur">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -86,10 +84,10 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-3 text-[15px] rounded-md ${
+                  className={`block px-3 py-3 text-[15px] rounded-lg ${
                     isActive
-                      ? "text-slate-900 font-medium bg-blue-50 border border-blue-200"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent"
+                      ? "text-white font-medium bg-gradient-to-br from-blue-600 to-indigo-700"
+                      : "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
                   }`}
                 >
                   {link.label}

@@ -142,15 +142,15 @@ export default function Terminal() {
 
   return (
     <div
-      className="rounded-lg overflow-hidden border border-slate-800 bg-[color:var(--bg-dark-2)] font-mono text-[13px] cursor-text"
+      className="rounded-2xl overflow-hidden border border-slate-800 bg-[color:var(--bg-dark-2)] font-mono text-[13px] cursor-text shadow-2xl shadow-blue-950/40 ring-1 ring-blue-500/10"
       onClick={() => inputRef.current?.focus()}
     >
       {/* Header strip */}
-      <div className="flex items-center gap-2 px-4 py-2 bg-black/25 border-b border-slate-800 select-none">
-        <span className="w-2.5 h-2.5 rounded-full bg-slate-600" />
-        <span className="w-2.5 h-2.5 rounded-full bg-slate-700" />
-        <span className="w-2.5 h-2.5 rounded-full bg-slate-700" />
-        <span className="ml-2 text-[10px] text-slate-500 tracking-wider">bash</span>
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-black/30 border-b border-slate-800 select-none">
+        <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
+        <span className="ml-2 text-[10px] text-slate-500 tracking-wider">bash · emmanuel-chang</span>
       </div>
 
       <div ref={outputRef} className="px-4 sm:px-5 py-4 h-64 sm:h-72 overflow-y-auto">

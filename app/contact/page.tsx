@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, Send, CheckCircle2, AlertCircle, ShieldCheck } from "lucide-react";
+import { Mail, Phone, Send, CheckCircle2, AlertCircle, ShieldCheck, MessageSquare } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 type FormState = "idle" | "submitting" | "success" | "error";
@@ -63,10 +63,11 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Page header (light) */}
-      <section className="pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
+      {/* Header */}
+      <section className="hero-glow pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2 flex items-center gap-2">
+            <MessageSquare className="w-3 h-3" />
             Get in touch
           </p>
           <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
@@ -82,70 +83,80 @@ export default function ContactPage() {
       {/* Body */}
       <section className="pb-16 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[19rem_1fr] gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6 sm:gap-8">
 
-            {/* Contact details as dark navy panel */}
-            <aside className="section-dark rounded-xl border border-slate-800 p-5 sm:p-6 self-start">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="w-6 h-6 rounded bg-white/5 border border-slate-800 flex items-center justify-center">
-                  <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-                </span>
-                <span className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-300">
-                  Contact details
-                </span>
-              </div>
+            {/* Contact details as dark navy panel with blue glow */}
+            <aside className="relative overflow-hidden rounded-2xl border border-slate-800 section-dark-glow p-5 sm:p-6 self-start shadow-xl shadow-blue-900/20">
+              <div className="absolute inset-0 tech-grid-dark opacity-30 pointer-events-none" aria-hidden />
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-md shadow-blue-500/25">
+                    <ShieldCheck className="w-4 h-4 text-white" />
+                  </span>
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-[0.22em] text-blue-300">
+                      Contact
+                    </p>
+                    <p className="text-sm font-semibold text-white">Direct channels</p>
+                  </div>
+                </div>
 
-              <ul className="space-y-4">
-                {contactDetails.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.label}>
-                      <a
-                        href={item.href}
-                        target={item.href.startsWith("http") ? "_blank" : undefined}
-                        rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        className="group flex items-start gap-3"
-                      >
-                        <Icon className="w-4 h-4 text-slate-500 group-hover:text-blue-300 flex-shrink-0 mt-1 transition-colors" />
-                        <div className="min-w-0">
-                          <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                            {item.label}
-                          </p>
-                          <p className="text-sm text-slate-200 group-hover:text-white transition-colors break-all">
-                            {item.value}
-                          </p>
-                        </div>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+                <ul className="space-y-4">
+                  {contactDetails.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          target={item.href.startsWith("http") ? "_blank" : undefined}
+                          rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="group flex items-start gap-3"
+                        >
+                          <span className="w-8 h-8 rounded-lg bg-white/[0.06] border border-slate-800 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/15 group-hover:border-blue-500/40 transition-all">
+                            <Icon className="w-4 h-4 text-slate-400 group-hover:text-blue-300 transition-colors" />
+                          </span>
+                          <div className="min-w-0 pt-0.5">
+                            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                              {item.label}
+                            </p>
+                            <p className="text-sm text-slate-200 group-hover:text-white transition-colors break-all">
+                              {item.value}
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
 
-              <div className="mt-6 pt-4 border-t border-slate-800">
-                <p className="flex items-center gap-2 text-xs text-slate-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Available for internships &amp; roles
-                </p>
-                <p className="text-xs text-slate-500 mt-2">Response within 24 hours</p>
+                <div className="mt-6 pt-4 border-t border-slate-800">
+                  <p className="flex items-center gap-2 text-xs text-slate-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Available for internships &amp; roles
+                  </p>
+                  <p className="text-xs text-slate-500 mt-2">Response within 24 hours</p>
+                </div>
               </div>
             </aside>
 
-            {/* Form (light card) */}
-            <div className="rounded-xl bg-white border border-slate-200 p-6 sm:p-8 shadow-sm">
+            {/* Form */}
+            <div className="rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 shadow-lg shadow-blue-500/5">
               <h2 className="text-lg font-semibold text-slate-900 mb-6 tracking-tight">
                 Send a message
               </h2>
 
               {formState === "success" ? (
                 <div className="py-10 text-center">
-                  <CheckCircle2 className="w-9 h-9 text-blue-600 mx-auto mb-3" />
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30">
+                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  </div>
                   <h3 className="text-base font-semibold text-slate-900 mb-1">Message sent</h3>
                   <p className="text-sm text-slate-500 max-w-xs mx-auto">
                     I&apos;ll get back to you within 24 hours.
                   </p>
                   <button
                     onClick={() => setFormState("idle")}
-                    className="mt-6 px-4 py-2 text-sm text-slate-700 border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                    className="btn-outline mt-6 px-4 py-2 text-sm"
                   >
                     Send another
                   </button>
@@ -165,7 +176,7 @@ export default function ContactPage() {
                         value={form.name}
                         onChange={handleChange}
                         placeholder="Jane Smith"
-                        className="w-full px-3 py-2.5 rounded-md border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 transition-all"
                       />
                     </div>
                     <div>
@@ -180,7 +191,7 @@ export default function ContactPage() {
                         value={form.email}
                         onChange={handleChange}
                         placeholder="jane@company.com"
-                        className="w-full px-3 py-2.5 rounded-md border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 transition-all"
                       />
                     </div>
                   </div>
@@ -195,7 +206,7 @@ export default function ContactPage() {
                       required
                       value={form.subject}
                       onChange={handleChange}
-                      className="w-full px-3 py-2.5 rounded-md border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 transition-all"
                     >
                       <option value="" disabled>Select a subject</option>
                       <option value="internship">Internship</option>
@@ -217,12 +228,12 @@ export default function ContactPage() {
                       value={form.message}
                       onChange={handleChange}
                       placeholder="Tell me about the opportunity, project, or your question."
-                      className="w-full px-3 py-2.5 rounded-md border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 resize-none transition-colors"
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 resize-none transition-all"
                     />
                   </div>
 
                   {formState === "error" && (
-                    <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-700">
+                    <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
                       <AlertCircle className="w-4 h-4 flex-shrink-0" />
                       Something went wrong. Please try again or email directly.
                     </div>
@@ -231,7 +242,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={formState === "submitting"}
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-sm"
+                    className="btn-primary inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {formState === "submitting" ? (
                       <>

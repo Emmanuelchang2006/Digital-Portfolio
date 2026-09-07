@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, GraduationCap, BadgeCheck, Award, Sparkles, ArrowRight } from "lucide-react";
 import ImageLightbox from "@/components/ImageLightbox";
 import ZoomableImage from "@/components/ZoomableImage";
 
@@ -81,33 +81,15 @@ const awards = [
 const skillGroups = [
   {
     label: "Security & DFIR",
-    items: [
-      "DFIR",
-      "Incident Response",
-      "IOC Investigation",
-      "Malware Analysis",
-      "Threat Intelligence",
-    ],
+    items: ["DFIR", "Incident Response", "IOC Investigation", "Malware Analysis", "Threat Intelligence"],
   },
   {
     label: "Security Engineering",
-    items: [
-      "Secure Configuration",
-      "Authentication",
-      "Access Control",
-      "Network Security",
-      "Vulnerability Assessment",
-    ],
+    items: ["Secure Configuration", "Authentication", "Access Control", "Network Security", "Vulnerability Assessment"],
   },
   {
     label: "AI Security",
-    items: [
-      "LLM Security",
-      "AI Agents",
-      "MCP",
-      "AI-Assisted DFIR",
-      "Evidence-Grounded Workflows",
-    ],
+    items: ["LLM Security", "AI Agents", "MCP", "AI-Assisted DFIR", "Evidence-Grounded Workflows"],
   },
   {
     label: "Infrastructure",
@@ -119,23 +101,39 @@ const skillGroups = [
   },
   {
     label: "Professional",
-    items: [
-      "Technical Analysis",
-      "Documentation",
-      "Communication",
-      "Problem Solving",
-      "Team Collaboration",
-    ],
+    items: ["Technical Analysis", "Documentation", "Communication", "Problem Solving", "Team Collaboration"],
   },
 ];
+
+function SectionHeader({
+  eyebrow,
+  title,
+  icon: Icon,
+}: {
+  eyebrow: string;
+  title: string;
+  icon?: React.ElementType;
+}) {
+  return (
+    <div className="mb-8 sm:mb-10">
+      <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2 flex items-center gap-2">
+        {Icon && <Icon className="w-3 h-3" />}
+        {eyebrow}
+      </p>
+      <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+        {title}
+      </h2>
+    </div>
+  );
+}
 
 export default function ResumePage() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   return (
     <>
-      {/* Page header */}
-      <section className="pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
+      {/* Header */}
+      <section className="hero-glow pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
             Resume
@@ -147,7 +145,7 @@ export default function ResumePage() {
             <a
               href="/EMMANUEL_CHANG_CV.pdf"
               download="EMMANUEL_CHANG_CV.pdf"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors shadow-sm"
+              className="btn-primary inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium"
             >
               <Download className="w-3.5 h-3.5" />
               Download PDF
@@ -159,18 +157,16 @@ export default function ResumePage() {
         </div>
       </section>
 
-      {/* Education (light) */}
+      {/* Education */}
       <section className="py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8">
-            Education
-          </h2>
+          <SectionHeader eyebrow="Academics" title="Education" icon={GraduationCap} />
 
           <div className="space-y-6">
             {education.map((edu, i) => (
               <div
                 key={i}
-                className="rounded-xl bg-white border border-slate-200 p-6 sm:p-8"
+                className="rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300"
               >
                 <div className="flex items-baseline flex-wrap gap-3 mb-1">
                   <h3 className="text-lg sm:text-xl font-semibold text-slate-900">
@@ -187,7 +183,7 @@ export default function ResumePage() {
                     {edu.gpa && (
                       <li className="flex items-baseline gap-2">
                         <span className="text-blue-500 select-none">·</span>
-                        <span>{edu.gpa}</span>
+                        <span className="font-semibold text-blue-800">{edu.gpa}</span>
                       </li>
                     )}
                     {edu.details.map((d) => (
@@ -215,6 +211,7 @@ export default function ResumePage() {
                             fit="contain"
                             padded
                             sizes="(max-width: 640px) 45vw, 200px"
+                            radius="rounded-xl"
                           />
                           <p className="mt-1.5 text-[11px] text-slate-500 leading-tight">
                             {cert.label}
@@ -230,21 +227,16 @@ export default function ResumePage() {
         </div>
       </section>
 
-      {/* Certifications (tinted) */}
-      <section className="section-tinted border-y border-slate-200 py-16 sm:py-20 px-4 sm:px-6">
+      {/* Certifications */}
+      <section className="section-tinted border-y border-blue-100/70 py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
-            Credentials
-          </p>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8">
-            Certifications.
-          </h2>
+          <SectionHeader eyebrow="Credentials" title="Certifications." icon={BadgeCheck} />
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             {certifications.map((cert) => (
               <article
                 key={cert.title}
-                className="rounded-lg bg-white border border-slate-300 overflow-hidden flex flex-col"
+                className="group rounded-2xl bg-white border border-blue-100 overflow-hidden flex flex-col hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <ZoomableImage
                   src={cert.img}
@@ -255,13 +247,13 @@ export default function ResumePage() {
                   padded
                   sizes="(max-width: 640px) 100vw, 260px"
                   radius="rounded-none"
-                  className="border-0 border-b border-slate-200"
+                  className="border-0 border-b border-slate-200 rounded-none"
                 />
-                <div className="p-4 sm:p-5">
+                <div className="p-5">
                   <p className="text-[11px] font-mono uppercase tracking-wider text-blue-700 mb-1">
                     {cert.subtitle}
                   </p>
-                  <p className="text-sm font-semibold text-slate-900 leading-snug">
+                  <p className="text-sm font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
                     {cert.title}
                   </p>
                   <p className="text-xs text-slate-500 mt-1">
@@ -278,11 +270,13 @@ export default function ResumePage() {
       </section>
 
       {/* Skills & Capabilities (dark navy) */}
-      <section className="section-dark py-16 sm:py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
+      <section className="section-dark-glow py-16 sm:py-20 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 tech-grid-dark opacity-40 pointer-events-none" aria-hidden />
+        <div className="relative max-w-5xl mx-auto">
           <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
             <div>
-              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-400 mb-2">
+              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-300 mb-2 flex items-center gap-2">
+                <Sparkles className="w-3 h-3" />
                 What I bring
               </p>
               <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
@@ -294,26 +288,26 @@ export default function ResumePage() {
             </p>
           </div>
 
-          <div className="rounded-xl bg-[color:var(--bg-dark-2)] border border-slate-800 overflow-hidden">
+          <div className="rounded-2xl bg-[color:var(--bg-dark-2)]/80 backdrop-blur-sm border border-slate-800 overflow-hidden shadow-2xl shadow-blue-950/50">
             <ul className="divide-y divide-slate-800">
               {skillGroups.map((g) => (
                 <li
                   key={g.label}
-                  className="grid grid-cols-1 sm:grid-cols-[12rem_1fr] gap-2 sm:gap-6 px-5 sm:px-7 py-4 sm:py-5"
+                  className="grid grid-cols-1 sm:grid-cols-[12rem_1fr] gap-2 sm:gap-6 px-5 sm:px-7 py-4 sm:py-5 hover:bg-white/[0.02] transition-colors"
                 >
                   <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-400 self-start">
                     {g.label}
                   </p>
-                  <p className="text-slate-200 text-[15px] leading-relaxed">
-                    {g.items.map((it, i) => (
-                      <span key={it}>
+                  <div className="flex flex-wrap gap-1.5">
+                    {g.items.map((it) => (
+                      <span
+                        key={it}
+                        className="text-[13px] text-slate-200 bg-white/[0.04] border border-slate-800 rounded-lg px-2.5 py-1"
+                      >
                         {it}
-                        {i < g.items.length - 1 && (
-                          <span className="text-slate-600 mx-1.5">·</span>
-                        )}
                       </span>
                     ))}
-                  </p>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -321,15 +315,10 @@ export default function ResumePage() {
         </div>
       </section>
 
-      {/* Awards (light) */}
+      {/* Awards */}
       <section className="py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
-            Recognition
-          </p>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8">
-            Awards &amp; Achievements.
-          </h2>
+          <SectionHeader eyebrow="Recognition" title="Awards &amp; Achievements." icon={Award} />
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {awards.map((award, i) => (
@@ -342,6 +331,7 @@ export default function ResumePage() {
                   fit="contain"
                   padded
                   sizes="(max-width: 640px) 45vw, 220px"
+                  radius="rounded-xl"
                 />
                 <div className="mt-2">
                   <p className="text-[13px] font-medium text-slate-900 leading-snug">
@@ -353,6 +343,20 @@ export default function ResumePage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10 pt-6 border-t border-slate-200 flex items-center justify-between">
+            <p className="text-sm text-slate-500">
+              For the full curriculum vitae, download the PDF.
+            </p>
+            <a
+              href="/EMMANUEL_CHANG_CV.pdf"
+              download="EMMANUEL_CHANG_CV.pdf"
+              className="inline-flex items-center gap-1.5 text-sm text-blue-700 hover:text-blue-900 font-medium"
+            >
+              Download PDF
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
           </div>
         </div>
       </section>

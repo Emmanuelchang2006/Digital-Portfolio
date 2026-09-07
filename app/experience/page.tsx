@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowRight, Briefcase, FolderGit2, Swords, HeartHandshake, MapPin } from "lucide-react";
 import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectModal";
 import ImageLightbox from "@/components/ImageLightbox";
 import ZoomableImage from "@/components/ZoomableImage";
@@ -11,7 +11,7 @@ import ZoomableImage from "@/components/ZoomableImage";
    WORK EXPERIENCE
 ────────────────────────────── */
 
-type Emphasis = "primary" | "secondary" | "quiet";
+type Emphasis = "primary" | "quiet";
 
 interface WorkItem {
   role: string;
@@ -37,7 +37,7 @@ const work: WorkItem[] = [
       "Contributed to an AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system.",
     bullets: [
       "Security-assessed authentication, authorization and capability-based access control across the Next.js BFF and NestJS backend.",
-      "Validated frontend and backend integration, API contracts, and audit paths against product and security requirements.",
+      "Validated frontend and backend integration, API contracts and audit paths against product and security requirements.",
       "Reviewed architecture and implementation against expected security behaviour and identified authorization and capability mismatches.",
       "Evaluated AI-agent behaviour and evidence-grounded workflows for cybersecurity assurance, including evidence ingestion, control assessment and audit analysis.",
     ],
@@ -85,11 +85,11 @@ const work: WorkItem[] = [
     type: "Internship",
     dates: "Sep 2025 to Jan 2026",
     summary:
-      "Performed forensic casework and live incident response on Windows and Linux endpoints to identify indicators of compromise. Contributed to the design of a 40-VM cyber range for strategic partners and prototyped an agentic-DFIR capability using Velociraptor and LLM tooling via MCP.",
+      "Performed forensic casework and live incident response on Windows and Linux endpoints to identify indicators of compromise. Contributed to the design of a virtualised cyber range for strategic partners and prototyped an agentic-DFIR capability using Velociraptor and LLM tooling via MCP.",
     bullets: [
       "Endpoint IOC investigation across Windows and Linux hosts.",
       "Prototyped agentic-DFIR workflows combining Velociraptor with LLM tooling over MCP.",
-      "Contributed to the design of a 40-VM cyber range for multi-stage threat simulation.",
+      "Contributed to the design of a virtualised cyber range for multi-stage threat simulation.",
     ],
     stack: ["Velociraptor", "MCP", "LLMs", "KAPE", "Windows / Linux", "VMware"],
     img: "/images/STENG%20Certificate%20of%20completion.jpg",
@@ -136,7 +136,7 @@ const progression = [
   {
     phase: "AI Security Engineering",
     where: "Tangent9",
-    focus: "AI security, incident-management systems, and cybersecurity assurance workflows.",
+    focus: "AI security, incident-management systems and cybersecurity assurance workflows.",
     period: "Jul 2026 to Sep 2026",
     current: true,
   },
@@ -495,6 +495,37 @@ const ccaAndService: CcaEntry[] = [
 ];
 
 /* ─────────────────────────────
+   Small section header
+────────────────────────────── */
+
+function SectionHeader({
+  eyebrow,
+  title,
+  icon: Icon,
+  right,
+}: {
+  eyebrow: string;
+  title: string;
+  icon?: React.ElementType;
+  right?: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
+      <div>
+        <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2 flex items-center gap-2">
+          {Icon && <Icon className="w-3 h-3" />}
+          {eyebrow}
+        </p>
+        <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+          {title}
+        </h2>
+      </div>
+      {right}
+    </div>
+  );
+}
+
+/* ─────────────────────────────
    PAGE
 ────────────────────────────── */
 
@@ -514,8 +545,8 @@ export default function ExperiencePage() {
 
   return (
     <>
-      {/* Page Header */}
-      <section className="pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
+      {/* Page Header (hero-glow) */}
+      <section className="hero-glow pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
             Experience
@@ -530,37 +561,34 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      {/* CAREER PROGRESSION (tinted panel) */}
-      <section className="section-tinted border-y border-slate-200 py-14 sm:py-16 px-4 sm:px-6">
+      {/* CAREER PROGRESSION (tinted) */}
+      <section className="section-tinted border-y border-blue-100/70 py-14 sm:py-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-end justify-between mb-8 sm:mb-10 gap-4">
-            <div>
-              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
-                Career progression
-              </p>
-              <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
-                From DFIR foundation to AI security.
-              </h2>
-            </div>
-          </div>
+          <SectionHeader
+            eyebrow="Career progression"
+            title="From DFIR foundation to AI security."
+            icon={MapPin}
+          />
 
-          <ol className="relative border-l-2 border-slate-300 ml-3 space-y-7 sm:space-y-8">
+          <ol className="relative border-l-2 border-blue-200 ml-3 space-y-7 sm:space-y-8">
             {progression.map((p, i) => (
-              <li key={p.phase} className="pl-6 sm:pl-7 relative">
+              <li key={p.phase} className="pl-6 sm:pl-8 relative">
                 <span
                   aria-hidden
-                  className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${
+                  className={`absolute -left-[11px] top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                     p.current
-                      ? "bg-blue-600 border-white shadow-[0_0_0_2px_rgb(37,99,235)]"
-                      : "bg-white border-slate-400"
+                      ? "bg-gradient-to-br from-blue-500 to-indigo-600 border-white shadow-lg shadow-blue-500/40"
+                      : "bg-white border-blue-300"
                   }`}
-                />
+                >
+                  {p.current && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                </span>
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
                   <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-slate-500">
                     {`Phase 0${i + 1}`}
                   </span>
                   {p.current && (
-                    <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-blue-700 bg-blue-50 border border-blue-200 rounded px-1.5 py-0.5">
+                    <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-blue-700 bg-blue-100/70 border border-blue-200 rounded px-1.5 py-0.5">
                       Current
                     </span>
                   )}
@@ -584,9 +612,11 @@ export default function ExperiencePage() {
       {/* WORK EXPERIENCE (light) */}
       <section className="py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8 sm:mb-10">
-            Work Experience
-          </h2>
+          <SectionHeader
+            eyebrow="Work"
+            title="Work Experience"
+            icon={Briefcase}
+          />
 
           <div className="space-y-5 sm:space-y-6">
             {work.map((w, i) => {
@@ -594,16 +624,20 @@ export default function ExperiencePage() {
               return (
                 <article
                   key={`${w.company}-${i}`}
-                  className={`rounded-xl bg-white border overflow-hidden ${
+                  className={`group rounded-2xl bg-white border overflow-hidden transition-all duration-300 ${
                     isPrimary
-                      ? "border-slate-300 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
-                      : "border-slate-200"
+                      ? "border-blue-100 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-0.5"
+                      : "border-slate-200 hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5"
                   }`}
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-[1fr_11rem]">
-                    <div className={`p-5 sm:p-7 ${isPrimary ? "border-l-4 border-l-blue-600" : ""}`}>
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_12rem]">
+                    <div
+                      className={`p-6 sm:p-7 relative ${
+                        isPrimary ? "md:border-l-4 md:border-l-blue-500" : ""
+                      }`}
+                    >
                       <div className="flex items-baseline flex-wrap gap-2">
-                        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 leading-tight">
+                        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 leading-tight group-hover:text-blue-800 transition-colors">
                           {w.company}
                         </h3>
                         <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
@@ -628,10 +662,16 @@ export default function ExperiencePage() {
                       )}
 
                       {w.stack && w.stack.length > 0 && (
-                        <p className="mt-4 text-sm text-slate-500">
-                          <span className="text-slate-400">Tech: </span>
-                          {w.stack.join(", ")}
-                        </p>
+                        <div className="mt-5 flex flex-wrap gap-1.5">
+                          {w.stack.map((t) => (
+                            <span
+                              key={t}
+                              className="text-[11px] font-mono text-blue-800 bg-blue-50 border border-blue-100 rounded px-1.5 py-0.5"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
                       )}
 
                       {w.img && (
@@ -650,10 +690,16 @@ export default function ExperiencePage() {
                     </div>
 
                     {/* Right metadata rail */}
-                    <div className="bg-slate-50 border-t md:border-t-0 md:border-l border-slate-200 p-5 sm:p-6 flex flex-col gap-4 md:min-w-0">
+                    <div
+                      className={`p-5 sm:p-6 border-t md:border-t-0 md:border-l flex flex-col gap-4 ${
+                        isPrimary
+                          ? "bg-gradient-to-br from-blue-50 to-indigo-50/40 border-blue-100"
+                          : "bg-slate-50 border-slate-200"
+                      }`}
+                    >
                       <div>
                         <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Field</p>
-                        <p className="text-sm text-slate-800 mt-0.5">{w.field}</p>
+                        <p className="text-sm text-slate-800 mt-0.5 font-medium">{w.field}</p>
                       </div>
                       <div>
                         <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Type</p>
@@ -672,22 +718,19 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      {/* PROJECTS (subtle blue-tint) */}
-      <section className="section-tinted border-y border-slate-200 py-16 sm:py-20 px-4 sm:px-6">
+      {/* PROJECTS (tinted) */}
+      <section className="section-tinted border-y border-blue-100/70 py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
-            <div>
-              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
-                Case files
+          <SectionHeader
+            eyebrow="Case files"
+            title="Projects."
+            icon={FolderGit2}
+            right={
+              <p className="hidden sm:block text-sm text-slate-500 max-w-xs text-right">
+                Each project opens as a technical case study.
               </p>
-              <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
-                Projects.
-              </h2>
-            </div>
-            <p className="hidden sm:block text-sm text-slate-500 max-w-xs text-right">
-              Each project opens as a technical case study.
-            </p>
-          </div>
+            }
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             {projects.map((proj, i) => (
@@ -696,10 +739,10 @@ export default function ExperiencePage() {
                 key={i}
                 onClick={() => setActiveProject(i)}
                 aria-label={`Open case file: ${proj.title}`}
-                className="group text-left bg-white border border-slate-300 rounded-lg p-5 sm:p-6 hover:border-blue-500 hover:shadow-[0_4px_14px_rgba(15,23,42,0.06)] transition-all flex flex-col"
+                className="group text-left bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug">
+                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
                     {proj.title}
                   </h3>
                   {proj.link && (
@@ -722,25 +765,35 @@ export default function ExperiencePage() {
                   {proj.desc}
                 </p>
 
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {proj.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="text-[11px] font-mono text-slate-600 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
                 {proj.img && (
-                  <div className="mt-4">
-                    <div className="relative aspect-video w-full rounded-md overflow-hidden bg-slate-50 border border-slate-200">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={proj.img}
-                        alt={`${proj.title} screenshot`}
-                        className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
-                      />
-                    </div>
+                  <div className="mt-4 relative aspect-video w-full rounded-xl overflow-hidden bg-slate-50 border border-slate-200">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={proj.img}
+                      alt={`${proj.title} screenshot`}
+                      className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
                   </div>
                 )}
 
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-[11px] font-mono text-slate-400 tracking-wider">
                     {proj.report.refId}
                   </span>
-                  <span className="text-[11px] text-blue-700 font-medium group-hover:underline">
-                    Open case file →
+                  <span className="text-[11px] text-blue-700 font-medium inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                    Open case file
+                    <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
               </button>
@@ -752,18 +805,17 @@ export default function ExperiencePage() {
       {/* CTF (light) */}
       <section className="py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
-            Capture The Flag
-          </p>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8 sm:mb-10">
-            Competitions.
-          </h2>
+          <SectionHeader
+            eyebrow="Capture The Flag"
+            title="Competitions."
+            icon={Swords}
+          />
 
           <div className="space-y-6 sm:space-y-8">
             {ctfCompetitions.map((ctf, i) => (
               <article
                 key={i}
-                className="grid grid-cols-1 sm:grid-cols-[14rem_1fr] gap-5 sm:gap-6 items-start"
+                className="group grid grid-cols-1 sm:grid-cols-[15rem_1fr] gap-5 sm:gap-6 items-start bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <ZoomableImage
                   src={ctf.img}
@@ -771,11 +823,12 @@ export default function ExperiencePage() {
                   onOpen={() => setLightbox({ src: ctf.img, alt: ctf.name })}
                   aspect="aspect-[4/3]"
                   fit="cover"
-                  sizes="(max-width: 640px) 100vw, 220px"
+                  sizes="(max-width: 640px) 100vw, 240px"
+                  radius="rounded-xl"
                 />
 
                 <div>
-                  <h3 className="text-[17px] font-semibold text-slate-900 leading-snug">
+                  <h3 className="text-[17px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
                     {ctf.name}
                   </h3>
                   <p className="text-sm text-slate-500 mt-1">
@@ -786,7 +839,7 @@ export default function ExperiencePage() {
                   <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 mt-4">
                     <div>
                       <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Placement</dt>
-                      <dd className="text-sm text-slate-800 mt-0.5 font-medium">{ctf.placement}</dd>
+                      <dd className="text-sm text-blue-800 mt-0.5 font-semibold">{ctf.placement}</dd>
                     </div>
                     {ctf.metrics?.map((m) => (
                       <div key={m.k}>
@@ -807,22 +860,21 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      {/* CCA & COMMUNITY (light) */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 border-t border-slate-200">
+      {/* CCA & COMMUNITY (tinted) */}
+      <section className="section-tinted border-t border-blue-100/70 py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
-            Community
-          </p>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight mb-8 sm:mb-10">
-            Co-Curricular &amp; Community Service.
-          </h2>
+          <SectionHeader
+            eyebrow="Community"
+            title="Co-Curricular &amp; Community Service."
+            icon={HeartHandshake}
+          />
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {ccaAndService.map((item, i) => (
               <article
                 key={i}
-                className={`grid grid-cols-1 gap-5 items-start ${
-                  item.imgs.length > 0 ? "sm:grid-cols-[14rem_1fr]" : ""
+                className={`group grid grid-cols-1 gap-5 items-start bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300 ${
+                  item.imgs.length > 0 ? "sm:grid-cols-[15rem_1fr]" : ""
                 }`}
               >
                 {item.imgs.length > 0 && (
@@ -840,12 +892,13 @@ export default function ExperiencePage() {
                         aspect="aspect-[4/3]"
                         fit="cover"
                         sizes="(max-width: 640px) 100vw, 160px"
+                        radius="rounded-xl"
                       />
                     ))}
                   </div>
                 )}
                 <div>
-                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug">
+                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-sm text-slate-700 mt-0.5">{item.role}</p>

@@ -2,26 +2,28 @@
 
 :root {
   /* Surfaces */
-  --bg:          #fafbfd;   /* base off-white */
-  --bg-tinted:   #eef2f8;   /* pale blue-slate for tinted sections */
-  --bg-dark:     #0b1220;   /* deep navy */
-  --bg-dark-2:   #10192c;   /* elevated dark surface */
+  --bg:          #f7f9fc;   /* base off-white with very light cool tint */
+  --bg-tinted:   #eaf0fb;   /* light blue tint for tinted bands */
+  --bg-tinted-2: #f2f6fd;   /* lighter blue tint for gradient tails */
+  --bg-dark:     #0a1428;   /* deep navy */
+  --bg-dark-2:   #111d38;   /* elevated dark surface */
   --surface:     #ffffff;
 
   /* Text */
   --text:        #0f172a;
-  --muted:       #64748b;
-  --muted-2:     #94a3b8;
+  --muted:       #475569;
+  --muted-2:     #64748b;
 
   /* Borders */
-  --border:      #dbe1eb;
-  --border-2:    #c6cfdc;
-  --border-dark: #1e293b;
+  --border:      #dbe4f0;
+  --border-blue: #b8ccec;
+  --border-dark: #1e2b47;
 
   /* Accents */
-  --accent:      #2563eb;   /* electric blue */
-  --accent-2:    #4f46e5;   /* indigo */
-  --cyan:        #22d3ee;   /* used very sparingly */
+  --accent:      #2563eb;   /* electric blue (blue-600) */
+  --accent-2:    #4f46e5;   /* indigo (indigo-600) */
+  --accent-3:    #6366f1;   /* indigo-500 */
+  --cyan:        #22d3ee;   /* cyan-400 */
 
   --foreground:  var(--text);
   --background:  var(--bg);
@@ -39,24 +41,136 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Scrollbar */
+/* ─────────────────────────────────────────
+   Section surfaces
+───────────────────────────────────────── */
+
+.section-tinted {
+  background:
+    linear-gradient(180deg, var(--bg-tinted) 0%, var(--bg-tinted-2) 100%);
+}
+
+.section-dark {
+  background: var(--bg-dark);
+  color: #e2e8f0;
+}
+
+.section-dark-glow {
+  position: relative;
+  background:
+    radial-gradient(ellipse 700px 400px at 15% 0%,   rgba(37,99,235,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 700px 400px at 85% 100%, rgba(79,70,229,0.16) 0%, transparent 60%),
+    var(--bg-dark);
+  color: #e2e8f0;
+}
+
+/* Hero ambient glow behind hero text (subtle, no cursor tracking) */
+.hero-glow {
+  position: relative;
+  isolation: isolate;
+}
+.hero-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 900px 500px at 25% 15%, rgba(37,99,235,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 700px 400px at 80% 30%, rgba(79,70,229,0.08) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Very faint technical grid used ONLY inside dark navy surfaces to add depth */
+.tech-grid-dark {
+  background-image:
+    linear-gradient(rgba(148,163,184,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148,163,184,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─────────────────────────────────────────
+   Card presets
+───────────────────────────────────────── */
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+.card:hover {
+  border-color: rgba(37,99,235,0.40);
+  box-shadow:
+    0 10px 25px -8px rgba(37,99,235,0.12),
+    0 6px 12px -6px rgba(15,23,42,0.06);
+  transform: translateY(-2px);
+}
+
+.card-gradient {
+  background:
+    linear-gradient(135deg, #1e40af 0%, #2563eb 40%, #4f46e5 100%);
+  color: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 40px -20px rgba(37,99,235,0.45);
+}
+
+.card-dark {
+  background: var(--bg-dark-2);
+  border: 1px solid var(--border-dark);
+  border-radius: 1rem;
+  color: #e2e8f0;
+}
+
+/* ─────────────────────────────────────────
+   Buttons
+───────────────────────────────────────── */
+
+.btn-primary {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border-radius: 0.625rem;
+  box-shadow: 0 6px 16px -8px rgba(37,99,235,0.5);
+  transition: filter 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px -10px rgba(37,99,235,0.55);
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.625rem;
+  transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+}
+.btn-outline:hover {
+  border-color: #2563eb;
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Focus */
+/* ─────────────────────────────────────────
+   Focus
+───────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-/* A single tokenised class for the pale blue-slate tinted section */
-.section-tinted { background: var(--bg-tinted); }
-.section-dark   { background: var(--bg-dark); color: #e2e8f0; }
-
-/* Print */
+/* ─────────────────────────────────────────
+   Print
+───────────────────────────────────────── */
 @media print {
   header, footer, .no-print { display: none !important; }
   body { background: white !important; }
