@@ -23,7 +23,10 @@ body {
 }
 
 /* Soft blue forensic atmosphere sitting behind everything.
-   Very restrained (4-7% opacity) so it reads as depth, not colour. */
+   The first (primary) radial gently follows the pointer via --mx / --my
+   set by <AmbientCursor />. The other two are static counter-radials so
+   the composition never feels "spotlight-like" and never boxy. On touch
+   / reduced-motion the vars are absent and the defaults (15%, 10%) win. */
 body::before {
   content: "";
   position: fixed;
@@ -31,9 +34,23 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 1000px 700px at 15% 5%,  rgba(37,99,235,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse 900px 650px at 90% 30%,  rgba(79,70,229,0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 800px 500px at 40% 100%, rgba(37,99,235,0.04) 0%, transparent 55%);
+    radial-gradient(
+      ellipse 1400px 1000px at var(--mx, 15%) var(--my, 10%),
+      rgba(37, 99, 235, 0.09) 0%,
+      rgba(37, 99, 235, 0.02) 45%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 1100px 800px at calc(100% - var(--mx, 15%)) calc(100% - var(--my, 10%)),
+      rgba(79, 70, 229, 0.06) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 900px 600px at 50% 100%,
+      rgba(37, 99, 235, 0.03) 0%,
+      transparent 60%
+    );
+  transition: background 200ms linear;
 }
 
 /* ─────────────────────────────────────────

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, GraduationCap, Award, Monitor, Users, ZoomIn, BadgeCheck } from "lucide-react";
+import { Download, GraduationCap, Award, Users, ZoomIn, BadgeCheck } from "lucide-react";
 import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
@@ -111,7 +111,7 @@ const awards = [
   },
 ];
 
-/* ── Certifications (BlueCape featured, then CLLMSE and AWS CCP) ── */
+/* ── Certifications: three equal-footprint credential tiles ── */
 type Certification = {
   title: string;
   short: string;
@@ -119,7 +119,6 @@ type Certification = {
   year: string;
   focus: string;
   img: string;
-  featured?: boolean;
 };
 
 const certifications: Certification[] = [
@@ -131,7 +130,6 @@ const certifications: Certification[] = [
     focus:
       "Digital forensics fundamentals, incident response methodology and structured evidence handling.",
     img: "/images/Bluecape%20Security.jpg",
-    featured: true,
   },
   {
     title: "Certified LLM Security Expert (CLLMSE)",
@@ -153,94 +151,47 @@ const certifications: Certification[] = [
   },
 ];
 
-const techCategories: { label: string; tools: string[]; style: "dark" | "blue" }[] = [
+/* ── Skills (compact editorial: labelled groups, inline text) ── */
+const technicalSkills: { label: string; items: string }[] = [
   {
-    label: "Digital Forensics Incident Response (DFIR)",
-    style: "dark",
-    tools: [
-      "EnCase",
-      "FTK Imager",
-      "PhotoRec",
-      "Velociraptor",
-      "CrowdStrike Falcon",
-      "KAPE",
-      "Magnet AXIOM",
-      "Endpoint analysis (Windows/Linux IOC investigation)",
-      "Velociraptor + LLM integration (MCP-based workflows)",
-      "Large-scale cyber range simulation (40-VM environment)",
-    ],
+    label: "Cybersecurity & DFIR",
+    items:
+      "Digital Forensics · Incident Response · IOC Investigation · Malware Analysis · MITRE ATT&CK",
   },
   {
-    label: "Malware Analysis",
-    style: "dark",
-    tools: [
-      "Process Explorer",
-      "Process Monitor",
-      "Dependency Walker",
-      "x64 Debuggers",
-      "Behavioral malware analysis and reporting",
-    ],
+    label: "Security Engineering",
+    items:
+      "Authentication · RBAC · Capability-based Authorization · Secure Configuration · Vulnerability Assessment",
   },
   {
-    label: "Network & Infrastructure Security",
-    style: "dark",
-    tools: [
-      "Palo Alto Firewall configuration",
-      "VPN setup (site-to-site)",
-      "Internal network segmentation",
-      "Access control design",
-    ],
+    label: "AI Security",
+    items:
+      "LLM Security · AI Agent Evaluation · Evidence-grounded Assurance · MCP",
   },
   {
-    label: "Cloud Security",
-    style: "blue",
-    tools: [
-      "AWS Cloud fundamentals",
-      "AWS Certified Cloud Practitioner",
-    ],
+    label: "Cloud & Infrastructure",
+    items:
+      "AWS · Windows · Linux · Networking · Palo Alto Firewall · Site-to-site VPN",
   },
   {
-    label: "Vulnerability Management",
-    style: "dark",
-    tools: [
-      "Nmap",
-      "Nikto",
-      "Kali Linux",
-      "Burp Suite",
-      "OWASP ZAP",
-      "CVSS-based vulnerability scoring and triage",
-    ],
+    label: "Tooling",
+    items:
+      "Velociraptor · KAPE · FTK Imager · Magnet AXIOM · EnCase · Burp Suite · OWASP ZAP · Nmap · Wireshark",
   },
   {
-    label: "Programming Languages",
-    style: "blue",
-    tools: [
-      "Python",
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "C#",
-    ],
+    label: "Programming",
+    items: "Python · TypeScript · JavaScript · C# · Next.js · NestJS · PostgreSQL",
   },
 ];
 
 const softSkills = [
-  {
-    skill: "Leadership & Management",
-    desc: "NPCC Vice-Chairman, Altar Boys Society President, House Leader — event planning, logistics coordination, and training camp management.",
-  },
-  {
-    skill: "Communication & Stakeholder Management",
-    desc: "Cross-functional teamwork in cybersecurity projects; client communication, requirement gathering, documentation, and legal assistant experience.",
-  },
-  {
-    skill: "Mentorship & Community Impact",
-    desc: "Digital literacy volunteer (Singpass / HealthHub training for seniors), Tennis Coach, and Orientation Leader.",
-  },
-  {
-    skill: "Analytical Thinking & Adaptability",
-    desc: "Malware reverse engineering, CVSS scoring, firewall topology design, and rapid adoption of emerging technologies including LLM + DFIR integration.",
-  },
+  "Analytical Thinking",
+  "Problem Solving",
+  "Investigation",
+  "Communication",
+  "Documentation",
+  "Teamwork",
+  "Adaptability",
 ];
 
 function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementType; title: string; subtitle?: string }) {
@@ -381,67 +332,52 @@ export default function ResumePage() {
             subtitle="Industry credentials, DFIR, AI security and cloud"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {certifications.map((cert, i) => {
-              const isFeatured = !!cert.featured;
-              return (
-                <motion.article
-                  key={cert.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className={`group bg-white rounded-xl overflow-hidden flex flex-col transition-all duration-300 ${
-                    isFeatured
-                      ? "md:col-span-3 border border-blue-200 shadow-md hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 ring-1 ring-blue-500/10"
-                      : "md:col-span-2 border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5"
-                  }`}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {certifications.map((cert, i) => (
+              <motion.article
+                key={cert.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="group bg-white rounded-xl overflow-hidden flex flex-col border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300"
+              >
+                {/* Same-size frame for every certificate: aspect-[4/3], object-contain, consistent padding + background */}
+                <button
+                  type="button"
+                  onClick={() => setLightbox({ src: cert.img, alt: cert.title })}
+                  className="relative w-full aspect-[4/3] bg-slate-50 border-b border-slate-100 group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  aria-label={`View ${cert.title} certificate`}
                 >
-                  <button
-                    type="button"
-                    onClick={() => setLightbox({ src: cert.img, alt: cert.title })}
-                    className={`relative w-full bg-slate-50 border-b border-slate-100 group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-                      isFeatured ? "aspect-[16/10]" : "aspect-[4/3]"
-                    }`}
-                    aria-label={`View ${cert.title} certificate`}
-                  >
-                    <Image
-                      src={cert.img}
-                      alt={cert.title}
-                      fill
-                      sizes={isFeatured ? "(max-width: 768px) 100vw, 60vw" : "(max-width: 768px) 100vw, 40vw"}
-                      className="object-contain p-3 group-hover/img:opacity-85 transition-opacity duration-200"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-200">
-                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                        <ZoomIn className="w-4 h-4 text-white" />
-                      </div>
+                  <Image
+                    src={cert.img}
+                    alt={cert.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                    className="object-contain p-4 group-hover/img:opacity-85 transition-opacity duration-200"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-200">
+                    <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                      <ZoomIn className="w-4 h-4 text-white" />
                     </div>
-                  </button>
-                  <div className="p-4 flex flex-col flex-1">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-100 rounded px-1.5 py-0.5">
-                        {cert.short}
-                      </span>
-                      {isFeatured && (
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-600">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-                    <p className={`font-semibold text-slate-900 leading-snug ${isFeatured ? "text-base" : "text-sm"}`}>
-                      {cert.title}
-                    </p>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      {cert.issuer} · <span className="text-slate-700 font-medium">{cert.year}</span>
-                    </p>
-                    <p className="text-[12.5px] text-slate-500 mt-2 leading-relaxed">
-                      {cert.focus}
-                    </p>
                   </div>
-                </motion.article>
-              );
-            })}
+                </button>
+                <div className="p-4 flex flex-col flex-1">
+                  <span className="self-start text-[10px] font-mono uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-100 rounded px-1.5 py-0.5 mb-1.5">
+                    {cert.short}
+                  </span>
+                  <p className="text-sm font-semibold text-slate-900 leading-snug">
+                    {cert.title}
+                  </p>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {cert.issuer} · <span className="text-slate-700 font-medium">{cert.year}</span>
+                  </p>
+                  <p className="text-[12.5px] text-slate-500 mt-2 leading-relaxed">
+                    {cert.focus}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </motion.section>
 
@@ -492,41 +428,7 @@ export default function ResumePage() {
           </div>
         </motion.section>
 
-        {/* ── Technical Proficiency ── */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
-        >
-          <SectionHeader icon={Monitor} title="Technical Proficiency" subtitle="Tools, platforms, and technologies" />
-
-          {techCategories.map((cat, catIdx) => (
-            <div key={cat.label} className={catIdx < techCategories.length - 1 ? "mb-6" : ""}>
-              <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
-                {cat.label}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {cat.tools.map((tool) => (
-                  <motion.span
-                    key={tool}
-                    whileHover={{ scale: 1.05 }}
-                    className={
-                      cat.style === "blue"
-                        ? "px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono font-semibold rounded-lg cursor-default hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"
-                        : "px-3 py-1.5 bg-slate-100 text-slate-700 border border-slate-200 text-xs font-mono font-medium rounded-lg cursor-default hover:bg-slate-200 transition-all duration-200"
-                    }
-                  >
-                    {tool}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </motion.section>
-
-        {/* ── Professional Competencies ── */}
+        {/* ── Skills (unified: Technical + Soft, compact editorial) ── */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -534,25 +436,34 @@ export default function ResumePage() {
           transition={{ duration: 0.5 }}
           className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
         >
-          <SectionHeader icon={Users} title="Professional Competencies" subtitle="Leadership, communication, and analytical skills" />
+          <SectionHeader icon={Users} title="Skills" subtitle="Technical skills and how I work" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {softSkills.map((item, i) => (
-              <motion.div
-                key={item.skill}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-blue-200 transition-colors duration-200"
-              >
-                <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
-                <div>
-                  <p className="font-semibold text-slate-900 text-sm">{item.skill}</p>
-                  <p className="text-slate-500 text-xs mt-0.5">{item.desc}</p>
+          {/* Technical skills */}
+          <div className="mb-8">
+            <h3 className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-widest mb-4">
+              Technical
+            </h3>
+            <dl className="divide-y divide-slate-100">
+              {technicalSkills.map((group) => (
+                <div
+                  key={group.label}
+                  className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-6 py-3"
+                >
+                  <dt className="text-sm font-semibold text-slate-900">{group.label}</dt>
+                  <dd className="text-sm text-slate-600 leading-relaxed">{group.items}</dd>
                 </div>
-              </motion.div>
-            ))}
+              ))}
+            </dl>
+          </div>
+
+          {/* Soft skills */}
+          <div className="pt-6 border-t border-slate-100">
+            <h3 className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-widest mb-3">
+              Soft
+            </h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              {softSkills.join(" · ")}
+            </p>
           </div>
         </motion.section>
 

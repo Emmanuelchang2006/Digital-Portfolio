@@ -27,8 +27,8 @@ interface Internship {
   period: string;
   location: string;
   type: string;
-  desc: string;
-  tags: string[];
+  bullets: string[];
+  tags?: string[];
   img?: string;
   emphasis: Emphasis;
 }
@@ -40,9 +40,14 @@ const internships: Internship[] = [
     period: "Jul 2026 – Sep 2026",
     location: "Singapore",
     type: "Contract",
-    desc: "Contributed to Tangent9's AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system. Focus areas included authentication, RBAC and capability-based authorization across the Next.js BFF and NestJS backend; requirements and architecture analysis; API integration; testing and validation of incident-triage, SLA-monitoring, knowledge-management and audit paths; and evaluation of AI-agent behaviour for cybersecurity assurance (AssureIQ-style evidence-grounded workflows: evidence ingestion, control assessment, cross-referencing, audit analysis and evidence-grounded reporting).",
-    tags: ["Next.js", "TypeScript", "NestJS", "PostgreSQL", "BFF", "LLM Agents", "Capability-based Authz", "RBAC", "AssureIQ"],
-    img: undefined,
+    bullets: [
+      "Contributed to an AI-powered incident management platform, focused on security assessment and validation of AI-enabled cybersecurity workflows.",
+      "Reviewed authentication, RBAC and capability-based authorization across the Next.js BFF and NestJS backend.",
+      "Integrated frontend and backend flows across incident triage, SLA monitoring, knowledge management and audit paths.",
+      "Evaluated AI-agent behaviour and evidence-grounded assurance workflows (AssureIQ) covering evidence ingestion, control assessment and audit analysis.",
+      "Identified authorization and integration issues through targeted testing and validation.",
+    ],
+    tags: ["Next.js", "NestJS", "PostgreSQL", "LLM Agents", "RBAC", "AssureIQ"],
     emphasis: "featured",
   },
   {
@@ -51,19 +56,26 @@ const internships: Internship[] = [
     period: "Aug 2026 – Sep 2026",
     location: "Singapore",
     type: "Contractor",
-    desc: "Applied cybersecurity knowledge to technical configuration work. Focused on secure-configuration principles including SSH configuration, AES / encryption concepts, and translating security requirements into practical, defensible configuration decisions. The role emphasised practical security judgement rather than the operation of dedicated security tooling.",
+    bullets: [
+      "Applied cybersecurity knowledge to technical configuration work.",
+      "Followed secure-configuration principles across SSH access and encryption (AES) practices.",
+      "Translated security requirements into practical, defensible configuration decisions.",
+    ],
     tags: ["SSH", "AES / Encryption", "Secure Configuration"],
-    img: undefined,
     emphasis: "primary",
   },
   {
-    role: "Junior Digital Forensics & Incident Response Specialist Intern",
-    company: "ST Engineering Info-Security Pte Ltd",
+    role: "Junior DFIR Specialist Intern",
+    company: "ST Engineering Info-Security",
     period: "Sep 2025 – Jan 2026",
     location: "Singapore",
     type: "Internship",
-    desc: "Performed forensic casework and live incident response on Windows and Linux endpoints to identify Indicators of Compromise (IOCs). Contributed to the design of a virtualised cyber range for strategic partners, including infrastructure design and multi-stage threat simulation. Researched and prototyped an 'Agentic DFIR' capability to automate telemetry analysis using forensic APIs and AI models.",
-    tags: ["Velociraptor API", "Windows / Linux", "Virtual Machines", "Large Language Models", "MCP"],
+    bullets: [
+      "Performed forensic casework and live incident response on Windows and Linux endpoints to identify IOCs.",
+      "Contributed to the design of a virtualised cyber range with multi-stage threat simulation.",
+      "Prototyped an agentic-DFIR capability combining Velociraptor with LLM tooling over MCP.",
+    ],
+    tags: ["Velociraptor", "Windows / Linux", "MCP", "LLMs"],
     img: "/images/STENG%20Certificate%20of%20completion.jpg",
     emphasis: "primary",
   },
@@ -73,20 +85,21 @@ const internships: Internship[] = [
     period: "Feb 2026 – Apr 2026",
     location: "Singapore",
     type: "Internship",
-    desc: "Managed end-to-end sales cycle including sourcing pharmaceutical products, negotiating pricing, and client fulfilment. Prepared Certificates of Analysis (COA), Proforma Invoices (PI), and Sales Contracts (SC).",
-    tags: ["Microsoft Word", "Microsoft Excel"],
-    img: undefined,
+    bullets: [
+      "Managed end-to-end sales cycle including product sourcing, pricing and client fulfilment.",
+      "Prepared COAs, Proforma Invoices and Sales Contracts.",
+    ],
     emphasis: "quiet",
   },
   {
-    role: "Freelance Assistant",
-    company: "R. Tiwary & Company Advocates & Solicitors",
+    role: "Freelance Legal Assistant",
+    company: "R. Tiwary & Company Advocates",
     period: "Jan 2023 – Dec 2025",
     location: "Singapore",
     type: "Freelance",
-    desc: "Provided administrative and operational support to a legal firm. Assisted in drafting, formatting, and preparing legal documents.",
-    tags: ["Microsoft Word"],
-    img: undefined,
+    bullets: [
+      "Supported drafting, formatting and preparation of legal documents.",
+    ],
     emphasis: "quiet",
   },
 ];
@@ -683,11 +696,16 @@ export default function ExperiencePage() {
                     </span>
                   </div>
 
-                  <p className={`text-slate-600 leading-relaxed ${isQuiet ? "text-[13px]" : "text-sm"}`}>
-                    {item.desc}
-                  </p>
+                  <ul className={`space-y-1.5 mt-1 ${isQuiet ? "text-[13px]" : "text-sm"} text-slate-600`}>
+                    {item.bullets.map((b) => (
+                      <li key={b} className="flex gap-2 leading-relaxed">
+                        <span className="text-blue-500 select-none flex-shrink-0 mt-1">·</span>
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-                  {!isQuiet && item.tags.length > 0 && (
+                  {!isQuiet && item.tags && item.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mt-3">
                       {item.tags.map((t) => <TagPill key={t} label={t} />)}
                     </div>
@@ -794,7 +812,7 @@ export default function ExperiencePage() {
           </div>
         </section>
 
-        {/* ── CTF Competitions ── */}
+        {/* ── CTF Competitions (compact evidence gallery) ── */}
         <section className="mb-12">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
@@ -805,58 +823,62 @@ export default function ExperiencePage() {
             <SectionHeader
               icon={Swords}
               title="Capture The Flag"
-              subtitle="Competitive cybersecurity challenge events"
+              subtitle="Competitive cybersecurity events, latest first"
             />
           </motion.div>
 
-          <div className="space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ctfCompetitions.map((ctf, i) => (
-              <CardWrapper key={i} delay={i * 0.08}>
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">{ctf.name}</h3>
-                    <p className="text-blue-600 font-semibold text-sm">{ctf.organiser}</p>
-                  </div>
-                  <div className="flex flex-col items-start sm:items-end gap-1">
-                    <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
-                      {ctf.placement}
-                    </span>
-                    <span className="text-xs text-slate-400">{ctf.year}</span>
-                  </div>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">{ctf.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {ctf.categories.map((cat) => (
-                    <span key={cat} className="px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-mono rounded-full border border-purple-200">
-                      {cat}
-                    </span>
-                  ))}
-                </div>
+              <motion.article
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
+              >
                 {ctf.img && (
-                  <div
-                    className="relative h-52 rounded-xl overflow-hidden bg-slate-100 mt-4 cursor-pointer group"
-                    onClick={() => setLightbox({ src: ctf.img!, alt: `${ctf.name} certificate` })}
+                  <button
+                    type="button"
+                    onClick={() => setLightbox({ src: ctf.img, alt: `${ctf.name} certificate` })}
+                    className="relative w-full aspect-[16/10] bg-slate-50 border-b border-slate-100 group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    aria-label={`View ${ctf.name} certificate`}
                   >
                     <Image
                       src={ctf.img}
                       alt={`${ctf.name} certificate`}
                       fill
-                      sizes="(max-width: 768px) 100vw, 600px"
-                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-contain p-2 group-hover/img:opacity-85 transition-opacity duration-200"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                        <ZoomIn className="w-5 h-5 text-white" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-200">
+                      <div className="w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-4 h-4 text-white" />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 )}
-              </CardWrapper>
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="text-[15px] font-bold text-slate-900 leading-snug">{ctf.name}</h3>
+                    <span className="flex-shrink-0 text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                      {ctf.placement}
+                    </span>
+                  </div>
+                  <p className="text-[11.5px] text-slate-500">
+                    {ctf.organiser} · {ctf.year}
+                  </p>
+                  <p className="text-[13px] text-slate-600 leading-relaxed mt-2">{ctf.desc}</p>
+                  <p className="text-[11px] font-mono text-slate-500 mt-3 pt-3 border-t border-slate-100">
+                    {ctf.categories.join(" · ")}
+                  </p>
+                </div>
+              </motion.article>
             ))}
           </div>
         </section>
 
-        {/* ── CCA & Community Service ── */}
+        {/* ── CCA & Community Service (compact 2-col grid) ── */}
         <section>
           <motion.div
             initial={{ opacity: 0, x: -16 }}
@@ -871,67 +893,68 @@ export default function ExperiencePage() {
             />
           </motion.div>
 
-          <div className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {ccaAndService.map((item, i) => (
-              <CardWrapper key={i} delay={i * 0.08}>
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
-                    <p className="text-blue-600 font-semibold text-sm">{item.org}</p>
-                  </div>
-                  <span className="self-start px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full flex-shrink-0 border border-emerald-200">
-                    {item.role}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 text-xs text-slate-400 mb-3">
-                  <Calendar className="w-3.5 h-3.5" />
-                  {item.period}
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+              <motion.article
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow hover:border-blue-200 transition-all duration-300 overflow-hidden flex flex-col"
+              >
                 {item.imgs.length === 1 && (
-                  <div
-                    className="relative h-56 rounded-xl overflow-hidden bg-slate-100 mt-4 cursor-pointer group"
+                  <button
+                    type="button"
                     onClick={() => setLightbox({ src: item.imgs[0], alt: item.title })}
+                    className="relative aspect-[16/10] w-full bg-slate-100 group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    aria-label={`View ${item.title}`}
                   >
                     <Image
                       src={item.imgs[0]}
                       alt={item.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 600px"
-                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover group-hover/img:opacity-90 transition-opacity duration-200"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                        <ZoomIn className="w-5 h-5 text-white" />
-                      </div>
-                    </div>
-                  </div>
+                  </button>
                 )}
                 {item.imgs.length > 1 && (
-                  <div className="grid grid-cols-2 gap-2 mt-4">
+                  <div className="grid grid-cols-2 gap-px bg-slate-200">
                     {item.imgs.map((src) => (
-                      <div
+                      <button
+                        type="button"
                         key={src}
-                        className="relative h-44 rounded-xl overflow-hidden bg-slate-100 cursor-pointer group"
                         onClick={() => setLightbox({ src, alt: item.title })}
+                        className="relative aspect-[16/10] bg-slate-100 group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        aria-label={`View ${item.title}`}
                       >
                         <Image
                           src={src}
                           alt={item.title}
                           fill
-                          sizes="(max-width: 640px) 50vw, 280px"
-                          className="object-contain group-hover:opacity-80 transition-opacity duration-200"
+                          sizes="(max-width: 640px) 50vw, 25vw"
+                          className="object-cover group-hover/img:opacity-90 transition-opacity duration-200"
                         />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                            <ZoomIn className="w-5 h-5 text-white" />
-                          </div>
-                        </div>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 )}
-              </CardWrapper>
+
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="text-[15px] font-bold text-slate-900 leading-snug">{item.title}</h3>
+                    <span className="flex-shrink-0 text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {item.role}
+                    </span>
+                  </div>
+                  <p className="text-[11.5px] text-slate-500 flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    {item.org} · {item.period}
+                  </p>
+                  <p className="text-[13px] text-slate-600 leading-relaxed mt-2">{item.desc}</p>
+                </div>
+              </motion.article>
             ))}
           </div>
         </section>
