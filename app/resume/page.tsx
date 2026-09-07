@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, GraduationCap, Award, Monitor, Users, ZoomIn } from "lucide-react";
+import { Download, GraduationCap, Award, Monitor, Users, ZoomIn, BadgeCheck } from "lucide-react";
 import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
@@ -62,18 +62,6 @@ const awards = [
     img: "/images/EDUSAVE%20Merit%20bursary%202025.jpg",
   },
   {
-    title: "AWS Certified Cloud Practitioner",
-    org: "Amazon Web Services",
-    year: "2025",
-    img: "/images/AWS%20CCP.jpg",
-  },
-  {
-    title: "DFIR Foundations and Security Techniques",
-    org: "BlueCape Security",
-    year: "2025",
-    img: "/images/Bluecape%20Security.jpg",
-  },
-  {
     title: "Ngee Ann Polytechnic Director's List AY2024/2025 (Apr Semester)",
     org: "Ngee Ann Polytechnic",
     year: "2024",
@@ -120,6 +108,48 @@ const awards = [
     org: "Ministry of Education",
     year: "2019",
     img: "/images/EDUSAVE%20Merit%20bursary%202019.jpg",
+  },
+];
+
+/* ── Certifications (BlueCape featured, then CLLMSE and AWS CCP) ── */
+type Certification = {
+  title: string;
+  short: string;
+  issuer: string;
+  year: string;
+  focus: string;
+  img: string;
+  featured?: boolean;
+};
+
+const certifications: Certification[] = [
+  {
+    title: "DFIR Foundations and Techniques",
+    short: "DFIR Foundations",
+    issuer: "Blue Cape Security",
+    year: "2025",
+    focus:
+      "Digital forensics fundamentals, incident response methodology and structured evidence handling.",
+    img: "/images/Bluecape%20Security.jpg",
+    featured: true,
+  },
+  {
+    title: "Certified LLM Security Expert (CLLMSE)",
+    short: "CLLMSE",
+    issuer: "Red Team Leaders",
+    year: "2026",
+    focus:
+      "LLM red-team fundamentals, prompt-injection and adversarial testing for AI-enabled systems.",
+    img: "/images/CLLMSE%20Certification.png",
+  },
+  {
+    title: "AWS Certified Cloud Practitioner",
+    short: "AWS CCP",
+    issuer: "Amazon Web Services",
+    year: "2025",
+    focus:
+      "Cloud fundamentals, shared responsibility, and core AWS services.",
+    img: "/images/AWS%20CCP.jpg",
   },
 ];
 
@@ -337,6 +367,84 @@ export default function ResumePage() {
           </div>
         </motion.section>
 
+        {/* ── Certifications (BlueCape featured, then CLLMSE, then AWS CCP) ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+        >
+          <SectionHeader
+            icon={BadgeCheck}
+            title="Certifications"
+            subtitle="Industry credentials, DFIR, AI security and cloud"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {certifications.map((cert, i) => {
+              const isFeatured = !!cert.featured;
+              return (
+                <motion.article
+                  key={cert.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className={`group bg-white rounded-xl overflow-hidden flex flex-col transition-all duration-300 ${
+                    isFeatured
+                      ? "md:col-span-3 border border-blue-200 shadow-md hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 ring-1 ring-blue-500/10"
+                      : "md:col-span-2 border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setLightbox({ src: cert.img, alt: cert.title })}
+                    className={`relative w-full bg-slate-50 border-b border-slate-100 group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                      isFeatured ? "aspect-[16/10]" : "aspect-[4/3]"
+                    }`}
+                    aria-label={`View ${cert.title} certificate`}
+                  >
+                    <Image
+                      src={cert.img}
+                      alt={cert.title}
+                      fill
+                      sizes={isFeatured ? "(max-width: 768px) 100vw, 60vw" : "(max-width: 768px) 100vw, 40vw"}
+                      className="object-contain p-3 group-hover/img:opacity-85 transition-opacity duration-200"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-4 h-4 text-white" />
+                      </div>
+                    </div>
+                  </button>
+                  <div className="p-4 flex flex-col flex-1">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-100 rounded px-1.5 py-0.5">
+                        {cert.short}
+                      </span>
+                      {isFeatured && (
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-600">
+                          Featured
+                        </span>
+                      )}
+                    </div>
+                    <p className={`font-semibold text-slate-900 leading-snug ${isFeatured ? "text-base" : "text-sm"}`}>
+                      {cert.title}
+                    </p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {cert.issuer} · <span className="text-slate-700 font-medium">{cert.year}</span>
+                    </p>
+                    <p className="text-[12.5px] text-slate-500 mt-2 leading-relaxed">
+                      {cert.focus}
+                    </p>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </motion.section>
+
         {/* ── Awards & Achievements ── */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
@@ -345,7 +453,7 @@ export default function ResumePage() {
           transition={{ duration: 0.5 }}
           className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
         >
-          <SectionHeader icon={Award} title="Awards & Achievements" subtitle="Recognition and accolades — latest first" />
+          <SectionHeader icon={Award} title="Awards & Achievements" subtitle="Recognition and accolades, latest first" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {awards.map((award, i) => (

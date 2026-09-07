@@ -8,34 +8,47 @@ import {
   Download,
   Mail,
   Shield,
-  Brain,
   Fingerprint,
-  Trophy,
+  Radar,
+  Cpu,
   ChevronDown,
+  Wrench,
 } from "lucide-react";
 import Terminal from "@/components/Terminal";
 import TypewriterText from "@/components/TypewriterText";
 
-const highlights = [
-  {
-    icon: Shield,
-    title: "Cybersecurity and Threat Intelligence",
-    desc: "Proactive threat analysis, vulnerability assessment, and security operations to defend against evolving cyber threats.",
-  },
-  {
-    icon: Brain,
-    title: "AI Security and Machine Learning",
-    desc: "Applying machine learning techniques to detect anomalies, automate threat detection, and strengthen AI-driven security systems.",
-  },
+const primaryCapability = {
+  icon: Cpu,
+  title: "AI Security & Cybersecurity Assurance",
+  desc:
+    "Security assessment, integration and validation of AI-enabled cybersecurity systems. Capability-based access, agent evaluation, and evidence-grounded assurance workflows on real incident-management infrastructure.",
+  tag: "Current focus",
+};
+
+const supportingCapabilities = [
   {
     icon: Fingerprint,
     title: "Digital Forensics & Incident Response",
-    desc: "Evidence acquisition, memory analysis, and structured incident response following chain-of-custody protocols.",
+    desc:
+      "Endpoint IOC investigation, malware artefacts, and structured evidence handling across Windows and Linux.",
   },
   {
-    icon: Trophy,
-    title: "CTF Competitions",
-    desc: "Hands-on capture-the-flag challenges spanning web exploitation, reverse engineering, cryptography, and OSINT.",
+    icon: Shield,
+    title: "Security Assessment",
+    desc:
+      "Authentication, RBAC and capability-based authorization reviews. Frontend / backend integration testing against requirements.",
+  },
+  {
+    icon: Wrench,
+    title: "Security Engineering",
+    desc:
+      "Applying secure-configuration principles (SSH, encryption practices) to real infrastructure and technical decisions.",
+  },
+  {
+    icon: Radar,
+    title: "Threat Analysis",
+    desc:
+      "Multi-source IOC enrichment, verdict aggregation, and offensive / defensive CTF experience.",
   },
 ];
 
@@ -213,7 +226,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Highlight Cards ── */}
+      {/* ── What I Do (editorial: 1 featured + 4 supporting) ── */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -221,16 +234,69 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-12"
+            className="mb-12 max-w-2xl"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">What I Do</h2>
-            <p className="text-slate-500 max-w-xl mx-auto">
-              Combining technical depth with hands-on experience across cybersecurity, AI, and digital forensics.
+            <p className="text-xs font-mono uppercase tracking-widest text-blue-700 mb-2">
+              What I do
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+              Where I actually work.
+            </h2>
+            <p className="text-slate-500 leading-relaxed">
+              A primary focus in AI security and cybersecurity assurance,
+              rooted in DFIR foundations and security engineering practice.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {highlights.map((item, i) => {
+          {/* Featured capability */}
+          <motion.article
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="group relative overflow-hidden mb-6 rounded-2xl bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-900 text-white p-6 sm:p-10 shadow-lg shadow-blue-900/20 hover:shadow-xl hover:shadow-blue-900/30 transition-shadow duration-300"
+          >
+            <div
+              aria-hidden
+              className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-cyan-400/20 blur-3xl pointer-events-none"
+            />
+            <div
+              aria-hidden
+              className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-indigo-400/20 blur-3xl pointer-events-none"
+            />
+            <div className="relative grid lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-start">
+              <div className="max-w-2xl">
+                <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-100/90 mb-3 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-300" />
+                  {primaryCapability.tag}
+                </p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white leading-tight tracking-tight mb-3">
+                  {primaryCapability.title}
+                </h3>
+                <p className="text-[15px] sm:text-base text-blue-50/95 leading-relaxed">
+                  {primaryCapability.desc}
+                </p>
+                <Link
+                  href="/experience"
+                  className="inline-flex items-center gap-1.5 mt-5 text-sm text-white/95 group/link"
+                >
+                  <span className="border-b border-white/40 group-hover/link:border-white pb-0.5">
+                    See Tangent9 experience
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5" />
+                </Link>
+              </div>
+              <div className="lg:pl-6 lg:border-l lg:border-white/15 flex-shrink-0">
+                <div className="w-14 h-14 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                  <primaryCapability.icon className="w-7 h-7 text-white" />
+                </div>
+              </div>
+            </div>
+          </motion.article>
+
+          {/* Supporting capabilities */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {supportingCapabilities.map((item, i) => {
               const Icon = item.icon;
               return (
                 <motion.div
@@ -238,14 +304,18 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="group p-6 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-1 transition-all duration-300"
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="group p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300"
                 >
-                  <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-50 transition-colors duration-200">
-                    <Icon className="w-6 h-6 text-slate-500 group-hover:text-blue-600 transition-colors duration-200" />
+                  <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-50 transition-colors duration-200">
+                    <Icon className="w-5 h-5 text-slate-500 group-hover:text-blue-600 transition-colors duration-200" />
                   </div>
-                  <h3 className="font-semibold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                  <h3 className="font-semibold text-slate-900 mb-1.5 text-[15px] leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-[13px] text-slate-500 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </motion.div>
               );
             })}

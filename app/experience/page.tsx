@@ -19,7 +19,21 @@ import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectM
 import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
-const internships = [
+type Emphasis = "featured" | "primary" | "quiet";
+
+interface Internship {
+  role: string;
+  company: string;
+  period: string;
+  location: string;
+  type: string;
+  desc: string;
+  tags: string[];
+  img?: string;
+  emphasis: Emphasis;
+}
+
+const internships: Internship[] = [
   {
     role: "AI Security Engineer",
     company: "Tangent9",
@@ -29,6 +43,7 @@ const internships = [
     desc: "Contributed to Tangent9's AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system. Focus areas included authentication, RBAC and capability-based authorization across the Next.js BFF and NestJS backend; requirements and architecture analysis; API integration; testing and validation of incident-triage, SLA-monitoring, knowledge-management and audit paths; and evaluation of AI-agent behaviour for cybersecurity assurance (AssureIQ-style evidence-grounded workflows: evidence ingestion, control assessment, cross-referencing, audit analysis and evidence-grounded reporting).",
     tags: ["Next.js", "TypeScript", "NestJS", "PostgreSQL", "BFF", "LLM Agents", "Capability-based Authz", "RBAC", "AssureIQ"],
     img: undefined,
+    emphasis: "featured",
   },
   {
     role: "Cybersecurity Analyst",
@@ -39,16 +54,7 @@ const internships = [
     desc: "Applied cybersecurity knowledge to technical configuration work. Focused on secure-configuration principles including SSH configuration, AES / encryption concepts, and translating security requirements into practical, defensible configuration decisions. The role emphasised practical security judgement rather than the operation of dedicated security tooling.",
     tags: ["SSH", "AES / Encryption", "Secure Configuration"],
     img: undefined,
-  },
-  {
-    role: "Sales Intern",
-    company: "Apollo Healthcare Resources",
-    period: "Feb 2026 – Apr 2026",
-    location: "Singapore",
-    type: "Internship",
-    desc: "Managed end-to-end sales cycle including sourcing pharmaceutical products, negotiating pricing, and client fulfilment. Prepared Certificates of Analysis (COA), Proforma Invoices (PI), and Sales Contracts (SC). Maintained client relationships and supported product promotion and sales growth.",
-    tags: ["Microsoft Word", "Microsoft Excel"],
-    img: undefined,
+    emphasis: "primary",
   },
   {
     role: "Junior Digital Forensics & Incident Response Specialist Intern",
@@ -59,6 +65,18 @@ const internships = [
     desc: "Performed forensic casework and live incident response on Windows and Linux endpoints to identify Indicators of Compromise (IOCs). Contributed to the design of a virtualised cyber range for strategic partners, including infrastructure design and multi-stage threat simulation. Researched and prototyped an 'Agentic DFIR' capability to automate telemetry analysis using forensic APIs and AI models.",
     tags: ["Velociraptor API", "Windows / Linux", "Virtual Machines", "Large Language Models", "MCP"],
     img: "/images/STENG%20Certificate%20of%20completion.jpg",
+    emphasis: "primary",
+  },
+  {
+    role: "Sales Intern",
+    company: "Apollo Healthcare Resources",
+    period: "Feb 2026 – Apr 2026",
+    location: "Singapore",
+    type: "Internship",
+    desc: "Managed end-to-end sales cycle including sourcing pharmaceutical products, negotiating pricing, and client fulfilment. Prepared Certificates of Analysis (COA), Proforma Invoices (PI), and Sales Contracts (SC).",
+    tags: ["Microsoft Word", "Microsoft Excel"],
+    img: undefined,
+    emphasis: "quiet",
   },
   {
     role: "Freelance Assistant",
@@ -69,6 +87,7 @@ const internships = [
     desc: "Provided administrative and operational support to a legal firm. Assisted in drafting, formatting, and preparing legal documents.",
     tags: ["Microsoft Word"],
     img: undefined,
+    emphasis: "quiet",
   },
 ];
 
@@ -564,7 +583,7 @@ export default function ExperiencePage() {
       {/* Subtle grid overlay */}
       <div className="absolute inset-0 bg-grid pointer-events-none" />
 
-      <div className="relative max-w-5xl mx-auto">
+      <div className="relative max-w-4xl mx-auto">
 
         {/* Page Header */}
         <motion.div
@@ -594,55 +613,110 @@ export default function ExperiencePage() {
             />
           </motion.div>
 
-          <div className="space-y-5">
-            {internships.map((item, i) => (
-              <CardWrapper key={i} delay={i * 0.08}>
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">{item.role}</h3>
-                    <p className="text-blue-600 font-semibold text-sm">{item.company}</p>
-                  </div>
-                  <span className="self-start px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full flex-shrink-0 border border-blue-200">
-                    {item.type}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-4 text-xs text-slate-500 mb-3">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {item.period}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {item.location}
-                  </span>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">{item.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.map((t) => <TagPill key={t} label={t} />)}
-                </div>
-                {item.img && (
-                  <div className="max-w-lg mx-auto mt-4">
-                    <div
-                      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 cursor-pointer group"
-                      onClick={() => setLightbox({ src: item.img!, alt: `${item.company} certificate` })}
+          <div className="space-y-4">
+            {internships.map((item, i) => {
+              const isFeatured = item.emphasis === "featured";
+              const isQuiet = item.emphasis === "quiet";
+              return (
+                <motion.article
+                  key={i}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className={`relative bg-white border rounded-2xl transition-all duration-300 ${
+                    isFeatured
+                      ? "border-blue-200 shadow-md hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 p-5 sm:p-6 ring-1 ring-blue-500/10"
+                      : isQuiet
+                      ? "border-slate-200 shadow-sm hover:shadow hover:border-slate-300 p-4 sm:p-5"
+                      : "border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 p-5 sm:p-6"
+                  }`}
+                >
+                  {isFeatured && (
+                    <span
+                      aria-hidden
+                      className="absolute inset-y-4 left-0 w-1 rounded-r bg-gradient-to-b from-blue-500 to-indigo-600"
+                    />
+                  )}
+
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3 mb-2">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className={`font-bold text-slate-900 leading-tight ${
+                          isFeatured ? "text-lg sm:text-xl" : isQuiet ? "text-[15px]" : "text-lg"
+                        }`}>
+                          {item.role}
+                        </h3>
+                        {isFeatured && (
+                          <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 rounded px-1.5 py-0.5">
+                            Current
+                          </span>
+                        )}
+                      </div>
+                      <p className={`font-semibold ${
+                        isQuiet ? "text-slate-600 text-[13px]" : "text-blue-700 text-sm"
+                      }`}>
+                        {item.company}
+                      </p>
+                    </div>
+                    <span
+                      className={`self-start px-2.5 py-0.5 text-[11px] font-medium rounded-full flex-shrink-0 border ${
+                        isFeatured
+                          ? "bg-blue-50 text-blue-700 border-blue-200"
+                          : isQuiet
+                          ? "bg-slate-50 text-slate-600 border-slate-200"
+                          : "bg-blue-50 text-blue-700 border-blue-200"
+                      }`}
                     >
-                      <Image
-                        src={item.img}
-                        alt={`${item.company} certificate`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 512px"
-                        className="object-contain group-hover:opacity-80 transition-opacity duration-200"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                          <ZoomIn className="w-5 h-5 text-white" />
+                      {item.type}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11.5px] text-slate-500 mb-3">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {item.period}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      {item.location}
+                    </span>
+                  </div>
+
+                  <p className={`text-slate-600 leading-relaxed ${isQuiet ? "text-[13px]" : "text-sm"}`}>
+                    {item.desc}
+                  </p>
+
+                  {!isQuiet && item.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {item.tags.map((t) => <TagPill key={t} label={t} />)}
+                    </div>
+                  )}
+
+                  {item.img && (
+                    <div className="mt-4 max-w-xs">
+                      <div
+                        className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 cursor-pointer group border border-slate-200"
+                        onClick={() => setLightbox({ src: item.img!, alt: `${item.company} certificate` })}
+                      >
+                        <Image
+                          src={item.img}
+                          alt={`${item.company} certificate`}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 320px"
+                          className="object-contain p-2 group-hover:opacity-80 transition-opacity duration-200"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <div className="w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                            <ZoomIn className="w-4 h-4 text-white" />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </CardWrapper>
-            ))}
+                  )}
+                </motion.article>
+              );
+            })}
           </div>
         </section>
 
