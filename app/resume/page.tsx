@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, GraduationCap, Award, Users, ZoomIn, BadgeCheck } from "lucide-react";
+import { Download, GraduationCap, Award, Users, ZoomIn, BadgeCheck, Shield, Fingerprint, Cpu, Cloud, Wrench } from "lucide-react";
 import ImageLightbox from "@/components/ImageLightbox";
 
 /* ── Data ── */
@@ -151,36 +151,37 @@ const certifications: Certification[] = [
   },
 ];
 
-/* ── Skills (compact editorial: labelled groups, inline text) ── */
-const technicalSkills: { label: string; items: string }[] = [
+/* ── Skills (editorial capability map: 5 technical groups + soft skills) ── */
+const technicalSkills: { icon: React.ElementType; label: string; items: string }[] = [
   {
-    label: "Cybersecurity & DFIR",
+    icon: Shield,
+    label: "Cybersecurity",
+    items:
+      "Security Assessment · Authentication · RBAC · Capability-based Authorization · Secure Configuration · Vulnerability Assessment",
+  },
+  {
+    icon: Fingerprint,
+    label: "Digital Forensics / DFIR",
     items:
       "Digital Forensics · Incident Response · IOC Investigation · Malware Analysis · MITRE ATT&CK",
   },
   {
-    label: "Security Engineering",
+    icon: Cpu,
+    label: "AI & Security",
     items:
-      "Authentication · RBAC · Capability-based Authorization · Secure Configuration · Vulnerability Assessment",
+      "LLM Security · AI Agent Evaluation · Evidence-grounded Assurance · MCP · AI-Assisted DFIR",
   },
   {
-    label: "AI Security",
-    items:
-      "LLM Security · AI Agent Evaluation · Evidence-grounded Assurance · MCP",
-  },
-  {
-    label: "Cloud & Infrastructure",
+    icon: Cloud,
+    label: "Cloud / Infrastructure",
     items:
       "AWS · Windows · Linux · Networking · Palo Alto Firewall · Site-to-site VPN",
   },
   {
-    label: "Tooling",
+    icon: Wrench,
+    label: "Tools / Technologies",
     items:
-      "Velociraptor · KAPE · FTK Imager · Magnet AXIOM · EnCase · Burp Suite · OWASP ZAP · Nmap · Wireshark",
-  },
-  {
-    label: "Programming",
-    items: "Python · TypeScript · JavaScript · C# · Next.js · NestJS · PostgreSQL",
+      "Velociraptor · KAPE · FTK Imager · Magnet AXIOM · EnCase · Burp Suite · OWASP ZAP · Nmap · Wireshark · Python · TypeScript · Next.js · NestJS · PostgreSQL",
   },
 ];
 
@@ -212,10 +213,7 @@ export default function ResumePage() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   return (
-    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50 min-h-screen overflow-hidden">
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 bg-grid pointer-events-none" />
-
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="relative max-w-5xl mx-auto">
 
         {/* Page Header */}
@@ -246,7 +244,7 @@ export default function ResumePage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
         >
           <SectionHeader icon={GraduationCap} title="Education" subtitle="Academic journey and qualifications" />
 
@@ -324,7 +322,7 @@ export default function ResumePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
         >
           <SectionHeader
             icon={BadgeCheck}
@@ -387,7 +385,7 @@ export default function ResumePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 p-8 mb-8 shadow-sm hover:shadow-md transition-shadow duration-300"
         >
           <SectionHeader icon={Award} title="Awards & Achievements" subtitle="Recognition and accolades, latest first" />
 
@@ -434,35 +432,55 @@ export default function ResumePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
         >
-          <SectionHeader icon={Users} title="Skills" subtitle="Technical skills and how I work" />
+          <SectionHeader icon={Users} title="Skills" subtitle="Technical capability and how I work" />
 
-          {/* Technical skills */}
-          <div className="mb-8">
-            <h3 className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-widest mb-4">
+          {/* Technical — editorial capability map with small blue icon markers */}
+          <div className="relative">
+            <p className="text-[11px] font-mono font-semibold text-blue-700 uppercase tracking-[0.22em] mb-5">
               Technical
-            </h3>
-            <dl className="divide-y divide-slate-100">
-              {technicalSkills.map((group) => (
-                <div
-                  key={group.label}
-                  className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-6 py-3"
-                >
-                  <dt className="text-sm font-semibold text-slate-900">{group.label}</dt>
-                  <dd className="text-sm text-slate-600 leading-relaxed">{group.items}</dd>
-                </div>
-              ))}
-            </dl>
+            </p>
+
+            <div className="divide-y divide-slate-200/60">
+              {technicalSkills.map((group) => {
+                const Icon = group.icon;
+                return (
+                  <div
+                    key={group.label}
+                    className="grid grid-cols-[auto_1fr] sm:grid-cols-[14rem_1fr] gap-x-4 sm:gap-x-6 gap-y-1 py-4 sm:py-4"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-8 h-8 rounded-md bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-4 h-4 text-blue-700" />
+                      </span>
+                      <span className="text-sm font-semibold text-slate-900 leading-tight">
+                        {group.label}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed sm:pt-1.5 col-span-2 sm:col-span-1 pl-[2.65rem] sm:pl-0">
+                      {group.items}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Soft skills */}
-          <div className="pt-6 border-t border-slate-100">
-            <h3 className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-widest mb-3">
-              Soft
-            </h3>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              {softSkills.join(" · ")}
+          {/* Professional competencies — distinct but compact */}
+          <div className="mt-10 pt-8 border-t border-slate-200/70">
+            <p className="text-[11px] font-mono font-semibold text-blue-700 uppercase tracking-[0.22em] mb-3">
+              Professional Competencies
+            </p>
+            <p className="text-sm text-slate-700 leading-relaxed">
+              {softSkills.map((s, i) => (
+                <span key={s}>
+                  <span className="text-slate-800">{s}</span>
+                  {i < softSkills.length - 1 && (
+                    <span className="text-blue-400 mx-2">·</span>
+                  )}
+                </span>
+              ))}
             </p>
           </div>
         </motion.section>

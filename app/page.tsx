@@ -56,10 +56,7 @@ export default function HomePage() {
   return (
     <div className="pt-16">
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-50">
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 bg-grid pointer-events-none" />
-
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           {/* Profile image */}
           <motion.div
@@ -187,7 +184,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Terminal Section ── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-y border-slate-200">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur-sm border-y border-slate-200/70">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -204,7 +201,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Quote Section ── */}
-      <section className="py-20 bg-slate-100 px-4 sm:px-6 lg:px-8 border-y border-slate-200">
+      <section className="py-20 bg-blue-50/40 backdrop-blur-sm px-4 sm:px-6 lg:px-8 border-y border-blue-100/60">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -227,7 +224,7 @@ export default function HomePage() {
       </section>
 
       {/* ── What I Do (editorial: 1 featured + 4 supporting) ── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -305,7 +302,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="group p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300"
+                  className="group p-5 bg-white/80 backdrop-blur-sm border border-slate-200/70 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-50 transition-colors duration-200">
                     <Icon className="w-5 h-5 text-slate-500 group-hover:text-blue-600 transition-colors duration-200" />

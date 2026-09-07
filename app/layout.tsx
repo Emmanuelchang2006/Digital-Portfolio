@@ -38,7 +38,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spaceGrotesk.variable}>
-      <body className="bg-slate-50 text-slate-900 antialiased">
+      <body className="bg-[color:var(--background)] text-slate-900 antialiased">
         <AmbientCursor />
         <Navbar />
         <main className="min-h-screen">{children}</main>

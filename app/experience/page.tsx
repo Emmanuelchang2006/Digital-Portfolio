@@ -546,7 +546,7 @@ function CardWrapper({
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay }}
       onClick={onClick}
-      className={`bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
+      className={`bg-white/80 backdrop-blur-sm border border-slate-200/70 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
     >
       {children}
     </motion.div>
@@ -592,10 +592,7 @@ export default function ExperiencePage() {
       : null;
 
   return (
-    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50 min-h-screen overflow-hidden">
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 bg-grid pointer-events-none" />
-
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="relative max-w-4xl mx-auto">
 
         {/* Page Header */}
@@ -637,50 +634,25 @@ export default function ExperiencePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className={`relative bg-white border rounded-2xl transition-all duration-300 ${
+                  className={`backdrop-blur-sm border rounded-2xl transition-all duration-300 p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 ${
                     isFeatured
-                      ? "border-blue-200 shadow-md hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 p-5 sm:p-6 ring-1 ring-blue-500/10"
-                      : isQuiet
-                      ? "border-slate-200 shadow-sm hover:shadow hover:border-slate-300 p-4 sm:p-5"
-                      : "border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 p-5 sm:p-6"
+                      ? "bg-gradient-to-br from-blue-50/70 via-white/80 to-white/80 border-blue-200/70"
+                      : "bg-white/80 border-slate-200/70"
                   }`}
                 >
-                  {isFeatured && (
-                    <span
-                      aria-hidden
-                      className="absolute inset-y-4 left-0 w-1 rounded-r bg-gradient-to-b from-blue-500 to-indigo-600"
-                    />
-                  )}
-
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3 mb-2">
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className={`font-bold text-slate-900 leading-tight ${
-                          isFeatured ? "text-lg sm:text-xl" : isQuiet ? "text-[15px]" : "text-lg"
-                        }`}>
-                          {item.role}
-                        </h3>
-                        {isFeatured && (
-                          <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 rounded px-1.5 py-0.5">
-                            Current
-                          </span>
-                        )}
-                      </div>
-                      <p className={`font-semibold ${
-                        isQuiet ? "text-slate-600 text-[13px]" : "text-blue-700 text-sm"
+                      <h3 className={`font-bold text-slate-900 leading-tight ${
+                        isFeatured ? "text-lg sm:text-xl" : "text-lg"
                       }`}>
+                        {item.role}
+                      </h3>
+                      <p className="font-semibold text-blue-700 text-sm">
                         {item.company}
                       </p>
                     </div>
-                    <span
-                      className={`self-start px-2.5 py-0.5 text-[11px] font-medium rounded-full flex-shrink-0 border ${
-                        isFeatured
-                          ? "bg-blue-50 text-blue-700 border-blue-200"
-                          : isQuiet
-                          ? "bg-slate-50 text-slate-600 border-slate-200"
-                          : "bg-blue-50 text-blue-700 border-blue-200"
-                      }`}
-                    >
+                    {/* Uniform employment-type pill across all roles */}
+                    <span className="self-start px-2.5 py-0.5 text-[11px] font-medium rounded-full flex-shrink-0 border bg-blue-50 text-blue-700 border-blue-200">
                       {item.type}
                     </span>
                   </div>
@@ -835,7 +807,7 @@ export default function ExperiencePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
+                className="group bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/70 overflow-hidden shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
               >
                 {ctf.img && (
                   <button
@@ -901,7 +873,7 @@ export default function ExperiencePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow hover:border-blue-200 transition-all duration-300 overflow-hidden flex flex-col"
+                className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/70 shadow-sm hover:shadow hover:border-blue-200 transition-all duration-300 overflow-hidden flex flex-col"
               >
                 {item.imgs.length === 1 && (
                   <button

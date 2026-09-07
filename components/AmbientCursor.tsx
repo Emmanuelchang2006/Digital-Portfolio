@@ -23,10 +23,10 @@ export default function AmbientCursor() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (coarsePointer || reducedMotion) return;
 
-    let mx = 0.15;
-    let my = 0.10;
-    let tx = 0.15;
-    let ty = 0.10;
+    let mx = 0.18;
+    let my = 0.12;
+    let tx = 0.18;
+    let ty = 0.12;
     let raf = 0;
     const root = document.documentElement;
 
@@ -36,9 +36,10 @@ export default function AmbientCursor() {
     }
 
     function tick() {
-      // very slow easing so it reads as ambient, not reactive
-      mx += (tx - mx) * 0.045;
-      my += (ty - my) * 0.045;
+      // Very slow easing so the gradient reads as ambient shift, not a
+      // cursor-following effect. A visitor should barely notice movement.
+      mx += (tx - mx) * 0.022;
+      my += (ty - my) * 0.022;
       root.style.setProperty("--mx", `${(mx * 100).toFixed(2)}%`);
       root.style.setProperty("--my", `${(my * 100).toFixed(2)}%`);
       raf = requestAnimationFrame(tick);

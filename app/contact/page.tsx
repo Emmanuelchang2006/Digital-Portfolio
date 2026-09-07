@@ -63,9 +63,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50 min-h-screen overflow-hidden">
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 bg-grid pointer-events-none" />
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen">
 
       <div className="relative max-w-5xl mx-auto">
 
@@ -91,7 +89,7 @@ export default function ContactPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-2 space-y-4"
           >
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 p-6 shadow-sm">
               <h2 className="text-lg font-bold text-slate-900 mb-5">Contact Details</h2>
               <div className="space-y-4">
                 {contactDetails.map((item) => {
@@ -140,7 +138,7 @@ export default function ContactPage() {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="lg:col-span-3"
           >
-            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 p-8 shadow-sm">
               <h2 className="text-lg font-bold text-slate-900 mb-6">Send a Message</h2>
 
               {formState === "success" ? (

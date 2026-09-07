@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc; /* slate-50 */
+  --background: #eef3fb; /* very light blue-slate, never reads as pure white */
   --foreground: #0f172a;
 }
 
@@ -22,11 +22,12 @@ body {
   position: relative;
 }
 
-/* Soft blue forensic atmosphere sitting behind everything.
-   The first (primary) radial gently follows the pointer via --mx / --my
-   set by <AmbientCursor />. The other two are static counter-radials so
-   the composition never feels "spotlight-like" and never boxy. On touch
-   / reduced-motion the vars are absent and the defaults (15%, 10%) win. */
+/* Continuous soft blue-forensic atmosphere. Four very large, very soft
+   radials layered so the whole viewport reads as one gradient rather
+   than distinct blobs. The primary radial eases toward the pointer via
+   --mx / --my set by <AmbientCursor /> so the atmosphere feels alive
+   without producing a visible spotlight. Coarse-pointer / reduced-motion
+   users get the static defaults. */
 body::before {
   content: "";
   position: fixed;
@@ -35,22 +36,27 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(
-      ellipse 1400px 1000px at var(--mx, 15%) var(--my, 10%),
-      rgba(37, 99, 235, 0.09) 0%,
-      rgba(37, 99, 235, 0.02) 45%,
+      ellipse 1600px 1200px at var(--mx, 18%) var(--my, 12%),
+      rgba(37, 99, 235, 0.11) 0%,
+      rgba(37, 99, 235, 0.02) 50%,
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 1300px 950px at calc(100% - var(--mx, 18%)) calc(100% - var(--my, 12%)),
+      rgba(79, 70, 229, 0.08) 0%,
       transparent 70%
     ),
     radial-gradient(
-      ellipse 1100px 800px at calc(100% - var(--mx, 15%)) calc(100% - var(--my, 10%)),
-      rgba(79, 70, 229, 0.06) 0%,
+      ellipse 1000px 700px at 45% 105%,
+      rgba(30, 64, 175, 0.06) 0%,
       transparent 65%
     ),
     radial-gradient(
-      ellipse 900px 600px at 50% 100%,
-      rgba(37, 99, 235, 0.03) 0%,
-      transparent 60%
+      ellipse 900px 600px at 55% -5%,
+      rgba(99, 102, 241, 0.05) 0%,
+      transparent 65%
     );
-  transition: background 200ms linear;
+  transition: background 250ms linear;
 }
 
 /* ─────────────────────────────────────────
