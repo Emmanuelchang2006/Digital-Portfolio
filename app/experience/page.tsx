@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { ExternalLink, ArrowRight, Briefcase, FolderGit2, Swords, HeartHandshake, MapPin } from "lucide-react";
+import {
+  ExternalLink,
+  ArrowRight,
+  Briefcase,
+  FolderGit2,
+  Swords,
+  HeartHandshake,
+  Calendar,
+  Building2,
+  FileBadge,
+} from "lucide-react";
 import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectModal";
 import ImageLightbox from "@/components/ImageLightbox";
 import ZoomableImage from "@/components/ZoomableImage";
@@ -104,41 +114,6 @@ const work: WorkItem[] = [
     summary:
       "Supported drafting, formatting and preparation of legal documents. Reinforced attention-to-detail and structured-writing habits that carry over into forensic reporting.",
     emphasis: "quiet",
-  },
-];
-
-/* ─────────────────────────────
-   CAREER PROGRESSION
-────────────────────────────── */
-
-const progression = [
-  {
-    phase: "Foundation",
-    where: "Ngee Ann Polytechnic",
-    focus: "Academic foundation in cybersecurity and digital forensics. Coursework across DFIR, malware analysis and network security.",
-    period: "2023 to 2026",
-    current: false,
-  },
-  {
-    phase: "Industry DFIR",
-    where: "ST Engineering Info-Security",
-    focus: "Digital forensics and incident response. Endpoint investigation, agentic-DFIR prototyping and cyber range design.",
-    period: "Sep 2025 to Jan 2026",
-    current: false,
-  },
-  {
-    phase: "Cybersecurity Analysis",
-    where: "Telsecure",
-    focus: "Security configuration and cybersecurity analysis. Applying secure-configuration principles to real infrastructure.",
-    period: "Aug 2026 to Sep 2026",
-    current: false,
-  },
-  {
-    phase: "AI Security Engineering",
-    where: "Tangent9",
-    focus: "AI security, incident-management systems and cybersecurity assurance workflows.",
-    period: "Jul 2026 to Sep 2026",
-    current: true,
   },
 ];
 
@@ -554,63 +529,15 @@ export default function ExperiencePage() {
           <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
             Roles, projects, competitions and service.
           </h1>
-          <p className="text-slate-600 max-w-2xl leading-relaxed">
-            Presented as a progression through DFIR foundations toward
-            security engineering and AI security.
+          <p className="text-slate-700 max-w-2xl leading-relaxed">
+            A record of my work across DFIR, cybersecurity analysis, AI
+            security engineering and community involvement.
           </p>
         </div>
       </section>
 
-      {/* CAREER PROGRESSION (tinted) */}
-      <section className="section-tinted border-y border-blue-100/70 py-14 sm:py-16 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Career progression"
-            title="From DFIR foundation to AI security."
-            icon={MapPin}
-          />
-
-          <ol className="relative border-l-2 border-blue-200 ml-3 space-y-7 sm:space-y-8">
-            {progression.map((p, i) => (
-              <li key={p.phase} className="pl-6 sm:pl-8 relative">
-                <span
-                  aria-hidden
-                  className={`absolute -left-[11px] top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                    p.current
-                      ? "bg-gradient-to-br from-blue-500 to-indigo-600 border-white shadow-lg shadow-blue-500/40"
-                      : "bg-white border-blue-300"
-                  }`}
-                >
-                  {p.current && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
-                </span>
-                <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-slate-500">
-                    {`Phase 0${i + 1}`}
-                  </span>
-                  {p.current && (
-                    <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-blue-700 bg-blue-100/70 border border-blue-200 rounded px-1.5 py-0.5">
-                      Current
-                    </span>
-                  )}
-                </div>
-                <p className="text-[16px] sm:text-[17px] font-semibold text-slate-900 leading-snug">
-                  {p.phase}
-                </p>
-                <p className="text-sm text-slate-700 mt-0.5">{p.where}</p>
-                <p className="text-sm text-slate-600 mt-1.5 leading-relaxed max-w-2xl">
-                  {p.focus}
-                </p>
-                <p className="text-xs font-mono text-slate-500 mt-1.5 tracking-wider">
-                  {p.period}
-                </p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
       {/* WORK EXPERIENCE (light) */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6">
+      <section className="py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
             eyebrow="Work"
@@ -626,90 +553,94 @@ export default function ExperiencePage() {
                   key={`${w.company}-${i}`}
                   className={`group rounded-2xl bg-white border overflow-hidden transition-all duration-300 ${
                     isPrimary
-                      ? "border-blue-100 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-0.5"
-                      : "border-slate-200 hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5"
+                      ? "border-blue-200 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/15 hover:-translate-y-0.5"
+                      : "border-slate-300 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
                   }`}
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-[1fr_12rem]">
-                    <div
-                      className={`p-6 sm:p-7 relative ${
-                        isPrimary ? "md:border-l-4 md:border-l-blue-500" : ""
-                      }`}
-                    >
-                      <div className="flex items-baseline flex-wrap gap-2">
-                        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 leading-tight group-hover:text-blue-800 transition-colors">
+                  <div
+                    className={`p-6 sm:p-8 relative ${
+                      isPrimary ? "border-l-4 border-l-blue-600" : "border-l-4 border-l-slate-200"
+                    }`}
+                  >
+                    {/* Header: company / type + dates */}
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <div>
+                        <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 leading-tight tracking-tight group-hover:text-blue-800 transition-colors">
                           {w.company}
                         </h3>
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
-                          {w.type}
+                        <p className="text-slate-800 text-[15px] sm:text-base mt-1 font-medium">
+                          {w.role}
+                        </p>
+                      </div>
+                      <span
+                        className={`text-[11px] font-mono uppercase tracking-[0.22em] px-2.5 py-1 rounded-md border ${
+                          isPrimary
+                            ? "text-blue-800 bg-blue-50 border-blue-200"
+                            : "text-slate-700 bg-slate-50 border-slate-200"
+                        }`}
+                      >
+                        {w.type}
+                      </span>
+                    </div>
+
+                    {/* Metadata row: dates + field with icons */}
+                    <div className="mt-4 pb-5 border-b border-slate-100 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] text-slate-700">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-blue-700" />
+                        <span className="font-mono">{w.dates}</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <Building2 className="w-3.5 h-3.5 text-blue-700" />
+                        <span>
+                          <span className="text-slate-500">Field:</span>{" "}
+                          <span className="font-medium text-slate-800">{w.field}</span>
                         </span>
-                      </div>
-                      <p className="text-slate-700 text-[15px] mt-1">{w.role}</p>
+                      </span>
+                    </div>
 
-                      <p className="mt-4 text-[15px] text-slate-600 leading-relaxed">
-                        {w.summary}
-                      </p>
+                    <p className="mt-5 text-[15px] text-slate-700 leading-relaxed">
+                      {w.summary}
+                    </p>
 
-                      {w.bullets && w.bullets.length > 0 && (
-                        <ul className="mt-4 space-y-1.5 text-[14.5px] text-slate-600">
-                          {w.bullets.map((b) => (
-                            <li key={b} className="flex gap-2">
-                              <span className="text-blue-500 select-none flex-shrink-0">·</span>
-                              <span>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {w.stack && w.stack.length > 0 && (
-                        <div className="mt-5 flex flex-wrap gap-1.5">
-                          {w.stack.map((t) => (
-                            <span
-                              key={t}
-                              className="text-[11px] font-mono text-blue-800 bg-blue-50 border border-blue-100 rounded px-1.5 py-0.5"
-                            >
-                              {t}
+                    {w.bullets && w.bullets.length > 0 && (
+                      <ul className="mt-4 space-y-1.5 text-[14.5px] text-slate-700">
+                        {w.bullets.map((b) => (
+                          <li key={b} className="flex gap-2">
+                            <span className="text-blue-500 select-none flex-shrink-0 pt-1">
+                              <FileBadge className="w-3 h-3" />
                             </span>
-                          ))}
-                        </div>
-                      )}
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
-                      {w.img && (
-                        <div className="mt-5 max-w-md">
-                          <ZoomableImage
-                            src={w.img}
-                            alt={`${w.company} certificate`}
-                            onOpen={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
-                            aspect="aspect-[4/3]"
-                            fit="contain"
-                            padded
-                            sizes="(max-width: 768px) 100vw, 400px"
-                          />
-                        </div>
-                      )}
-                    </div>
+                    {w.stack && w.stack.length > 0 && (
+                      <div className="mt-5 flex flex-wrap gap-1.5">
+                        {w.stack.map((t) => (
+                          <span
+                            key={t}
+                            className="text-[11px] font-mono text-blue-800 bg-blue-50 border border-blue-200 rounded-md px-2 py-1"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
-                    {/* Right metadata rail */}
-                    <div
-                      className={`p-5 sm:p-6 border-t md:border-t-0 md:border-l flex flex-col gap-4 ${
-                        isPrimary
-                          ? "bg-gradient-to-br from-blue-50 to-indigo-50/40 border-blue-100"
-                          : "bg-slate-50 border-slate-200"
-                      }`}
-                    >
-                      <div>
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Field</p>
-                        <p className="text-sm text-slate-800 mt-0.5 font-medium">{w.field}</p>
+                    {w.img && (
+                      <div className="mt-5 max-w-md">
+                        <ZoomableImage
+                          src={w.img}
+                          alt={`${w.company} certificate`}
+                          onOpen={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
+                          aspect="aspect-[4/3]"
+                          fit="contain"
+                          padded
+                          sizes="(max-width: 768px) 100vw, 400px"
+                        />
                       </div>
-                      <div>
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Type</p>
-                        <p className="text-sm text-slate-800 mt-0.5">{w.type}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Dates</p>
-                        <p className="text-sm text-slate-800 mt-0.5 font-mono">{w.dates}</p>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </article>
               );

@@ -73,15 +73,15 @@ export default function ContactPage() {
           <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
             Let&apos;s talk.
           </h1>
-          <p className="text-slate-600 max-w-2xl leading-relaxed">
-            For internships, part-time roles, or collaborative projects in
-            cybersecurity, DFIR and AI security. Response within 24 hours.
+          <p className="text-slate-700 max-w-2xl leading-relaxed">
+            Open to opportunities across cybersecurity, DFIR and AI security,
+            or a good conversation. Response within 24 hours.
           </p>
         </div>
       </section>
 
       {/* Body */}
-      <section className="pb-16 sm:pb-20 px-4 sm:px-6">
+      <section className="section-tinted border-y border-blue-200/70 py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6 sm:gap-8">
 
@@ -140,7 +140,7 @@ export default function ContactPage() {
             </aside>
 
             {/* Form */}
-            <div className="rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 shadow-lg shadow-blue-500/5">
+            <div className="rounded-2xl bg-white border border-blue-200/70 p-6 sm:p-8 shadow-xl shadow-blue-500/10">
               <h2 className="text-lg font-semibold text-slate-900 mb-6 tracking-tight">
                 Send a message
               </h2>

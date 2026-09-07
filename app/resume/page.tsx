@@ -78,30 +78,47 @@ const awards = [
   { title: "EDUSAVE Merit Bursary",                                  org: "Ministry of Education",        year: "2019", img: "/images/EDUSAVE%20Merit%20bursary%202019.jpg" },
 ];
 
-const skillGroups = [
+const skillGroups: { label: string; items: string[] }[] = [
   {
-    label: "Security & DFIR",
-    items: ["DFIR", "Incident Response", "IOC Investigation", "Malware Analysis", "Threat Intelligence"],
+    label: "Cybersecurity & DFIR",
+    items: [
+      "Digital Forensics",
+      "Incident Response",
+      "Malware Analysis",
+      "Threat Analysis",
+      "Security Assessment",
+    ],
+  },
+  {
+    label: "AI & Security",
+    items: [
+      "AI Security",
+      "AI-assisted Security Analysis",
+      "AI Agent Workflows",
+      "Security Automation",
+      "Evidence-grounded Analysis",
+    ],
   },
   {
     label: "Security Engineering",
-    items: ["Secure Configuration", "Authentication", "Access Control", "Network Security", "Vulnerability Assessment"],
+    items: [
+      "Authentication",
+      "RBAC",
+      "Secure Configuration",
+      "Network Security",
+      "Cryptography",
+    ],
   },
   {
-    label: "AI Security",
-    items: ["LLM Security", "AI Agents", "MCP", "AI-Assisted DFIR", "Evidence-Grounded Workflows"],
-  },
-  {
-    label: "Infrastructure",
-    items: ["Linux", "Windows", "AWS", "Networking"],
-  },
-  {
-    label: "Engineering",
-    items: ["Python", "TypeScript", "JavaScript", "Next.js", "NestJS", "PostgreSQL"],
-  },
-  {
-    label: "Professional",
-    items: ["Technical Analysis", "Documentation", "Communication", "Problem Solving", "Team Collaboration"],
+    label: "Development & Platforms",
+    items: [
+      "Python",
+      "TypeScript",
+      "Next.js",
+      "NestJS",
+      "PostgreSQL",
+      "Git / GitHub",
+    ],
   },
 ];
 
@@ -145,14 +162,11 @@ export default function ResumePage() {
             <a
               href="/EMMANUEL_CHANG_CV.pdf"
               download="EMMANUEL_CHANG_CV.pdf"
-              className="btn-primary inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium"
+              className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-medium"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-4 h-4" />
               Download PDF
             </a>
-            <span className="text-xs font-mono text-slate-500 tracking-wider">
-              EMMANUEL_CHANG_CV.pdf
-            </span>
           </div>
         </div>
       </section>
@@ -269,11 +283,11 @@ export default function ResumePage() {
         </div>
       </section>
 
-      {/* Skills & Capabilities (dark navy) */}
+      {/* Skills & Capabilities (dark navy, 2x2 grouped cards) */}
       <section className="section-dark-glow py-16 sm:py-20 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute inset-0 tech-grid-dark opacity-40 pointer-events-none" aria-hidden />
         <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
+          <div className="flex items-end justify-between gap-4 mb-10 sm:mb-12">
             <div>
               <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-300 mb-2 flex items-center gap-2">
                 <Sparkles className="w-3 h-3" />
@@ -283,34 +297,33 @@ export default function ResumePage() {
                 Skills &amp; Capabilities.
               </h2>
             </div>
-            <p className="hidden sm:block text-sm text-slate-400 max-w-xs text-right">
+            <p className="hidden sm:block text-sm text-slate-300 max-w-xs text-right">
               Grouped by domain. Only areas I actually work in.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-[color:var(--bg-dark-2)]/80 backdrop-blur-sm border border-slate-800 overflow-hidden shadow-2xl shadow-blue-950/50">
-            <ul className="divide-y divide-slate-800">
-              {skillGroups.map((g) => (
-                <li
-                  key={g.label}
-                  className="grid grid-cols-1 sm:grid-cols-[12rem_1fr] gap-2 sm:gap-6 px-5 sm:px-7 py-4 sm:py-5 hover:bg-white/[0.02] transition-colors"
-                >
-                  <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-400 self-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+            {skillGroups.map((g) => (
+              <div
+                key={g.label}
+                className="rounded-2xl border border-slate-800 bg-white/[0.04] backdrop-blur-sm p-5 sm:p-6 hover:border-blue-500/60 hover:bg-white/[0.06] transition-all duration-300"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-1.5 h-6 rounded-full bg-gradient-to-b from-blue-400 to-indigo-500" />
+                  <h3 className="text-[15px] font-semibold text-white tracking-tight">
                     {g.label}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {g.items.map((it) => (
-                      <span
-                        key={it}
-                        className="text-[13px] text-slate-200 bg-white/[0.04] border border-slate-800 rounded-lg px-2.5 py-1"
-                      >
-                        {it}
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </h3>
+                </div>
+                <ul className="space-y-2">
+                  {g.items.map((it) => (
+                    <li key={it} className="flex items-start gap-2 text-[14px] text-slate-200 leading-snug">
+                      <span className="w-1 h-1 rounded-full bg-blue-400 mt-2 flex-shrink-0" />
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>

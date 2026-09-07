@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  /* Surfaces */
-  --bg:          #f7f9fc;   /* base off-white with very light cool tint */
-  --bg-tinted:   #eaf0fb;   /* light blue tint for tinted bands */
-  --bg-tinted-2: #f2f6fd;   /* lighter blue tint for gradient tails */
+  /* Surfaces (blue-tinted base, clearly distinct from white cards) */
+  --bg:          #e9eef7;   /* light blue-slate base, the page never reads white */
+  --bg-2:        #eff3fa;   /* slightly softer variant for hero */
+  --bg-tinted:   #d5e2f2;   /* stronger blue tint for tinted sections */
+  --bg-tinted-2: #dfe8f4;   /* tinted gradient tail */
   --bg-dark:     #0a1428;   /* deep navy */
   --bg-dark-2:   #111d38;   /* elevated dark surface */
   --surface:     #ffffff;
@@ -14,16 +15,16 @@
   --muted:       #475569;
   --muted-2:     #64748b;
 
-  /* Borders */
-  --border:      #dbe4f0;
-  --border-blue: #b8ccec;
+  /* Borders (bluer than pure slate) */
+  --border:      #cad6ea;
+  --border-blue: #a7c0e3;
   --border-dark: #1e2b47;
 
   /* Accents */
-  --accent:      #2563eb;   /* electric blue (blue-600) */
-  --accent-2:    #4f46e5;   /* indigo (indigo-600) */
-  --accent-3:    #6366f1;   /* indigo-500 */
-  --cyan:        #22d3ee;   /* cyan-400 */
+  --accent:      #2563eb;
+  --accent-2:    #4f46e5;
+  --accent-3:    #6366f1;
+  --cyan:        #22d3ee;
 
   --foreground:  var(--text);
   --background:  var(--bg);
@@ -39,6 +40,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Body-wide ambient blue atmosphere. Fixed so it stays behind everything
+   and creates one coherent visual system across all pages. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 1100px 700px at 15% 5%,  rgba(37,99,235,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 900px 600px at 90% 25%, rgba(79,70,229,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 800px 500px at 50% 90%, rgba(37,99,235,0.06) 0%, transparent 55%);
+  pointer-events: none;
 }
 
 /* ─────────────────────────────────────────
@@ -48,6 +65,7 @@ body {
 .section-tinted {
   background:
     linear-gradient(180deg, var(--bg-tinted) 0%, var(--bg-tinted-2) 100%);
+  position: relative;
 }
 
 .section-dark {
@@ -58,13 +76,13 @@ body {
 .section-dark-glow {
   position: relative;
   background:
-    radial-gradient(ellipse 700px 400px at 15% 0%,   rgba(37,99,235,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 700px 400px at 85% 100%, rgba(79,70,229,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 800px 500px at 15% 0%,   rgba(37,99,235,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 800px 500px at 85% 100%, rgba(79,70,229,0.18) 0%, transparent 60%),
     var(--bg-dark);
   color: #e2e8f0;
 }
 
-/* Hero ambient glow behind hero text (subtle, no cursor tracking) */
+/* Hero ambient glow behind hero text, layered on the body atmosphere */
 .hero-glow {
   position: relative;
   isolation: isolate;
@@ -75,12 +93,12 @@ body {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 900px 500px at 25% 15%, rgba(37,99,235,0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 700px 400px at 80% 30%, rgba(79,70,229,0.08) 0%, transparent 55%);
+    radial-gradient(ellipse 900px 500px at 20% 15%, rgba(37,99,235,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 700px 400px at 85% 30%, rgba(79,70,229,0.07) 0%, transparent 55%);
   pointer-events: none;
 }
 
-/* Very faint technical grid used ONLY inside dark navy surfaces to add depth */
+/* Very faint technical grid used ONLY inside dark navy surfaces */
 .tech-grid-dark {
   background-image:
     linear-gradient(rgba(148,163,184,0.06) 1px, transparent 1px),
@@ -99,10 +117,10 @@ body {
   transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 .card:hover {
-  border-color: rgba(37,99,235,0.40);
+  border-color: var(--accent);
   box-shadow:
-    0 10px 25px -8px rgba(37,99,235,0.12),
-    0 6px 12px -6px rgba(15,23,42,0.06);
+    0 12px 30px -12px rgba(37,99,235,0.20),
+    0 6px 12px -6px rgba(15,23,42,0.08);
   transform: translateY(-2px);
 }
 
@@ -111,7 +129,7 @@ body {
     linear-gradient(135deg, #1e40af 0%, #2563eb 40%, #4f46e5 100%);
   color: #ffffff;
   border-radius: 1.25rem;
-  box-shadow: 0 20px 40px -20px rgba(37,99,235,0.45);
+  box-shadow: 0 20px 45px -20px rgba(37,99,235,0.55);
 }
 
 .card-dark {
@@ -129,13 +147,13 @@ body {
   background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
   color: #ffffff;
   border-radius: 0.625rem;
-  box-shadow: 0 6px 16px -8px rgba(37,99,235,0.5);
+  box-shadow: 0 8px 20px -10px rgba(37,99,235,0.5);
   transition: filter 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
 .btn-primary:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px -10px rgba(37,99,235,0.55);
+  box-shadow: 0 12px 26px -10px rgba(37,99,235,0.6);
 }
 
 .btn-outline {
@@ -156,8 +174,8 @@ body {
 ───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
 /* ─────────────────────────────────────────
    Focus
@@ -174,4 +192,5 @@ body {
 @media print {
   header, footer, .no-print { display: none !important; }
   body { background: white !important; }
+  body::before { display: none !important; }
 }
