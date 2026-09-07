@@ -9,9 +9,6 @@ import {
   FolderGit2,
   Swords,
   HeartHandshake,
-  Calendar,
-  Building2,
-  FileBadge,
 } from "lucide-react";
 import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectModal";
 import ImageLightbox from "@/components/ImageLightbox";
@@ -21,19 +18,16 @@ import ZoomableImage from "@/components/ZoomableImage";
    WORK EXPERIENCE
 ────────────────────────────── */
 
-type Emphasis = "primary" | "quiet";
-
 interface WorkItem {
   role: string;
   company: string;
   field: string;
   type: string;
-  dates: string;
+  duration: string;
   summary: string;
   bullets?: string[];
   stack?: string[];
   img?: string;
-  emphasis: Emphasis;
 }
 
 const work: WorkItem[] = [
@@ -42,7 +36,7 @@ const work: WorkItem[] = [
     company: "Tangent9",
     field: "Information Technology",
     type: "Contract",
-    dates: "6 Jul 2026 to 27 Sep 2026",
+    duration: "July – September 2026",
     summary:
       "Contributed to an AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system.",
     bullets: [
@@ -60,14 +54,13 @@ const work: WorkItem[] = [
       "LLM agents",
       "Capability-based authz",
     ],
-    emphasis: "primary",
   },
   {
     role: "Cybersecurity Analyst",
     company: "Telsecure",
     field: "Cyber Security",
     type: "Contractor",
-    dates: "24 Aug 2026 to 27 Sep 2026",
+    duration: "August – September 2026",
     summary:
       "Applied cybersecurity knowledge to technical configuration work. Focused on secure-configuration principles across areas such as SSH access and encryption (AES), and translating security requirements into concrete configuration decisions. The role emphasised practical security judgement rather than the operation of dedicated security tooling.",
     bullets: [
@@ -76,24 +69,22 @@ const work: WorkItem[] = [
       "Aligned technical configurations with documented security requirements.",
       "Translated security requirements into practical, defensible configuration decisions.",
     ],
-    emphasis: "primary",
   },
   {
     role: "Sales Intern",
     company: "Apollo Healthcare Resources",
     field: "Sales",
     type: "Internship",
-    dates: "Feb 2026 to Apr 2026",
+    duration: "February – April 2026",
     summary:
       "End-to-end sales cycle including product sourcing, pricing negotiation and client fulfilment. Prepared COAs, PIs and Sales Contracts. Strengthened client communication and documentation precision.",
-    emphasis: "quiet",
   },
   {
     role: "Junior DFIR Specialist Intern",
     company: "ST Engineering Info-Security",
     field: "Cyber Security",
     type: "Internship",
-    dates: "Sep 2025 to Jan 2026",
+    duration: "September 2025 – January 2026",
     summary:
       "Performed forensic casework and live incident response on Windows and Linux endpoints to identify indicators of compromise. Contributed to the design of a virtualised cyber range for strategic partners and prototyped an agentic-DFIR capability using Velociraptor and LLM tooling via MCP.",
     bullets: [
@@ -103,17 +94,15 @@ const work: WorkItem[] = [
     ],
     stack: ["Velociraptor", "MCP", "LLMs", "KAPE", "Windows / Linux", "VMware"],
     img: "/images/STENG%20Certificate%20of%20completion.jpg",
-    emphasis: "primary",
   },
   {
     role: "Freelance Legal Assistant",
     company: "R. Tiwary & Company Advocates",
     field: "Law Firm",
     type: "Freelance",
-    dates: "Jan 2023 to Dec 2025",
+    duration: "January 2023 – December 2025",
     summary:
       "Supported drafting, formatting and preparation of legal documents. Reinforced attention-to-detail and structured-writing habits that carry over into forensic reporting.",
-    emphasis: "quiet",
   },
 ];
 
@@ -423,7 +412,7 @@ const ccaAndService: CcaEntry[] = [
     title: "Freshmen Orientation Programme",
     org: "Ngee Ann Polytechnic",
     role: "Group / Clan Leader",
-    period: "2024 to 2025",
+    period: "2024 – 2025",
     desc: "Coordinated orientation activities and led students in adapting to polytechnic life. Managed Griffin Clan logistics and engagement.",
     imgs: ["/images/FOP2024.jpg", "/images/FOP2025.jpg"],
   },
@@ -431,7 +420,7 @@ const ccaAndService: CcaEntry[] = [
     title: "Singapore Computer Society",
     org: "Singapore Computer Society",
     role: "Volunteer",
-    period: "2023 to 2026",
+    period: "2023 – 2026",
     desc: "Taught digital literacy skills (Singpass, HealthHub navigation) to the homeless community.",
     imgs: ["/images/SCS.jpg"],
   },
@@ -439,7 +428,7 @@ const ccaAndService: CcaEntry[] = [
     title: "Nullsec",
     org: "Ngee Ann Polytechnic",
     role: "Member",
-    period: "2023 to 2026",
+    period: "2023 – 2026",
     desc: "Cybersecurity seminars, CTF training, and hands-on offensive and defensive sessions.",
     imgs: [],
   },
@@ -447,7 +436,7 @@ const ccaAndService: CcaEntry[] = [
     title: "ICT Society",
     org: "Ngee Ann Polytechnic",
     role: "Member",
-    period: "2023 to 2024",
+    period: "2023 – 2024",
     desc: "Supported freshman orientation and student onboarding within the School of ICT.",
     imgs: [],
   },
@@ -455,7 +444,7 @@ const ccaAndService: CcaEntry[] = [
     title: "Altar Boys' Society",
     org: "Church of the Immaculate Heart of Mary",
     role: "President",
-    period: "2022 to 2024",
+    period: "2022 – 2024",
     desc: "Led the EXCO team, organised camps and youth-development activities. Focused on leadership, coordination and mentorship.",
     imgs: ["/images/Altar%20Servers.jpg"],
   },
@@ -463,7 +452,7 @@ const ccaAndService: CcaEntry[] = [
     title: "National Police Cadet Corps",
     org: "Maris Stella High School",
     role: "Vice-President, Head of Training",
-    period: "2019 to 2022",
+    period: "2019 – 2022",
     desc: "Planned logistics for camps and training events, coordinated interschool activities and leadership programmes.",
     imgs: ["/images/NPCC.jpg"],
   },
@@ -485,13 +474,13 @@ function SectionHeader({
   right?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-end justify-between gap-4 mb-8 sm:mb-10">
+    <div className="flex items-end justify-between gap-4 mb-10 sm:mb-12">
       <div>
-        <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2 flex items-center gap-2">
+        <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-800 mb-2 flex items-center gap-2">
           {Icon && <Icon className="w-3 h-3" />}
           {eyebrow}
         </p>
-        <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
           {title}
         </h2>
       </div>
@@ -520,10 +509,10 @@ export default function ExperiencePage() {
 
   return (
     <>
-      {/* Page Header (hero-glow) */}
-      <section className="hero-glow pt-28 sm:pt-32 pb-8 sm:pb-10 px-4 sm:px-6">
+      {/* Page Header */}
+      <section className="hero-glow pt-32 sm:pt-40 pb-8 sm:pb-10 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-700 mb-2">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-800 mb-2">
             Experience
           </p>
           <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
@@ -536,7 +525,7 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      {/* WORK EXPERIENCE (light) */}
+      {/* WORK EXPERIENCE (editorial 3-col) */}
       <section className="py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
@@ -545,119 +534,96 @@ export default function ExperiencePage() {
             icon={Briefcase}
           />
 
-          <div className="space-y-5 sm:space-y-6">
-            {work.map((w, i) => {
-              const isPrimary = w.emphasis === "primary";
-              return (
-                <article
-                  key={`${w.company}-${i}`}
-                  className={`group rounded-2xl bg-white border overflow-hidden transition-all duration-300 ${
-                    isPrimary
-                      ? "border-blue-200 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/15 hover:-translate-y-0.5"
-                      : "border-slate-300 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
-                  }`}
-                >
-                  <div
-                    className={`p-6 sm:p-8 relative ${
-                      isPrimary ? "border-l-4 border-l-blue-600" : "border-l-4 border-l-slate-200"
-                    }`}
-                  >
-                    {/* Header: company / type + dates */}
-                    <div className="flex items-start justify-between gap-4 flex-wrap">
-                      <div>
-                        <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 leading-tight tracking-tight group-hover:text-blue-800 transition-colors">
-                          {w.company}
-                        </h3>
-                        <p className="text-slate-800 text-[15px] sm:text-base mt-1 font-medium">
-                          {w.role}
-                        </p>
-                      </div>
-                      <span
-                        className={`text-[11px] font-mono uppercase tracking-[0.22em] px-2.5 py-1 rounded-md border ${
-                          isPrimary
-                            ? "text-blue-800 bg-blue-50 border-blue-200"
-                            : "text-slate-700 bg-slate-50 border-slate-200"
-                        }`}
-                      >
-                        {w.type}
-                      </span>
-                    </div>
+          <div className="divide-y divide-blue-200/60">
+            {work.map((w, i) => (
+              <article
+                key={`${w.company}-${i}`}
+                className="grid grid-cols-1 md:grid-cols-[13rem_1fr_11rem] gap-4 md:gap-8 py-8 sm:py-9 row-hover px-3 sm:px-4 -mx-3 sm:-mx-4"
+              >
+                {/* Left column: company + duration */}
+                <div className="min-w-0">
+                  <h3 className="text-lg sm:text-xl font-semibold text-slate-900 tracking-tight leading-tight">
+                    {w.company}
+                  </h3>
+                  <p className="text-[13.5px] text-slate-600 mt-1.5">
+                    {w.duration}
+                  </p>
+                </div>
 
-                    {/* Metadata row: dates + field with icons */}
-                    <div className="mt-4 pb-5 border-b border-slate-100 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] text-slate-700">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-blue-700" />
-                        <span className="font-mono">{w.dates}</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <Building2 className="w-3.5 h-3.5 text-blue-700" />
-                        <span>
-                          <span className="text-slate-500">Field:</span>{" "}
-                          <span className="font-medium text-slate-800">{w.field}</span>
+                {/* Center column: role + description + evidence */}
+                <div className="min-w-0">
+                  <p className="text-[15px] sm:text-base font-semibold text-slate-900">
+                    {w.role}
+                  </p>
+                  <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
+                    {w.summary}
+                  </p>
+
+                  {w.bullets && w.bullets.length > 0 && (
+                    <ul className="mt-3.5 space-y-1.5 text-[14.5px] text-slate-700">
+                      {w.bullets.map((b) => (
+                        <li key={b} className="flex gap-2">
+                          <span className="text-blue-500 select-none flex-shrink-0">·</span>
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {w.stack && w.stack.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {w.stack.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[11px] font-mono text-blue-800 bg-blue-50 border border-blue-200 rounded-md px-2 py-1"
+                        >
+                          {t}
                         </span>
-                      </span>
+                      ))}
                     </div>
+                  )}
 
-                    <p className="mt-5 text-[15px] text-slate-700 leading-relaxed">
-                      {w.summary}
-                    </p>
+                  {w.img && (
+                    <div className="mt-4 max-w-md">
+                      <ZoomableImage
+                        src={w.img}
+                        alt={`${w.company} certificate`}
+                        onOpen={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
+                        aspect="aspect-[4/3]"
+                        fit="contain"
+                        padded
+                        sizes="(max-width: 768px) 100vw, 400px"
+                      />
+                    </div>
+                  )}
+                </div>
 
-                    {w.bullets && w.bullets.length > 0 && (
-                      <ul className="mt-4 space-y-1.5 text-[14.5px] text-slate-700">
-                        {w.bullets.map((b) => (
-                          <li key={b} className="flex gap-2">
-                            <span className="text-blue-500 select-none flex-shrink-0 pt-1">
-                              <FileBadge className="w-3 h-3" />
-                            </span>
-                            <span>{b}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {w.stack && w.stack.length > 0 && (
-                      <div className="mt-5 flex flex-wrap gap-1.5">
-                        {w.stack.map((t) => (
-                          <span
-                            key={t}
-                            className="text-[11px] font-mono text-blue-800 bg-blue-50 border border-blue-200 rounded-md px-2 py-1"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {w.img && (
-                      <div className="mt-5 max-w-md">
-                        <ZoomableImage
-                          src={w.img}
-                          alt={`${w.company} certificate`}
-                          onOpen={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
-                          aspect="aspect-[4/3]"
-                          fit="contain"
-                          padded
-                          sizes="(max-width: 768px) 100vw, 400px"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
+                {/* Right column: metadata */}
+                <div className="md:text-right text-[13.5px] text-slate-700 flex md:flex-col flex-row items-start gap-3 md:gap-2 md:items-end">
+                  <p>
+                    <span className="text-slate-500">Field · </span>
+                    {w.field}
+                  </p>
+                  <p>
+                    <span className="text-slate-500">Type · </span>
+                    {w.type}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* PROJECTS (tinted) */}
-      <section className="section-tinted border-y border-blue-100/70 py-16 sm:py-20 px-4 sm:px-6">
+      {/* PROJECTS (soft tinted) */}
+      <section className="section-soft py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
             eyebrow="Case files"
             title="Projects."
             icon={FolderGit2}
             right={
-              <p className="hidden sm:block text-sm text-slate-500 max-w-xs text-right">
+              <p className="hidden sm:block text-sm text-slate-700 max-w-xs text-right">
                 Each project opens as a technical case study.
               </p>
             }
@@ -670,7 +636,7 @@ export default function ExperiencePage() {
                 key={i}
                 onClick={() => setActiveProject(i)}
                 aria-label={`Open case file: ${proj.title}`}
-                className="group text-left bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
+                className="group text-left bg-white border border-blue-200/70 rounded-2xl p-5 sm:p-6 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/15 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-[16px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
@@ -682,17 +648,17 @@ export default function ExperiencePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-slate-400 hover:text-blue-600 flex-shrink-0 mt-0.5"
+                      className="text-slate-400 hover:text-blue-700 flex-shrink-0 mt-0.5"
                       aria-label="Open project link"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
                 </div>
-                <p className="text-xs font-mono text-slate-500 mt-1 tracking-wider">
+                <p className="text-xs font-mono text-slate-600 mt-1 tracking-wider">
                   {proj.type} · {proj.period}
                 </p>
-                <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                <p className="text-sm text-slate-700 mt-3 leading-relaxed">
                   {proj.desc}
                 </p>
 
@@ -700,7 +666,7 @@ export default function ExperiencePage() {
                   {proj.tags.map((t) => (
                     <span
                       key={t}
-                      className="text-[11px] font-mono text-slate-600 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5"
+                      className="text-[11px] font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5"
                     >
                       {t}
                     </span>
@@ -719,10 +685,10 @@ export default function ExperiencePage() {
                 )}
 
                 <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-slate-400 tracking-wider">
+                  <span className="text-[11px] font-mono text-slate-500 tracking-wider">
                     {proj.report.refId}
                   </span>
-                  <span className="text-[11px] text-blue-700 font-medium inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                  <span className="text-[11px] text-blue-800 font-medium inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
                     Open case file
                     <ArrowRight className="w-3 h-3" />
                   </span>
@@ -733,7 +699,7 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      {/* CTF (light) */}
+      {/* CTF */}
       <section className="py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
@@ -746,7 +712,7 @@ export default function ExperiencePage() {
             {ctfCompetitions.map((ctf, i) => (
               <article
                 key={i}
-                className="group grid grid-cols-1 sm:grid-cols-[15rem_1fr] gap-5 sm:gap-6 items-start bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300"
+                className="group grid grid-cols-1 sm:grid-cols-[15rem_1fr] gap-5 sm:gap-6 items-start bg-white border border-blue-200/60 rounded-2xl p-4 sm:p-5 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <ZoomableImage
                   src={ctf.img}
@@ -762,26 +728,26 @@ export default function ExperiencePage() {
                   <h3 className="text-[17px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
                     {ctf.name}
                   </h3>
-                  <p className="text-sm text-slate-500 mt-1">
+                  <p className="text-sm text-slate-600 mt-1">
                     {ctf.organiser}, {ctf.year}
                   </p>
-                  <p className="text-sm text-slate-600 mt-3 leading-relaxed">{ctf.desc}</p>
+                  <p className="text-sm text-slate-700 mt-3 leading-relaxed">{ctf.desc}</p>
 
                   <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 mt-4">
                     <div>
-                      <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Placement</dt>
+                      <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-500">Placement</dt>
                       <dd className="text-sm text-blue-800 mt-0.5 font-semibold">{ctf.placement}</dd>
                     </div>
                     {ctf.metrics?.map((m) => (
                       <div key={m.k}>
-                        <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-400">{m.k}</dt>
+                        <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-500">{m.k}</dt>
                         <dd className="text-sm text-slate-800 mt-0.5 font-mono">{m.v}</dd>
                       </div>
                     ))}
                   </dl>
 
-                  <p className="mt-4 text-xs text-slate-500">
-                    <span className="text-slate-400">Categories: </span>
+                  <p className="mt-4 text-xs text-slate-600">
+                    <span className="text-slate-500">Categories: </span>
                     {ctf.categories.join(", ")}
                   </p>
                 </div>
@@ -791,8 +757,8 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      {/* CCA & COMMUNITY (tinted) */}
-      <section className="section-tinted border-t border-blue-100/70 py-16 sm:py-20 px-4 sm:px-6">
+      {/* CCA & COMMUNITY (soft tinted) */}
+      <section className="section-soft py-16 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
             eyebrow="Community"
@@ -804,7 +770,7 @@ export default function ExperiencePage() {
             {ccaAndService.map((item, i) => (
               <article
                 key={i}
-                className={`group grid grid-cols-1 gap-5 items-start bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300 ${
+                className={`group grid grid-cols-1 gap-5 items-start bg-white border border-blue-200/60 rounded-2xl p-4 sm:p-5 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300 ${
                   item.imgs.length > 0 ? "sm:grid-cols-[15rem_1fr]" : ""
                 }`}
               >
@@ -833,10 +799,10 @@ export default function ExperiencePage() {
                     {item.title}
                   </h3>
                   <p className="text-sm text-slate-700 mt-0.5">{item.role}</p>
-                  <p className="text-xs font-mono text-slate-500 mt-1 tracking-wider">
+                  <p className="text-xs font-mono text-slate-600 mt-1 tracking-wider">
                     {item.org}, {item.period}
                   </p>
-                  <p className="text-sm text-slate-600 mt-2.5 leading-relaxed">
+                  <p className="text-sm text-slate-700 mt-2.5 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>

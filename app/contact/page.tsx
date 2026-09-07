@@ -81,7 +81,7 @@ export default function ContactPage() {
       </section>
 
       {/* Body */}
-      <section className="section-tinted border-y border-blue-200/70 py-14 sm:py-20 px-4 sm:px-6">
+      <section className="section-soft py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] gap-6 sm:gap-8">
 
