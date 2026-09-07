@@ -1,122 +1,85 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ExternalLink,
-  ArrowRight,
   Briefcase,
   FolderGit2,
   Swords,
   HeartHandshake,
+  ExternalLink,
+  Calendar,
+  MapPin,
+  Tag,
+  FileText,
+  ZoomIn,
 } from "lucide-react";
 import ProjectModal, { ModalProject, ProjectReport } from "@/components/ProjectModal";
 import ImageLightbox from "@/components/ImageLightbox";
-import ZoomableImage from "@/components/ZoomableImage";
 
-/* ─────────────────────────────
-   WORK EXPERIENCE
-────────────────────────────── */
-
-interface WorkItem {
-  role: string;
-  company: string;
-  field: string;
-  type: string;
-  duration: string;
-  summary: string;
-  bullets?: string[];
-  stack?: string[];
-  img?: string;
-}
-
-const work: WorkItem[] = [
+/* ── Data ── */
+const internships = [
   {
     role: "AI Security Engineer",
     company: "Tangent9",
-    field: "Information Technology",
+    period: "Jul 2026 – Sep 2026",
+    location: "Singapore",
     type: "Contract",
-    duration: "July – September 2026",
-    summary:
-      "Contributed to an AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system.",
-    bullets: [
-      "Security-assessed authentication, authorization and capability-based access control across the Next.js BFF and NestJS backend.",
-      "Validated frontend and backend integration, API contracts and audit paths against product and security requirements.",
-      "Reviewed architecture and implementation against expected security behaviour and identified authorization and capability mismatches.",
-      "Evaluated AI-agent behaviour and evidence-grounded workflows for cybersecurity assurance, including evidence ingestion, control assessment and audit analysis.",
-    ],
-    stack: [
-      "Next.js",
-      "TypeScript",
-      "NestJS",
-      "PostgreSQL",
-      "BFF architecture",
-      "LLM agents",
-      "Capability-based authz",
-    ],
+    desc: "Contributed to Tangent9's AI-powered incident management platform. Work centred on security assessment, integration and validation of AI-enabled cybersecurity workflows rather than solo development of the whole system. Focus areas included authentication, RBAC and capability-based authorization across the Next.js BFF and NestJS backend; requirements and architecture analysis; API integration; testing and validation of incident-triage, SLA-monitoring, knowledge-management and audit paths; and evaluation of AI-agent behaviour for cybersecurity assurance (AssureIQ-style evidence-grounded workflows: evidence ingestion, control assessment, cross-referencing, audit analysis and evidence-grounded reporting).",
+    tags: ["Next.js", "TypeScript", "NestJS", "PostgreSQL", "BFF", "LLM Agents", "Capability-based Authz", "RBAC", "AssureIQ"],
+    img: undefined,
   },
   {
     role: "Cybersecurity Analyst",
     company: "Telsecure",
-    field: "Cyber Security",
+    period: "Aug 2026 – Sep 2026",
+    location: "Singapore",
     type: "Contractor",
-    duration: "August – September 2026",
-    summary:
-      "Applied cybersecurity knowledge to technical configuration work. Focused on secure-configuration principles across areas such as SSH access and encryption (AES), and translating security requirements into concrete configuration decisions. The role emphasised practical security judgement rather than the operation of dedicated security tooling.",
-    bullets: [
-      "Applied SSH configuration and access-security principles.",
-      "Reviewed the use of encryption (AES) and key-handling practices in stored configurations.",
-      "Aligned technical configurations with documented security requirements.",
-      "Translated security requirements into practical, defensible configuration decisions.",
-    ],
+    desc: "Applied cybersecurity knowledge to technical configuration work. Focused on secure-configuration principles including SSH configuration, AES / encryption concepts, and translating security requirements into practical, defensible configuration decisions. The role emphasised practical security judgement rather than the operation of dedicated security tooling.",
+    tags: ["SSH", "AES / Encryption", "Secure Configuration"],
+    img: undefined,
   },
   {
     role: "Sales Intern",
     company: "Apollo Healthcare Resources",
-    field: "Sales",
+    period: "Feb 2026 – Apr 2026",
+    location: "Singapore",
     type: "Internship",
-    duration: "February – April 2026",
-    summary:
-      "End-to-end sales cycle including product sourcing, pricing negotiation and client fulfilment. Prepared COAs, PIs and Sales Contracts. Strengthened client communication and documentation precision.",
+    desc: "Managed end-to-end sales cycle including sourcing pharmaceutical products, negotiating pricing, and client fulfilment. Prepared Certificates of Analysis (COA), Proforma Invoices (PI), and Sales Contracts (SC). Maintained client relationships and supported product promotion and sales growth.",
+    tags: ["Microsoft Word", "Microsoft Excel"],
+    img: undefined,
   },
   {
-    role: "Junior DFIR Specialist Intern",
-    company: "ST Engineering Info-Security",
-    field: "Cyber Security",
+    role: "Junior Digital Forensics & Incident Response Specialist Intern",
+    company: "ST Engineering Info-Security Pte Ltd",
+    period: "Sep 2025 – Jan 2026",
+    location: "Singapore",
     type: "Internship",
-    duration: "September 2025 – January 2026",
-    summary:
-      "Performed forensic casework and live incident response on Windows and Linux endpoints to identify indicators of compromise. Contributed to the design of a virtualised cyber range for strategic partners and prototyped an agentic-DFIR capability using Velociraptor and LLM tooling via MCP.",
-    bullets: [
-      "Endpoint IOC investigation across Windows and Linux hosts.",
-      "Prototyped agentic-DFIR workflows combining Velociraptor with LLM tooling over MCP.",
-      "Contributed to the design of a virtualised cyber range for multi-stage threat simulation.",
-    ],
-    stack: ["Velociraptor", "MCP", "LLMs", "KAPE", "Windows / Linux", "VMware"],
+    desc: "Performed forensic casework and live incident response on Windows and Linux endpoints to identify Indicators of Compromise (IOCs). Contributed to the design of a virtualised cyber range for strategic partners, including infrastructure design and multi-stage threat simulation. Researched and prototyped an 'Agentic DFIR' capability to automate telemetry analysis using forensic APIs and AI models.",
+    tags: ["Velociraptor API", "Windows / Linux", "Virtual Machines", "Large Language Models", "MCP"],
     img: "/images/STENG%20Certificate%20of%20completion.jpg",
   },
   {
-    role: "Freelance Legal Assistant",
-    company: "R. Tiwary & Company Advocates",
-    field: "Law Firm",
+    role: "Freelance Assistant",
+    company: "R. Tiwary & Company Advocates & Solicitors",
+    period: "Jan 2023 – Dec 2025",
+    location: "Singapore",
     type: "Freelance",
-    duration: "January 2023 – December 2025",
-    summary:
-      "Supported drafting, formatting and preparation of legal documents. Reinforced attention-to-detail and structured-writing habits that carry over into forensic reporting.",
+    desc: "Provided administrative and operational support to a legal firm. Assisted in drafting, formatting, and preparing legal documents.",
+    tags: ["Microsoft Word"],
+    img: undefined,
   },
 ];
 
-/* ─────────────────────────────
-   PROJECTS
-────────────────────────────── */
-
+/* ── Projects with condensed DFIR report data ── */
 interface ProjectEntry {
   title: string;
   period: string;
   type: string;
   desc: string;
   tags: string[];
-  link?: string;
+  link: string;
   img?: string;
   report: ProjectReport;
 }
@@ -125,9 +88,9 @@ const projects: ProjectEntry[] = [
   {
     title: "IOC Enrichment CLI Tool",
     period: "2025",
-    type: "Open source",
-    desc: "Auto-classifies indicators (IPv4, domain, URL, MD5/SHA1/SHA256) and queries VirusTotal, AbuseIPDB and Shodan concurrently. Aggregates results into CLEAN, SUSPICIOUS or MALICIOUS verdicts with structured JSON reports.",
-    tags: ["Python", "VirusTotal", "AbuseIPDB", "Shodan", "JSON"],
+    type: "Open Source Project",
+    desc: "Auto-classifies indicators (IPv4, domain, URL, MD5/SHA1/SHA256) and queries VirusTotal, AbuseIPDB, and Shodan simultaneously. Aggregates results into CLEAN / SUSPICIOUS / MALICIOUS verdicts with structured JSON reports and batch mode.",
+    tags: ["Python", "VirusTotal API", "AbuseIPDB", "Shodan", "Regex", "JSON"],
     link: "https://github.com/Emmanuelchang2006/ioc-checker",
     img: "/images/IOC%20Checker.jpg",
     report: {
@@ -136,78 +99,160 @@ const projects: ProjectEntry[] = [
       date: "2025",
       analyst: "E. Chang",
       status: "PUBLISHED",
-      iocTitle: "Findings",
+      iocTitle: "Key Features & Technical Findings",
       executiveSummary:
-        "Open-source CLI that auto-classifies cyber indicators (IP, domain, URL, hash) and queries VirusTotal, AbuseIPDB and Shodan concurrently. Aggregates multi-source verdicts into structured JSON reports, cutting manual triage time for analysts.",
+        "Open-source CLI that auto-classifies cyber indicators (IP, domain, URL, hash) and queries VirusTotal, AbuseIPDB, and Shodan concurrently. Aggregates multi-source verdicts into structured JSON reports — cutting manual triage time for analysts.",
       iocs: [
-        { tag: "FEATURE", label: "Multi-API concurrent enrichment", detail: "Queries 3 threat intel APIs per indicator in parallel." },
-        { tag: "FEATURE", label: "Auto-classification engine",     detail: "Regex detects indicator type (IP, domain, URL, hash) before API dispatch." },
-        { tag: "FEATURE", label: "Verdict aggregation",             detail: "All API responses normalised to CLEAN, SUSPICIOUS or MALICIOUS with confidence scores." },
-        { tag: "FEATURE", label: "Structured JSON reporting",       detail: "Generates per-IOC reports and batch summaries suitable for analyst review or SIEM ingestion." },
+        {
+          tag: "FEATURE",
+          label: "Multi-API Concurrent Enrichment",
+          detail: "Queries 3 threat intel APIs per indicator in parallel — no sequential round-trips.",
+        },
+        {
+          tag: "FEATURE",
+          label: "Auto-Classification Engine",
+          detail: "Regex detects indicator type (IP, domain, URL, hash) before API dispatch — no manual tagging needed.",
+        },
+        {
+          tag: "FEATURE",
+          label: "Verdict Aggregation",
+          detail: "All API responses normalised to CLEAN / SUSPICIOUS / MALICIOUS with confidence scores.",
+        },
+        {
+          tag: "FEATURE",
+          label: "Structured JSON Reporting",
+          detail: "Generates per-IOC reports and batch summaries for analyst review or SIEM ingestion.",
+        },
       ],
       methodology: [
         { tool: "Python", detail: "asyncio concurrent API calls" },
-        { tool: "VirusTotal API", detail: "Hash, URL and domain reputation" },
+        { tool: "VirusTotal API", detail: "Hash and URL/domain reputation" },
         { tool: "AbuseIPDB", detail: "IP abuse scoring" },
         { tool: "Shodan", detail: "Host exposure and open ports" },
         { tool: "Regex", detail: "Indicator type detection" },
       ],
       outcome:
-        "Published on GitHub. Reduced analyst IOC triage time by automating workflows previously done manually.",
+        "Published on GitHub. Reduced analyst IOC triage time at ST Engineering by automating workflows that were previously done manually.",
     },
   },
   {
-    title: "Malware Analysis, VirusShare Sample",
+    title: "Password Generator",
     period: "2024",
-    type: "Academic",
-    desc: "Static and dynamic analysis of a VirusShare sample in an isolated FlareVM lab. Produced a full IOC report mapped to MITRE ATT&CK covering C2 communications, process injection, persistence and file artefacts.",
-    tags: ["Process Explorer", "Process Monitor", "x64 Debugger", "MITRE ATT&CK"],
+    type: "Python Project",
+    desc: "Built a secure password generator enforcing a minimum of 12 characters with mandatory inclusion of symbols, numbers, and uppercase and lowercase letters.",
+    tags: ["Python"],
+    link: "#",
+    img: "/images/Password%20generator.jpg",
     report: {
-      classification: "CONFIDENTIAL",
-      refId: "MA-2024-006",
+      classification: "INTERNAL",
+      refId: "DEV-2024-002",
       date: "2024",
       analyst: "E. Chang",
-      status: "ANALYSED",
-      iocTitle: "Findings",
+      status: "COMPLETE",
+      iocTitle: "Security Requirements & Compliance",
       executiveSummary:
-        "Static and dynamic analysis of a VirusShare sample in an isolated lab. Produced a full IOC report covering C2 communications, process injection, persistence and file artefacts, mapped to MITRE ATT&CK.",
+        "CLI tool generating cryptographically strong passwords aligned with NIST SP 800-63B — minimum 12 characters, mandatory character-class diversity, and CSPRNG randomness throughout.",
       iocs: [
-        { tag: "NETWORK",  label: "C2 beacon, 185.220.101.x:4444",              detail: "Periodic ~60s TCP connections to hardcoded IP, consistent beacon pattern." },
-        { tag: "PROCESS",  label: "Process injection, cmd.exe to PowerShell",   detail: "Encoded PowerShell spawned via cmd.exe, a living-off-the-land pattern used to evade signatures." },
-        { tag: "REGISTRY", label: "Run-key persistence",                        detail: "HKCU Run key written to survive reboot without elevated privileges." },
-        { tag: "FILE",     label: "Masquerading binary, svchost32.exe",         detail: "Dropper copied to %APPDATA% as svchost32.exe to mimic a Windows system process." },
+        {
+          tag: "REQUIREMENT",
+          label: "Minimum Length Enforcement",
+          detail: "All outputs are 12+ characters — meets NIST baseline for memorised secrets.",
+        },
+        {
+          tag: "REQUIREMENT",
+          label: "Character Class Diversity",
+          detail: "Enforces uppercase, lowercase, numbers, and symbols per output — prevents single-class brute-force.",
+        },
+        {
+          tag: "REQUIREMENT",
+          label: "Cryptographically Secure Randomness",
+          detail: "Uses Python secrets module (not random) — output is statistically unpredictable.",
+        },
       ],
       methodology: [
-        { tool: "Process Explorer", detail: "Process tree inspection and parent-child analysis" },
-        { tool: "Process Monitor", detail: "File, registry and network activity during execution" },
-        { tool: "x64 Debugger", detail: "Static and runtime disassembly, API extraction" },
-        { tool: "Dependency Walker", detail: "DLL import analysis at load time" },
-        { tool: "FlareVM", detail: "Sandboxed Windows analysis environment" },
-        { tool: "VirusTotal", detail: "Static hash lookup and multi-engine scan" },
+        { tool: "Python", detail: "Core language; secrets module for CSPRNG" },
+        { tool: "string module", detail: "Character class pools for controlled composition" },
       ],
       outcome:
-        "Full IOC report operationalisable for SIEM detection rules. Confirmed ransomware-like persistence and C2 patterns and demonstrated MITRE ATT&CK TTP mapping.",
+        "Functional CLI tool demonstrating NIST password policy standards and secure randomness principles.",
+    },
+  },
+  {
+    title: "Keylogger",
+    period: "2024",
+    type: "Python Project",
+    desc: "Developed a basic keylogger for educational purposes to understand input capture mechanics and system-level behaviour.",
+    tags: ["Python"],
+    link: "#",
+    img: "/images/Keylogger.jpg",
+    report: {
+      classification: "RESTRICTED",
+      refId: "RE-2024-003",
+      date: "2024",
+      analyst: "E. Chang",
+      status: "LAB ONLY",
+      iocTitle: "Identified Techniques & Mechanisms",
+      executiveSummary:
+        "Built a basic keylogger in an isolated lab VM to understand input-capture mechanics at the OS level. Strictly educational — no deployment outside the sandboxed environment. Analysis directly informed understanding of EDR and AV detection strategies.",
+      iocs: [
+        {
+          tag: "TECHNIQUE",
+          label: "Keyboard Hook Installation",
+          detail: "Low-level pynput hook intercepts keystrokes before application-layer filtering.",
+        },
+        {
+          tag: "TECHNIQUE",
+          label: "Keystroke Buffering",
+          detail: "Captured keys buffered in memory and flushed to file at intervals — reduces I/O noise.",
+        },
+        {
+          tag: "TECHNIQUE",
+          label: "Log Persistence",
+          detail: "Output written to a local flat file — mirrors how attackers store captured credentials.",
+        },
+      ],
+      methodology: [
+        { tool: "Python", detail: "Core implementation" },
+        { tool: "pynput", detail: "Cross-platform keyboard listener" },
+        { tool: "Isolated VM", detail: "No network access; fully sandboxed" },
+      ],
+      outcome:
+        "Demonstrated keystroke capture in a controlled lab. Gained direct insight into how EDRs and AV tools detect keylogger activity — applicable to defensive security work.",
     },
   },
   {
     title: "Web Application Penetration Testing",
     period: "2024",
-    type: "Academic",
-    desc: "Penetration testing on the Trip.com domain. Identified 3 high-severity CVEs and scored them via CVSS v3.1 with remediation guidance.",
-    tags: ["Burp Suite", "OWASP ZAP", "Kali", "Nikto", "Nmap", "CVSS"],
+    type: "Academic Project",
+    desc: "Performed penetration testing on the Trip.com domain, identifying 3 high-severity CVEs. Classified all vulnerabilities using the CVSS scoring framework and produced a structured findings report.",
+    tags: ["Burp Suite", "ZAPROXY", "Kali Linux", "Nikto", "Nmap", "CVSS"],
+    link: "#",
+    img: undefined,
     report: {
       classification: "RESTRICTED",
       refId: "PT-2024-004",
       date: "2024",
       analyst: "E. Chang",
       status: "CLOSED",
-      iocTitle: "Findings",
+      iocTitle: "Vulnerabilities Identified",
       executiveSummary:
         "Penetration test on Trip.com domain. Identified 3 High-severity vulnerabilities using manual exploitation and automated scanning. All findings scored via CVSS v3.1 with remediation guidance.",
       iocs: [
-        { tag: "HIGH", label: "SQL Injection, CVSSv3 8.1", detail: "Parameter-based SQLi in booking search. Allows unauthenticated DB access and potential data exfiltration." },
-        { tag: "HIGH", label: "Cross-Site Scripting (XSS), CVSSv3 7.5", detail: "Reflected XSS in user input fields. Enables session token theft against authenticated users." },
-        { tag: "HIGH", label: "Insecure Direct Object Reference, CVSSv3 7.2", detail: "Predictable booking IDs expose other users' records. No server-side authorisation checks." },
+        {
+          tag: "HIGH",
+          label: "SQL Injection — CVSSv3 8.1",
+          detail: "Parameter-based SQLi in booking search. Allows unauthenticated DB access and potential data exfiltration.",
+        },
+        {
+          tag: "HIGH",
+          label: "Cross-Site Scripting (XSS) — CVSSv3 7.5",
+          detail: "Reflected XSS in user input fields. Enables session token theft against authenticated users.",
+        },
+        {
+          tag: "HIGH",
+          label: "Insecure Direct Object Reference (IDOR) — CVSSv3 7.2",
+          detail: "Predictable booking IDs expose other users' records — no server-side authorisation checks.",
+        },
       ],
       methodology: [
         { tool: "Burp Suite", detail: "Manual HTTP request manipulation and payload injection" },
@@ -218,33 +263,51 @@ const projects: ProjectEntry[] = [
         { tool: "CVSS v3.1", detail: "Vulnerability severity scoring" },
       ],
       outcome:
-        "Delivered a structured pentest report with 3 High-severity CVEs. Remediation guidance covered parameterised queries (SQLi), output encoding (XSS) and server-side authorisation checks (IDOR).",
+        "Delivered a structured pentest report with 3 High-severity CVEs. Remediations: parameterised queries (SQLi), output encoding (XSS), server-side authorisation checks (IDOR).",
     },
   },
   {
     title: "Firewall Configuration (Palo Alto)",
     period: "2024",
-    type: "Academic",
-    desc: "Configured a Palo Alto NGFW with site-to-site IPsec VPN between KL and Singapore offices. Implemented zone-based access control and enterprise perimeter policy.",
+    type: "Academic Project",
+    desc: "Configured a Palo Alto firewall with site-to-site VPN between Kuala Lumpur and Singapore offices. Implemented access control rules and internal security restrictions.",
     tags: ["Palo Alto", "VPN", "Network Security", "Access Control"],
+    link: "#",
+    img: undefined,
     report: {
       classification: "INTERNAL",
       refId: "NS-2024-005",
       date: "2024",
       analyst: "E. Chang",
       status: "COMPLETE",
-      iocTitle: "Findings",
+      iocTitle: "Security Controls Implemented",
       executiveSummary:
         "Configured a Palo Alto NGFW to connect KL and Singapore offices via site-to-site IPsec VPN. Implemented zone-based security policies following least-privilege principles.",
       iocs: [
-        { tag: "CONTROL", label: "Site-to-site IPsec VPN",     detail: "IKEv2 tunnel between KL and SG sites. Verified encrypted traffic and failover under simulated link loss." },
-        { tag: "CONTROL", label: "Zone-based security policy", detail: "Trust, Untrust and DMZ zones with explicit inter-zone rules for traffic segmentation." },
-        { tag: "CONTROL", label: "Access control rules",       detail: "Least-privilege inbound and outbound rules. Unsanctioned protocols blocked at perimeter." },
-        { tag: "CONTROL", label: "URL filtering",              detail: "Application-layer inspection on internal internet-bound traffic." },
+        {
+          tag: "CONTROL",
+          label: "Site-to-Site IPsec VPN",
+          detail: "IKEv2 tunnel between KL–SG sites; verified encrypted traffic and failover under simulated link loss.",
+        },
+        {
+          tag: "CONTROL",
+          label: "Zone-Based Security Policy",
+          detail: "Trust / Untrust / DMZ zones with explicit inter-zone rules for traffic segmentation.",
+        },
+        {
+          tag: "CONTROL",
+          label: "Access Control Rules",
+          detail: "Least-privilege inbound/outbound rules; unsanctioned protocols blocked at perimeter.",
+        },
+        {
+          tag: "CONTROL",
+          label: "URL Filtering",
+          detail: "Application-layer inspection on internal internet-bound traffic.",
+        },
       ],
       methodology: [
         { tool: "Palo Alto NGFW", detail: "Primary firewall platform" },
-        { tool: "PAN-OS GUI", detail: "Zone, policy and VPN configuration" },
+        { tool: "PAN-OS GUI", detail: "Zone, policy, and VPN configuration" },
         { tool: "IKEv2 / IPsec", detail: "VPN tunnel protocol stack" },
         { tool: "Wireshark", detail: "Verified encrypted traffic and VPN handshake" },
       ],
@@ -253,70 +316,63 @@ const projects: ProjectEntry[] = [
     },
   },
   {
-    title: "Password Generator (NIST-aligned)",
+    title: "Malware Analysis",
     period: "2024",
-    type: "Python project",
-    desc: "CLI tool generating cryptographically strong passwords aligned with NIST SP 800-63B. Minimum 12 characters, mandatory character-class diversity, CSPRNG randomness.",
-    tags: ["Python", "NIST", "CSPRNG"],
-    img: "/images/Password%20generator.jpg",
+    type: "Academic Project",
+    desc: "Conducted static and dynamic analysis on a VirusShare malware sample. Produced a full behavioral analysis and IOC report documenting process activity, registry changes, and network indicators.",
+    tags: ["Process Explorer", "Process Monitor", "x64 Debugger", "Dependency Walker"],
+    link: "#",
+    img: undefined,
     report: {
-      classification: "INTERNAL",
-      refId: "DEV-2024-002",
+      classification: "CONFIDENTIAL",
+      refId: "MA-2024-006",
       date: "2024",
       analyst: "E. Chang",
-      status: "COMPLETE",
-      iocTitle: "Findings",
+      status: "ANALYSED",
+      iocTitle: "Indicators of Compromise (IOCs)",
       executiveSummary:
-        "CLI tool generating cryptographically strong passwords aligned with NIST SP 800-63B. Minimum 12 characters, mandatory character-class diversity, and CSPRNG randomness throughout.",
+        "Static and dynamic analysis of a VirusShare sample in an isolated lab. Produced a full IOC report covering C2 communications, process injection, persistence, and file artefacts — mapped to MITRE ATT&CK.",
       iocs: [
-        { tag: "REQUIREMENT", label: "Minimum length enforcement",           detail: "All outputs are 12+ characters, meeting the NIST baseline for memorised secrets." },
-        { tag: "REQUIREMENT", label: "Character class diversity",            detail: "Enforces uppercase, lowercase, numbers and symbols per output to prevent single-class brute-force." },
-        { tag: "REQUIREMENT", label: "Cryptographically secure randomness",  detail: "Uses Python's secrets module (not random) so output is statistically unpredictable." },
+        {
+          tag: "NETWORK",
+          label: "C2 Beacon — 185.220.101.x:4444",
+          detail: "Periodic ~60s TCP connections to hardcoded IP — consistent beacon pattern.",
+        },
+        {
+          tag: "PROCESS",
+          label: "Process Injection — cmd.exe → PowerShell",
+          detail: "Encoded PowerShell spawned via cmd.exe — living-off-the-land technique to evade signatures.",
+        },
+        {
+          tag: "REGISTRY",
+          label: "Run Key Persistence — HKCU\\...\\CurrentVersion\\Run",
+          detail: "Run key written to survive reboot — no elevated privileges needed.",
+        },
+        {
+          tag: "FILE",
+          label: "Masquerading Binary — svchost32.exe",
+          detail: "Dropper copied to %APPDATA% as svchost32.exe to mimic a legitimate Windows system process.",
+        },
       ],
       methodology: [
-        { tool: "Python", detail: "Core language, secrets module for CSPRNG" },
-        { tool: "string module", detail: "Character class pools for controlled composition" },
+        { tool: "Process Explorer", detail: "Process tree inspection and parent-child analysis" },
+        { tool: "Process Monitor", detail: "File, registry, and network activity during execution" },
+        { tool: "x64 Debugger", detail: "Static/runtime disassembly and API extraction" },
+        { tool: "Dependency Walker", detail: "DLL import analysis at load time" },
+        { tool: "FlareVM (Isolated VM)", detail: "Sandboxed Windows analysis environment" },
+        { tool: "VirusTotal", detail: "Static hash lookup and multi-engine scan" },
       ],
       outcome:
-        "Functional CLI tool demonstrating NIST password policy standards and secure randomness principles.",
+        "Full IOC report operationalisable for SIEM detection rules. Confirmed ransomware-like persistence and C2 patterns. Demonstrated MITRE ATT&CK TTP mapping.",
     },
   },
   {
-    title: "Keylogger (Lab only)",
-    period: "2024",
-    type: "Python project",
-    desc: "Basic keylogger built in an isolated lab VM to understand input-capture mechanics at the OS level. Strictly educational, no deployment outside the sandbox.",
-    tags: ["Python", "pynput", "OS internals"],
-    img: "/images/Keylogger.jpg",
-    report: {
-      classification: "RESTRICTED",
-      refId: "RE-2024-003",
-      date: "2024",
-      analyst: "E. Chang",
-      status: "LAB ONLY",
-      iocTitle: "Findings",
-      executiveSummary:
-        "Basic keylogger built in an isolated lab VM to understand input-capture mechanics at the OS level. Strictly educational, no deployment outside the sandboxed environment. Analysis directly informed understanding of EDR and AV detection strategies.",
-      iocs: [
-        { tag: "TECHNIQUE", label: "Keyboard hook installation", detail: "Low-level pynput hook intercepts keystrokes before application-layer filtering." },
-        { tag: "TECHNIQUE", label: "Keystroke buffering",         detail: "Captured keys buffered in memory and flushed to file at intervals to reduce I/O noise." },
-        { tag: "TECHNIQUE", label: "Log persistence",             detail: "Output written to a local flat file, mirroring how attackers store captured credentials." },
-      ],
-      methodology: [
-        { tool: "Python", detail: "Core implementation" },
-        { tool: "pynput", detail: "Cross-platform keyboard listener" },
-        { tool: "Isolated VM", detail: "No network access, fully sandboxed" },
-      ],
-      outcome:
-        "Demonstrated keystroke capture in a controlled lab. Gained direct insight into how EDR and AV tools detect keylogger activity, applicable to defensive security work.",
-    },
-  },
-  {
-    title: "Ice Cream Ordering App (C#)",
+    title: "App Development (C#)",
     period: "2023",
-    type: "Academic",
-    desc: "Ice cream ordering app in C# (.NET) with customisable orders, toppings and a reward points system. Focus on OOP, validation and end-to-end UX.",
-    tags: ["C#", ".NET", "OOP"],
+    type: "Academic Project",
+    desc: "Built an ice cream ordering application in C# featuring customisable orders, topping selections, and a reward system. Focused on smooth UI and a functional end-to-end user experience.",
+    tags: ["C#", ".NET"],
+    link: "#",
     img: "/images/Ice%20Cream%20Project.jpg",
     report: {
       classification: "INTERNAL",
@@ -324,14 +380,30 @@ const projects: ProjectEntry[] = [
       date: "2023",
       analyst: "E. Chang",
       status: "COMPLETE",
-      iocTitle: "Findings",
+      iocTitle: "Key Features Implemented",
       executiveSummary:
-        "Ice cream ordering app in C# (.NET) with customisable orders, toppings and a reward points system. Full end-to-end ordering lifecycle from item selection to receipt generation.",
+        "Ice cream ordering app in C# (.NET) with customisable orders, toppings, and a reward points system. Full end-to-end ordering lifecycle from item selection to receipt generation.",
       iocs: [
-        { tag: "FEATURE", label: "Customisable order builder",       detail: "Multi-step flow for flavours, sizes and toppings with a live order summary." },
-        { tag: "FEATURE", label: "Reward points system",             detail: "Point accrual and redemption persisted to local storage across sessions." },
-        { tag: "FEATURE", label: "Input validation and error handling", detail: "All inputs validated with descriptive error messages, preventing invalid order states." },
-        { tag: "FEATURE", label: "End-to-end order flow",            detail: "Selection, payment summary, confirmation and receipt generation." },
+        {
+          tag: "FEATURE",
+          label: "Customisable Order Builder",
+          detail: "Multi-step flow for flavours, sizes, and toppings with live order summary.",
+        },
+        {
+          tag: "FEATURE",
+          label: "Reward Points System",
+          detail: "Point accrual and redemption persisted to local storage across sessions.",
+        },
+        {
+          tag: "FEATURE",
+          label: "Input Validation & Error Handling",
+          detail: "All inputs validated with descriptive error messages — prevents invalid order states.",
+        },
+        {
+          tag: "FEATURE",
+          label: "End-to-End Order Flow",
+          detail: "Selection → payment summary → confirmation → receipt generation.",
+        },
       ],
       methodology: [
         { tool: "C#", detail: "OOP design with class-based entity models" },
@@ -339,159 +411,139 @@ const projects: ProjectEntry[] = [
         { tool: "Visual Studio", detail: "IDE for development and debugging" },
       ],
       outcome:
-        "Fully functional ordering app delivered to spec. Demonstrated OOP principles, input validation and end-to-end UX design in C#.",
+        "Fully functional ordering app delivered to spec. Demonstrated OOP principles, input validation, and end-to-end UX design in C#.",
     },
   },
 ];
 
-/* ─────────────────────────────
-   CTF
-────────────────────────────── */
-
-interface CtfEntry {
-  name: string;
-  organiser: string;
-  year: string;
-  placement: string;
-  metrics?: { k: string; v: string }[];
-  categories: string[];
-  desc: string;
-  img: string;
-}
-
-const ctfCompetitions: CtfEntry[] = [
+const ctfCompetitions = [
   {
-    name: "HTB Cyber Apocalypse 2026, The Salt Crown",
+    name: "HTB Cyber Apocalypse 2026 — The Salt Crown",
     organiser: "Hack The Box",
     year: "2026",
     placement: "644 / 6744",
-    metrics: [
-      { k: "Solved", v: "26 / 136" },
-      { k: "Points", v: "23,150" },
-      { k: "Team",   v: "littledogs" },
-    ],
-    categories: ["Web", "Crypto", "Reverse", "Forensics", "OSINT"],
-    desc: "International CTF spanning web exploitation, cryptography, reversing and forensics.",
+    categories: ["Web Exploitation", "Cryptography", "Reversing", "Forensics", "OSINT"],
+    desc: "International CTF spanning web exploitation, cryptography, reversing and forensics. Team \"littledogs\": 26 / 136 challenges solved, 23,150 points, placed 644 out of 6,744 teams.",
     img: "/images/HTB_CTF.jpeg",
   },
   {
-    name: "BrainHack, Cyber Defenders Discovery Camp 2026",
+    name: "BrainHack — Cyber Defenders Discovery Camp 2026",
     organiser: "DSTA",
     year: "2026",
     placement: "Challenger",
     categories: ["Defensive", "Blue Team", "Forensics"],
-    desc: "National defensive CTF hosted by DSTA. Participated in the Challenger track with a focus on blue-team scenarios.",
+    desc: "National defensive CTF hosted by DSTA. Participated in the Challenger track with a focus on blue-team scenarios and forensics.",
     img: "/images/Brainhack_CTF.png",
   },
   {
-    name: "YBN Capture-The-Flag",
+    name: "YBN Capture-The-Flag (CTF)",
     organiser: "YBN",
     year: "2024",
     placement: "Participant",
-    categories: ["OSINT", "Web", "Cryptography"],
-    desc: "OSINT, web exploitation and cryptography challenges.",
+    categories: ["OSINT", "Web Exploitation", "Cryptography"],
+    desc: "Participated in OSINT, web exploitation, and cryptography challenges. Strengthened problem-solving and teamwork skills through competitive flag-hunting scenarios.",
     img: "/images/YBN%20CTF.jpg",
   },
 ];
 
-/* ─────────────────────────────
-   CCA & COMMUNITY SERVICE
-────────────────────────────── */
-
-interface CcaEntry {
-  title: string;
-  org: string;
-  role: string;
-  period: string;
-  desc: string;
-  imgs: string[];
-}
-
-const ccaAndService: CcaEntry[] = [
+const ccaAndService = [
   {
     title: "Freshmen Orientation Programme",
     org: "Ngee Ann Polytechnic",
-    role: "Group / Clan Leader",
+    role: "Orientation Group Leader / Clan Leader",
     period: "2024 – 2025",
-    desc: "Coordinated orientation activities and led students in adapting to polytechnic life. Managed Griffin Clan logistics and engagement.",
+    desc: "Coordinated orientation activities and led students in adapting to polytechnic life. Managed Griffin Clan logistics and engagement throughout the programme.",
     imgs: ["/images/FOP2024.jpg", "/images/FOP2025.jpg"],
-  },
-  {
-    title: "Singapore Computer Society",
-    org: "Singapore Computer Society",
-    role: "Volunteer",
-    period: "2023 – 2026",
-    desc: "Taught digital literacy skills (Singpass, HealthHub navigation) to the homeless community.",
-    imgs: ["/images/SCS.jpg"],
-  },
-  {
-    title: "Nullsec",
-    org: "Ngee Ann Polytechnic",
-    role: "Member",
-    period: "2023 – 2026",
-    desc: "Cybersecurity seminars, CTF training, and hands-on offensive and defensive sessions.",
-    imgs: [],
   },
   {
     title: "ICT Society",
     org: "Ngee Ann Polytechnic",
     role: "Member",
     period: "2023 – 2024",
-    desc: "Supported freshman orientation and student onboarding within the School of ICT.",
+    desc: "Assisted in freshman orientation programs and supported student onboarding initiatives within the School of ICT.",
     imgs: [],
+  },
+  {
+    title: "Nullsec",
+    org: "Ngee Ann Polytechnic",
+    role: "Member",
+    period: "2023 – 2026",
+    desc: "Participated in cybersecurity seminars and CTF competitions. Engaged in hands-on training sessions covering offensive and defensive security techniques.",
+    imgs: [],
+  },
+  {
+    title: "Singapore Computer Society",
+    org: "Singapore Computer Society",
+    role: "Volunteer",
+    period: "2023 – 2026",
+    desc: "Taught digital literacy skills (Singpass, HealthHub navigation) to the homeless community. Supported community tech education initiatives to bridge the digital divide.",
+    imgs: ["/images/SCS.jpg"],
   },
   {
     title: "Altar Boys' Society",
     org: "Church of the Immaculate Heart of Mary",
     role: "President",
     period: "2022 – 2024",
-    desc: "Led the EXCO team, organised camps and youth-development activities. Focused on leadership, coordination and mentorship.",
+    desc: "Led the EXCO team and organised camps and youth development activities. Focused on leadership growth, team coordination, and spiritual development within the community.",
     imgs: ["/images/Altar%20Servers.jpg"],
   },
   {
-    title: "National Police Cadet Corps",
+    title: "National Police Cadet Corps (NPCC)",
     org: "Maris Stella High School",
-    role: "Vice-President, Head of Training",
+    role: "Vice President (Head of Training)",
     period: "2019 – 2022",
-    desc: "Planned logistics for camps and training events, coordinated interschool activities and leadership programmes.",
+    desc: "Planned logistics for camps and training events. Coordinated interschool activities and leadership programmes, developing strong organisational and people management skills.",
     imgs: ["/images/NPCC.jpg"],
   },
 ];
 
-/* ─────────────────────────────
-   Small section header
-────────────────────────────── */
-
-function SectionHeader({
-  eyebrow,
-  title,
-  icon: Icon,
-  right,
+/* ── Reusable card wrapper ── */
+function CardWrapper({
+  children,
+  delay = 0,
+  onClick,
 }: {
-  eyebrow: string;
-  title: string;
-  icon?: React.ElementType;
-  right?: React.ReactNode;
+  children: React.ReactNode;
+  delay?: number;
+  onClick?: () => void;
 }) {
   return (
-    <div className="flex items-end justify-between gap-4 mb-10 sm:mb-12">
-      <div>
-        <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-800 mb-2 flex items-center gap-2">
-          {Icon && <Icon className="w-3 h-3" />}
-          {eyebrow}
-        </p>
-        <h2 className="text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-          {title}
-        </h2>
-      </div>
-      {right}
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay }}
+      onClick={onClick}
+      className={`bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300${onClick ? " cursor-pointer" : ""}`}
+    >
+      {children}
+    </motion.div>
   );
 }
 
-/* ─────────────────────────────
-   PAGE
-────────────────────────────── */
+/* ── Tag pill ── */
+function TagPill({ label }: { label: string }) {
+  return (
+    <span className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs font-mono rounded-full border border-slate-200">
+      {label}
+    </span>
+  );
+}
+
+/* ── Section header ── */
+function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementType; title: string; subtitle?: string }) {
+  return (
+    <div className="flex items-start gap-3 mb-8">
+      <div className="w-10 h-10 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+        <Icon className="w-5 h-5 text-blue-600" />
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
+        {subtitle && <p className="text-slate-500 text-sm mt-0.5">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
 
 export default function ExperiencePage() {
   const [activeProject, setActiveProject] = useState<number | null>(null);
@@ -508,310 +560,311 @@ export default function ExperiencePage() {
       : null;
 
   return (
-    <>
-      {/* Page Header */}
-      <section className="hero-glow pt-32 sm:pt-40 pb-8 sm:pb-10 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-blue-800 mb-2">
-            Experience
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight mb-4 leading-[1.05]">
-            Roles, projects, competitions and service.
-          </h1>
-          <p className="text-slate-700 max-w-2xl leading-relaxed">
-            A record of my work across DFIR, cybersecurity analysis, AI
-            security engineering and community involvement.
-          </p>
-        </div>
-      </section>
+    <div className="relative pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-50 min-h-screen overflow-hidden">
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 bg-grid pointer-events-none" />
 
-      {/* WORK EXPERIENCE (editorial 3-col) */}
-      <section className="py-14 sm:py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Work"
-            title="Work Experience"
-            icon={Briefcase}
-          />
+      <div className="relative max-w-5xl mx-auto">
 
-          <div className="divide-y divide-blue-200/60">
-            {work.map((w, i) => (
-              <article
-                key={`${w.company}-${i}`}
-                className="grid grid-cols-1 md:grid-cols-[13rem_1fr_11rem] gap-4 md:gap-8 py-8 sm:py-9 row-hover px-3 sm:px-4 -mx-3 sm:-mx-4"
-              >
-                {/* Left column: company + duration */}
-                <div className="min-w-0">
-                  <h3 className="text-lg sm:text-xl font-semibold text-slate-900 tracking-tight leading-tight">
-                    {w.company}
-                  </h3>
-                  <p className="text-[13.5px] text-slate-600 mt-1.5">
-                    {w.duration}
-                  </p>
+        {/* Page Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-3">Experience</h1>
+          <p className="text-slate-500 max-w-xl mx-auto">
+            Internships, projects, competitions, and community involvement.
+          </p>
+        </motion.div>
+
+        {/* ── Work Experience ── */}
+        <section className="mb-12">
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <SectionHeader
+              icon={Briefcase}
+              title="Work Experience"
+              subtitle="Professional roles and industry exposure"
+            />
+          </motion.div>
+
+          <div className="space-y-5">
+            {internships.map((item, i) => (
+              <CardWrapper key={i} delay={i * 0.08}>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">{item.role}</h3>
+                    <p className="text-blue-600 font-semibold text-sm">{item.company}</p>
+                  </div>
+                  <span className="self-start px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full flex-shrink-0 border border-blue-200">
+                    {item.type}
+                  </span>
                 </div>
-
-                {/* Center column: role + description + evidence */}
-                <div className="min-w-0">
-                  <p className="text-[15px] sm:text-base font-semibold text-slate-900">
-                    {w.role}
-                  </p>
-                  <p className="mt-3 text-[15px] text-slate-700 leading-relaxed">
-                    {w.summary}
-                  </p>
-
-                  {w.bullets && w.bullets.length > 0 && (
-                    <ul className="mt-3.5 space-y-1.5 text-[14.5px] text-slate-700">
-                      {w.bullets.map((b) => (
-                        <li key={b} className="flex gap-2">
-                          <span className="text-blue-500 select-none flex-shrink-0">·</span>
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {w.stack && w.stack.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {w.stack.map((t) => (
-                        <span
-                          key={t}
-                          className="text-[11px] font-mono text-blue-800 bg-blue-50 border border-blue-200 rounded-md px-2 py-1"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {w.img && (
-                    <div className="mt-4 max-w-md">
-                      <ZoomableImage
-                        src={w.img}
-                        alt={`${w.company} certificate`}
-                        onOpen={() => setLightbox({ src: w.img!, alt: `${w.company} certificate` })}
-                        aspect="aspect-[4/3]"
-                        fit="contain"
-                        padded
-                        sizes="(max-width: 768px) 100vw, 400px"
+                <div className="flex flex-wrap gap-4 text-xs text-slate-500 mb-3">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5" />
+                    {item.period}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5" />
+                    {item.location}
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">{item.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {item.tags.map((t) => <TagPill key={t} label={t} />)}
+                </div>
+                {item.img && (
+                  <div className="max-w-lg mx-auto mt-4">
+                    <div
+                      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 cursor-pointer group"
+                      onClick={() => setLightbox({ src: item.img!, alt: `${item.company} certificate` })}
+                    >
+                      <Image
+                        src={item.img}
+                        alt={`${item.company} certificate`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 512px"
+                        className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                       />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                          <ZoomIn className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
-
-                {/* Right column: metadata */}
-                <div className="md:text-right text-[13.5px] text-slate-700 flex md:flex-col flex-row items-start gap-3 md:gap-2 md:items-end">
-                  <p>
-                    <span className="text-slate-500">Field · </span>
-                    {w.field}
-                  </p>
-                  <p>
-                    <span className="text-slate-500">Type · </span>
-                    {w.type}
-                  </p>
-                </div>
-              </article>
+                  </div>
+                )}
+              </CardWrapper>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* PROJECTS (soft tinted) */}
-      <section className="section-soft py-16 sm:py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Case files"
-            title="Projects."
-            icon={FolderGit2}
-            right={
-              <p className="hidden sm:block text-sm text-slate-700 max-w-xs text-right">
-                Each project opens as a technical case study.
-              </p>
-            }
-          />
+        {/* ── Projects ── */}
+        <section className="mb-12">
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <SectionHeader
+              icon={FolderGit2}
+              title="Projects"
+              subtitle="Academic and personal projects — click any card to view the full report"
+            />
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {projects.map((proj, i) => (
-              <button
-                type="button"
-                key={i}
-                onClick={() => setActiveProject(i)}
-                aria-label={`Open case file: ${proj.title}`}
-                className="group text-left bg-white border border-blue-200/70 rounded-2xl p-5 sm:p-6 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/15 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
-                    {proj.title}
-                  </h3>
-                  {proj.link && (
-                    <a
-                      href={proj.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-slate-400 hover:text-blue-700 flex-shrink-0 mt-0.5"
-                      aria-label="Open project link"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
+              <CardWrapper key={i} delay={i * 0.07} onClick={() => setActiveProject(i)}>
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <h3 className="text-base font-bold text-slate-900 leading-snug">{proj.title}</h3>
+                  <a
+                    href={proj.link}
+                    target={proj.link !== "#" ? "_blank" : undefined}
+                    rel={proj.link !== "#" ? "noopener noreferrer" : undefined}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-slate-400 hover:text-blue-600 transition-colors flex-shrink-0 mt-0.5"
+                    aria-label="Project link"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
                 </div>
-                <p className="text-xs font-mono text-slate-600 mt-1 tracking-wider">
-                  {proj.type} · {proj.period}
-                </p>
-                <p className="text-sm text-slate-700 mt-3 leading-relaxed">
-                  {proj.desc}
-                </p>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <span className="flex items-center gap-1 text-xs text-slate-400">
+                    <Calendar className="w-3 h-3" />
+                    {proj.period}
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-blue-600 font-medium">
+                    <Tag className="w-3 h-3" />
+                    {proj.type}
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">{proj.desc}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {proj.tags.map((t) => <TagPill key={t} label={t} />)}
+                </div>
+                {proj.img && (
+                  <div
+                    className="relative h-56 rounded-xl overflow-hidden bg-slate-100 mb-4 cursor-pointer group"
+                    onClick={(e) => { e.stopPropagation(); setLightbox({ src: proj.img!, alt: `${proj.title} screenshot` }); }}
+                  >
+                    <Image
+                      src={proj.img}
+                      alt={`${proj.title} screenshot`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="flex items-center gap-1.5 text-blue-600 text-xs font-mono mt-auto pt-1 border-t border-slate-200">
+                  <FileText className="w-3 h-3" />
+                  <span className="uppercase tracking-widest">View Incident Report</span>
+                  <span className="ml-auto font-mono text-slate-400 text-[10px]">{proj.report.refId}</span>
+                </div>
+              </CardWrapper>
+            ))}
+          </div>
+        </section>
 
-                <div className="flex flex-wrap gap-1.5 mt-4">
-                  {proj.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[11px] font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5"
-                    >
-                      {t}
+        {/* ── CTF Competitions ── */}
+        <section className="mb-12">
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <SectionHeader
+              icon={Swords}
+              title="Capture The Flag"
+              subtitle="Competitive cybersecurity challenge events"
+            />
+          </motion.div>
+
+          <div className="space-y-5">
+            {ctfCompetitions.map((ctf, i) => (
+              <CardWrapper key={i} delay={i * 0.08}>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">{ctf.name}</h3>
+                    <p className="text-blue-600 font-semibold text-sm">{ctf.organiser}</p>
+                  </div>
+                  <div className="flex flex-col items-start sm:items-end gap-1">
+                    <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
+                      {ctf.placement}
+                    </span>
+                    <span className="text-xs text-slate-400">{ctf.year}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">{ctf.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {ctf.categories.map((cat) => (
+                    <span key={cat} className="px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-mono rounded-full border border-purple-200">
+                      {cat}
                     </span>
                   ))}
                 </div>
-
-                {proj.img && (
-                  <div className="mt-4 relative aspect-video w-full rounded-xl overflow-hidden bg-slate-50 border border-slate-200">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={proj.img}
-                      alt={`${proj.title} screenshot`}
-                      className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
+                {ctf.img && (
+                  <div
+                    className="relative h-52 rounded-xl overflow-hidden bg-slate-100 mt-4 cursor-pointer group"
+                    onClick={() => setLightbox({ src: ctf.img!, alt: `${ctf.name} certificate` })}
+                  >
+                    <Image
+                      src={ctf.img}
+                      alt={`${ctf.name} certificate`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 600px"
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
                   </div>
                 )}
-
-                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-slate-500 tracking-wider">
-                    {proj.report.refId}
-                  </span>
-                  <span className="text-[11px] text-blue-800 font-medium inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
-                    Open case file
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </button>
+              </CardWrapper>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTF */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Capture The Flag"
-            title="Competitions."
-            icon={Swords}
-          />
+        {/* ── CCA & Community Service ── */}
+        <section>
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <SectionHeader
+              icon={HeartHandshake}
+              title="CCA & Community Service"
+              subtitle="Co-curricular activities and volunteer work"
+            />
+          </motion.div>
 
-          <div className="space-y-6 sm:space-y-8">
-            {ctfCompetitions.map((ctf, i) => (
-              <article
-                key={i}
-                className="group grid grid-cols-1 sm:grid-cols-[15rem_1fr] gap-5 sm:gap-6 items-start bg-white border border-blue-200/60 rounded-2xl p-4 sm:p-5 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <ZoomableImage
-                  src={ctf.img}
-                  alt={ctf.name}
-                  onOpen={() => setLightbox({ src: ctf.img, alt: ctf.name })}
-                  aspect="aspect-[4/3]"
-                  fit="cover"
-                  sizes="(max-width: 640px) 100vw, 240px"
-                  radius="rounded-xl"
-                />
-
-                <div>
-                  <h3 className="text-[17px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
-                    {ctf.name}
-                  </h3>
-                  <p className="text-sm text-slate-600 mt-1">
-                    {ctf.organiser}, {ctf.year}
-                  </p>
-                  <p className="text-sm text-slate-700 mt-3 leading-relaxed">{ctf.desc}</p>
-
-                  <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 mt-4">
-                    <div>
-                      <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-500">Placement</dt>
-                      <dd className="text-sm text-blue-800 mt-0.5 font-semibold">{ctf.placement}</dd>
+          <div className="space-y-5">
+            {ccaAndService.map((item, i) => (
+              <CardWrapper key={i} delay={i * 0.08}>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
+                    <p className="text-blue-600 font-semibold text-sm">{item.org}</p>
+                  </div>
+                  <span className="self-start px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full flex-shrink-0 border border-emerald-200">
+                    {item.role}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-slate-400 mb-3">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {item.period}
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+                {item.imgs.length === 1 && (
+                  <div
+                    className="relative h-56 rounded-xl overflow-hidden bg-slate-100 mt-4 cursor-pointer group"
+                    onClick={() => setLightbox({ src: item.imgs[0], alt: item.title })}
+                  >
+                    <Image
+                      src={item.imgs[0]}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 600px"
+                      className="object-contain group-hover:opacity-80 transition-opacity duration-200"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        <ZoomIn className="w-5 h-5 text-white" />
+                      </div>
                     </div>
-                    {ctf.metrics?.map((m) => (
-                      <div key={m.k}>
-                        <dt className="text-[10px] font-mono uppercase tracking-wider text-slate-500">{m.k}</dt>
-                        <dd className="text-sm text-slate-800 mt-0.5 font-mono">{m.v}</dd>
+                  </div>
+                )}
+                {item.imgs.length > 1 && (
+                  <div className="grid grid-cols-2 gap-2 mt-4">
+                    {item.imgs.map((src) => (
+                      <div
+                        key={src}
+                        className="relative h-44 rounded-xl overflow-hidden bg-slate-100 cursor-pointer group"
+                        onClick={() => setLightbox({ src, alt: item.title })}
+                      >
+                        <Image
+                          src={src}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 640px) 50vw, 280px"
+                          className="object-contain group-hover:opacity-80 transition-opacity duration-200"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                            <ZoomIn className="w-5 h-5 text-white" />
+                          </div>
+                        </div>
                       </div>
                     ))}
-                  </dl>
-
-                  <p className="mt-4 text-xs text-slate-600">
-                    <span className="text-slate-500">Categories: </span>
-                    {ctf.categories.join(", ")}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CCA & COMMUNITY (soft tinted) */}
-      <section className="section-soft py-16 sm:py-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Community"
-            title="Co-Curricular &amp; Community Service."
-            icon={HeartHandshake}
-          />
-
-          <div className="space-y-6">
-            {ccaAndService.map((item, i) => (
-              <article
-                key={i}
-                className={`group grid grid-cols-1 gap-5 items-start bg-white border border-blue-200/60 rounded-2xl p-4 sm:p-5 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all duration-300 ${
-                  item.imgs.length > 0 ? "sm:grid-cols-[15rem_1fr]" : ""
-                }`}
-              >
-                {item.imgs.length > 0 && (
-                  <div
-                    className={
-                      item.imgs.length > 1 ? "grid grid-cols-2 gap-2" : ""
-                    }
-                  >
-                    {item.imgs.map((src) => (
-                      <ZoomableImage
-                        key={src}
-                        src={src}
-                        alt={item.title}
-                        onOpen={() => setLightbox({ src, alt: item.title })}
-                        aspect="aspect-[4/3]"
-                        fit="cover"
-                        sizes="(max-width: 640px) 100vw, 160px"
-                        radius="rounded-xl"
-                      />
-                    ))}
                   </div>
                 )}
-                <div>
-                  <h3 className="text-[16px] font-semibold text-slate-900 leading-snug group-hover:text-blue-800 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-slate-700 mt-0.5">{item.role}</p>
-                  <p className="text-xs font-mono text-slate-600 mt-1 tracking-wider">
-                    {item.org}, {item.period}
-                  </p>
-                  <p className="text-sm text-slate-700 mt-2.5 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              </article>
+              </CardWrapper>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
+      </div>
+
+      {/* ── Project Modal ── */}
       <AnimatePresence>
         {modalProject && (
           <ProjectModal
@@ -822,6 +875,7 @@ export default function ExperiencePage() {
         )}
       </AnimatePresence>
 
+      {/* ── Image Lightbox ── */}
       <AnimatePresence>
         {lightbox && (
           <ImageLightbox
@@ -832,6 +886,6 @@ export default function ExperiencePage() {
           />
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }

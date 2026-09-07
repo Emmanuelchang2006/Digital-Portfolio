@@ -1,74 +1,98 @@
 import Link from "next/link";
-import { Mail, ShieldCheck } from "lucide-react";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { Mail, Phone, Shield } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="section-dark-glow border-t border-slate-800/80 relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid-dark opacity-40 pointer-events-none" aria-hidden />
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-500/25">
-              <ShieldCheck className="w-5 h-5 text-white" />
-            </span>
-            <div>
-              <Link
-                href="/"
-                className="text-white font-semibold text-base tracking-tight hover:text-blue-300 transition-colors"
-              >
-                Emmanuel Chang
-              </Link>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Cybersecurity &amp; Security Engineering, Singapore
-              </p>
+    <footer className="bg-slate-100 text-slate-500 border-t border-slate-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-200">
+                <Shield className="w-3.5 h-3.5 text-blue-600" />
+              </div>
+              <span className="font-semibold text-slate-900">Emmanuel Chang</span>
             </div>
+            <p className="text-sm text-slate-500 leading-relaxed">
+              Cybersecurity & Digital Forensics student committed to defending
+              digital landscapes and building secure systems.
+            </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <a
-              href="https://github.com/Emmanuelchang2006"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-slate-700 transition-all"
-            >
-              <FaGithub className="w-[18px] h-[18px]" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/emmanuel-chang"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-300 hover:bg-white/5 border border-transparent hover:border-slate-700 transition-all"
-            >
-              <FaLinkedin className="w-[18px] h-[18px]" />
-            </a>
-            <a
-              href="mailto:emmanuelchangyq@gmail.com"
-              aria-label="Email"
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-300 hover:bg-white/5 border border-transparent hover:border-slate-700 transition-all"
-            >
-              <Mail className="w-[18px] h-[18px]" />
-            </a>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-3">
+              Quick Links
+            </h3>
+            <ul className="space-y-2">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/resume", label: "Resume" },
+                { href: "/experience", label: "Experience" },
+                { href: "/contact", label: "Contact" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-slate-500 hover:text-blue-600 transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-3">
+              Get In Touch
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="mailto:emmanuelchangyq@gmail.com"
+                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors duration-200"
+                >
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  emmanuelchangyq@gmail.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+6583388400"
+                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors duration-200"
+                >
+                  <Phone className="w-4 h-4 flex-shrink-0" />
+                  +65 8338 8400
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/emmanuel-chang"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors duration-200"
+                >
+                  <FaLinkedin className="w-4 h-4 flex-shrink-0" />
+                  www.linkedin.com/in/emmanuel-chang
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="mt-8 pt-5 border-t border-slate-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-500">
-          <span>© {currentYear} Emmanuel Chang</span>
-          <div className="flex items-center gap-4">
-            <Link href="/resume" className="text-slate-400 hover:text-white transition-colors">
-              Resume
-            </Link>
-            <Link href="/experience" className="text-slate-400 hover:text-white transition-colors">
-              Experience
-            </Link>
-            <Link href="/contact" className="text-slate-400 hover:text-white transition-colors">
-              Contact
-            </Link>
-          </div>
+        <div className="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-slate-400">
+            © {currentYear} Emmanuel Chang. All rights reserved.
+          </p>
+          <p className="text-xs text-slate-400">
+            Built with Next.js & Tailwind CSS
+          </p>
         </div>
       </div>
     </footer>

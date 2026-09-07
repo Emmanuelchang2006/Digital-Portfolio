@@ -11,22 +11,21 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Emmanuel Chang | Cybersecurity & Security Engineering",
+  title: "Emmanuel Chang | Cybersecurity & Software Engineering Student",
   description:
-    "Portfolio of Emmanuel Chang. DFIR foundation with experience across cybersecurity analysis, AI security engineering, incident management systems and security assurance.",
+    "Portfolio of Emmanuel Chang – Diploma in Cybersecurity and Digital Forensics student passionate about emerging threats, risk mitigation, and software engineering.",
   keywords: [
     "cybersecurity",
     "digital forensics",
-    "DFIR",
-    "AI security",
-    "security engineering",
+    "software engineering",
+    "portfolio",
     "Emmanuel Chang",
   ],
   authors: [{ name: "Emmanuel Chang" }],
   openGraph: {
-    title: "Emmanuel Chang | Cybersecurity & Security Engineering",
+    title: "Emmanuel Chang | Cybersecurity & Software Engineering",
     description:
-      "DFIR foundation with experience across cybersecurity analysis, AI security engineering, incident management systems and security assurance.",
+      "Cybersecurity and Digital Forensics student portfolio – tools, projects, and experience.",
     type: "website",
   },
 };
@@ -38,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spaceGrotesk.variable}>
-      <body className="text-slate-900 antialiased selection:bg-blue-200/60">
+      <body className="bg-slate-50 text-slate-900 antialiased">
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />

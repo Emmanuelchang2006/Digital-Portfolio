@@ -2,90 +2,60 @@
 
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 
-type LineType = "prompt" | "output" | "error" | "info" | "divider" | "link";
+type LineType = "prompt" | "output" | "error" | "info" | "divider";
 
 interface Line {
   id: number;
   type: LineType;
   content: string;
-  href?: string;
 }
 
 type RawLine = Omit<Line, "id">;
 
-const PROMPT = "~ $";
+const PROMPT = "root@emmanuel-chang:~$";
 
 const OUTPUT_MAP: Record<string, RawLine[]> = {
   help: [
     { type: "info",   content: "Available commands:" },
-    { type: "output", content: "  whoami     short bio" },
-    { type: "output", content: "  skills     technical skill set" },
-    { type: "output", content: "  projects   featured projects" },
-    { type: "output", content: "  awards     recent recognition" },
-    { type: "output", content: "  contact    how to reach me" },
-    { type: "output", content: "  socials    GitHub, LinkedIn" },
-    { type: "output", content: "  clear      clear the terminal" },
-    { type: "output", content: "  help       show this message" },
+    { type: "output", content: "  whoami    — Short bio" },
+    { type: "output", content: "  skills    — Technical skill set" },
+    { type: "output", content: "  clear     — Clear the terminal" },
+    { type: "output", content: "  help      — Show this message" },
   ],
   whoami: [
-    { type: "output", content: "Emmanuel Chang. Cybersecurity & Digital Forensics student at Ngee Ann Polytechnic." },
-    { type: "output", content: "DFIR foundation with cybersecurity analysis and AI security engineering experience." },
+    { type: "output", content: "Emmanuel Chang — Cybersecurity & Digital Forensics student at Ngee Ann Polytechnic (GPA 3.94 / 4.00)." },
+    { type: "output", content: "Aspiring Security Engineer with hands-on experience in DFIR, threat intelligence, and AI-driven security research." },
   ],
   skills: [
-    { type: "info",    content: "Security & DFIR" },
-    { type: "output",  content: "  DFIR, Incident Response, IOC Investigation, Malware Analysis, Threat Intelligence" },
+    { type: "info",    content: "── Blue Team & DFIR ──────────────────────" },
+    { type: "output",  content: "  • Velociraptor  •  CrowdStrike Falcon  •  KAPE" },
+    { type: "output",  content: "  • EnCase  •  FTK Imager  •  Magnet AXIOM" },
+    { type: "output",  content: "  • Windows / Linux IOC Investigation" },
+    { type: "output",  content: "  • Agentic DFIR  (LLM + Forensic API workflows)" },
     { type: "divider", content: "" },
-    { type: "info",    content: "Security Engineering" },
-    { type: "output",  content: "  Secure Configuration, Authentication, Access Control, Network Security" },
+    { type: "info",    content: "── Offensive / Vulnerability Management ──" },
+    { type: "output",  content: "  • Nmap  •  Burp Suite  •  OWASP ZAP  •  Nikto" },
+    { type: "output",  content: "  • Kali Linux  •  CVSS Vulnerability Scoring" },
     { type: "divider", content: "" },
-    { type: "info",    content: "AI Security" },
-    { type: "output",  content: "  LLM Security, AI Agents, MCP, AI-Assisted DFIR, Evidence-Grounded Workflows" },
-    { type: "divider", content: "" },
-    { type: "info",    content: "Engineering" },
-    { type: "output",  content: "  Python, TypeScript, Next.js, NestJS, PostgreSQL" },
-  ],
-  projects: [
-    { type: "output", content: "  IOC Enrichment CLI       Python, VT / AbuseIPDB / Shodan" },
-    { type: "output", content: "  Malware Analysis Report  Static + dynamic, MITRE ATT&CK" },
-    { type: "output", content: "  Web App Pentest          Burp / ZAP, 3 high-severity CVEs" },
-    { type: "output", content: "  Firewall (Palo Alto)     Site-to-site VPN, zone policy" },
-    { type: "info",   content: "See /experience for full case files." },
-  ],
-  awards: [
-    { type: "output", content: "  Group-IB Outstanding Performance (6-Month Internship)" },
-    { type: "output", content: "  NP Director's List x 3" },
-    { type: "output", content: "  Certified LLM Security Expert (CLLMSE)" },
-    { type: "output", content: "  DFIR Foundations, BlueCape Security" },
-    { type: "output", content: "  AWS Certified Cloud Practitioner" },
-    { type: "info",   content: "See /resume for the full list." },
-  ],
-  contact: [
-    { type: "output", content: "  email     emmanuelchangyq@gmail.com" },
-    { type: "output", content: "  phone     +65 8338 8400" },
-    { type: "output", content: "  location  Singapore" },
-    { type: "info",   content: "See /contact for the form." },
-  ],
-  socials: [
-    { type: "link", content: "  GitHub    github.com/Emmanuelchang2006",   href: "https://github.com/Emmanuelchang2006" },
-    { type: "link", content: "  LinkedIn  linkedin.com/in/emmanuel-chang", href: "https://www.linkedin.com/in/emmanuel-chang" },
+    { type: "info",    content: "── Programming ───────────────────────────" },
+    { type: "output",  content: "  • Python  •  JavaScript  •  C#  •  HTML / CSS" },
   ],
 };
 
 const WELCOME: RawLine[] = [
-  { type: "info",    content: 'Type "help" to see available commands.' },
+  { type: "info",    content: "Emmanuel Chang Portfolio Terminal  v1.0.0" },
+  { type: "output",  content: 'Type "help" to see available commands.' },
+  { type: "divider", content: "" },
 ];
 
-const WELCOME_LINES: Line[] = WELCOME.map((r, i) => ({ ...r, id: i + 1 }));
-const WELCOME_MAX_ID = WELCOME_LINES.length;
-
 export default function Terminal() {
-  const counter = useRef(WELCOME_MAX_ID);
+  const counter = useRef(0);
   const stamp = () => ++counter.current;
 
   const toLines = (raws: RawLine[]): Line[] =>
     raws.map((r) => ({ ...r, id: stamp() }));
 
-  const [lines, setLines] = useState<Line[]>(WELCOME_LINES);
+  const [lines, setLines] = useState<Line[]>(() => toLines(WELCOME));
   const [input, setInput] = useState("");
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
@@ -106,8 +76,7 @@ export default function Terminal() {
     const promptLine: Line = { id: stamp(), type: "prompt", content: cmd };
 
     if (cmd === "clear") {
-      counter.current = WELCOME_MAX_ID;
-      setLines(WELCOME_LINES);
+      setLines(toLines(WELCOME));
       setInput("");
       setCmdHistory((h) => [cmd, ...h]);
       setHistIdx(-1);
@@ -116,7 +85,7 @@ export default function Terminal() {
 
     const output: Line[] = OUTPUT_MAP[cmd]
       ? toLines(OUTPUT_MAP[cmd])
-      : [{ id: stamp(), type: "error", content: `Command not found: "${cmd}". Type "help" for available commands.` }];
+      : [{ id: stamp(), type: "error", content: `Command not found: "${cmd}". Type "help" for a list of commands.` }];
 
     setLines((prev) => [...prev, promptLine, ...output]);
     setCmdHistory((h) => [cmd, ...h]);
@@ -142,55 +111,46 @@ export default function Terminal() {
 
   return (
     <div
-      className="rounded-2xl overflow-hidden border border-slate-800 bg-[color:var(--bg-dark-2)] font-mono text-[13px] cursor-text shadow-2xl shadow-blue-950/40 ring-1 ring-blue-500/10"
+      className="rounded-xl overflow-hidden border border-slate-700/50 shadow-2xl shadow-black/60 font-mono text-sm cursor-text"
       onClick={() => inputRef.current?.focus()}
     >
-      {/* Header strip */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-black/30 border-b border-slate-800 select-none">
-        <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
-        <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
-        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-        <span className="ml-2 text-[10px] text-slate-500 tracking-wider">bash · emmanuel-chang</span>
+      {/* Title bar */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-[#161b2e] border-b border-slate-700/50 select-none">
+        <span className="w-3 h-3 rounded-full bg-red-500/90" />
+        <span className="w-3 h-3 rounded-full bg-yellow-400/90" />
+        <span className="w-3 h-3 rounded-full bg-green-500/90" />
+        <span className="ml-3 text-xs text-slate-500 tracking-wide">bash — emmanuel-chang</span>
+        <span className="ml-auto text-xs text-slate-600">↑↓ history</span>
       </div>
 
-      <div ref={outputRef} className="px-4 sm:px-5 py-4 h-64 sm:h-72 overflow-y-auto">
+      {/* Output area */}
+      <div ref={outputRef} className="bg-[#0b0e1a] px-5 py-4 h-72 overflow-y-auto">
         {lines.map((line) => {
           switch (line.type) {
             case "prompt":
               return (
-                <div key={line.id} className="flex gap-2 leading-relaxed break-words">
-                  <span className="text-blue-400 whitespace-nowrap select-none">{PROMPT}</span>
-                  <span className="text-slate-100 break-all">{line.content}</span>
+                <div key={line.id} className="flex gap-2 leading-relaxed">
+                  <span className="text-green-400 whitespace-nowrap select-none">{PROMPT}</span>
+                  <span className="text-white">{line.content}</span>
                 </div>
               );
             case "error":
               return (
-                <div key={line.id} className="text-rose-300 leading-relaxed">{line.content}</div>
+                <div key={line.id} className="text-red-400 leading-relaxed">
+                  {line.content}
+                </div>
               );
             case "info":
               return (
-                <div key={line.id} className="text-blue-300 font-medium leading-relaxed">
+                <div key={line.id} className="text-cyan-400 font-semibold leading-relaxed">
                   {line.content}
                 </div>
               );
             case "divider":
               return <div key={line.id} className="h-2" />;
-            case "link":
-              return (
-                <div key={line.id} className="text-slate-400 leading-relaxed">
-                  <a
-                    href={line.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-slate-200 hover:text-white underline underline-offset-4 decoration-slate-600"
-                  >
-                    {line.content}
-                  </a>
-                </div>
-              );
             default:
               return (
-                <div key={line.id} className="text-slate-400 leading-relaxed">
+                <div key={line.id} className="text-slate-300 leading-relaxed">
                   {line.content}
                 </div>
               );
@@ -198,19 +158,20 @@ export default function Terminal() {
         })}
       </div>
 
-      <div className="border-t border-slate-800 px-4 sm:px-5 py-2.5 flex items-center gap-2">
-        <span className="text-blue-400 whitespace-nowrap flex-shrink-0 select-none">{PROMPT}</span>
+      {/* Input line */}
+      <div className="bg-[#0b0e1a] border-t border-slate-800 px-5 py-3 flex items-center gap-2">
+        <span className="text-green-400 whitespace-nowrap flex-shrink-0 select-none">
+          {PROMPT}
+        </span>
         <input
           ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
-          className="flex-1 min-w-0 bg-transparent outline-none text-slate-100 caret-blue-400 placeholder-slate-600"
-          placeholder="type a command"
+          className="flex-1 bg-transparent outline-none text-white caret-green-400 placeholder-slate-600"
+          placeholder="type a command..."
           autoComplete="off"
           spellCheck={false}
-          inputMode="text"
-          aria-label="Terminal command input"
         />
       </div>
     </div>
